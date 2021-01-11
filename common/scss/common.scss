@@ -1,0 +1,83 @@
+$primarycolor:rgb(21, 125, 251);
+$whiteColor:white;  
+$primaryDisabled:#B0DFFD;
+$primaryHoverColor:lighten($primarycolor, 10%);
+
+
+.container_flex{
+    display: flex; 
+    display: -webkit-flex;
+}
+.container_flex.column{
+    flex-direction: column;  
+}
+.container_flex.row{
+    flex-direction: row;
+}
+.container_flex.center{
+    align-items: center;
+    justify-content:center;
+    -webkit-justify-content:center;
+    -webkit-align-items: center;
+}
+// 字体 begin
+.text-center{
+    text-align: center;
+  }
+.text-left{
+    text-align: left;
+}
+.text-right{
+    text-align: right;
+}
+.oneRow {
+    // 文字超出一行省略
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.twoRow {
+    // 文字超出两行省略
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+// 字体 end
+
+button[type="primary"]{
+    background-color:$primarycolor;
+    border-color:$primarycolor;
+    color:$whiteColor;
+}
+button[type="primary"][disabled]{
+    background-color:$primaryDisabled;
+    border-color:$primaryDisabled;
+}
+button[type="primary"][plain]{
+    background-color:transparent;
+    color:$primarycolor;
+}
+button[type="nobgcolor"]{
+    background-color:transparent;
+}
+button[type="nobgcolor"]::after{
+    background-color:transparent;
+    border:0 !important;
+    outline: 0  !important;
+}
+button.noborder::after{
+    border:0 !important;
+    outline: 0  !important;
+}
+.no-hover{
+    background-color:transparent !important;
+    border-color:transparent !important;
+}
+.primary-hover{
+    background-color:$primaryHoverColor !important;
+    border-color:$primaryHoverColor !important;
+}
