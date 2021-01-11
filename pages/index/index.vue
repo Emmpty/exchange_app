@@ -18,7 +18,6 @@
             <swiper-item v-for="(titem, tindex) in buyAndSellList"
                          :key="tindex"
                          class="buy_box">
-                <!-- <div class="buy_box"> -->
                 <scroll-view class="bi_box"
                              :scroll-left='scleft'
                              scroll-with-animation
@@ -78,75 +77,8 @@
                     </form>
 
                 </div>
-                <!-- </div> -->
             </swiper-item>
         </swiper>
-        <!-- <div class="container_flex row transaction_box"
-             :style="{transform: 'translateX(' + (currentIndex==0 ? '0' : '-50') + '%)'}">
-            <div class="buy_box"
-                 v-for="(titem, tindex) in buyAndSellList"
-                 :key="tindex">
-                <scroll-view class="bi_box"
-                             :scroll-left='scleft'
-                             scroll-with-animation
-                             show-scrollbar="false"
-                             scroll-x>
-                    <view class="bi_item"
-                          :class="{active: currentItemIndex == index}"
-                          @click="itemClick(item, index)"
-                          v-for="(item, index) in biData"
-                          :key="index">
-                        <p>{{ item.name }}</p>
-                        <p class="margin_p">{{ item.abbreviation }}</p>
-                    </view>
-                </scroll-view>
-                <div class="transaction_info">
-                    <div class="info_title">
-                        <span> {{ titem.title + (isNumber?'数量':'金额') }}</span>
-                        <span class="cny_box">CNY</span>
-                        <span class="iconfont icon-xiala"></span>
-                    </div>
-                    <form class="form-container login-form">
-                        <div class='input_box'>
-                            <div style="height:130upx;margin-bottom:20upx">
-                                <div class='form_input account_input'
-                                     :class="{activeInput:focusIndex==0}">
-                                    <div class='left_label'
-                                         :class="{'show_icon': isNumber}">
-                                        <i class='iconfont icon-cny'></i>
-                                    </div>
-                                    <input class="input"
-                                           type='number'
-                                           @focus='focusIndex = 0'
-                                           @blur='focusIndex = -1'
-                                           v-model="number"
-                                           placeholder="100起"
-                                           placeholder-style="color:#c6c6c6;;font-weight:normal;font-size:36upx;">
-                                    <div class='right_label'
-                                         :class="{'showyanjing':!isNumber}">
-                                        <span>{{ currentItemData.abbreviation }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="transaction_text">
-                                <span class="left_text">价格约 6.43 CNY/{{ currentItemData.abbreviation }}</span>
-                                <span class="right_text"
-                                      @click="isNumber = !isNumber">
-                                    <i class="iconfont icon-zhuanhuan"></i>
-                                    <span>按{{ !isNumber?'数量':'金额' }}购买</span>
-                                </span>
-                            </div>
-                        </div>
-                        <button type="primary"
-                                :disabled='number<100'
-                                hover-class="primary-hover"
-                                class="login_btn noborder"
-                                @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>0手续费{{ titem.title }}</button>
-                    </form>
-
-                </div>
-            </div>
-        </div> -->
     </view>
 </template>
 
