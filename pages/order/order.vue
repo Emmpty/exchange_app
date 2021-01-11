@@ -1,22 +1,113 @@
 <template>
-	<view>
-		
-	</view>
+    <view>
+        <div class='login_title text_left padding_box'>订单记录</div>
+        <div class="order_box">
+            <div class="order_item_box"
+                 v-for="(item, index) in orderList"
+                 :key="index">
+                <div class="order_item_info padding_box">
+                    <div>
+                        <span class="font_bold">购买 {{ 'USDT' }}</span>
+                        <span class="float_right order_status_text">
+                            <i class="iconfont icon-tubiaozhizuo-"></i>
+                            <span>{{ '已成功' }}</span>
+                            <i class="iconfont icon-arrow-right"></i>
+                        </span>
+                    </div>
+                    <div class="container_flex row order_info">
+                        <div class="order_info_item text_left">
+                            <p>时间</p>
+                            <p class="p2 font_bold">{{ item.createTime }}</p>
+                        </div>
+                        <div class="order_info_item text_center">
+                            <p>数量{{ '(' + item.moneyType + ')' }}</p>
+                            <p class="p2 font_bold">{{ item.number }}</p>
+                        </div>
+                        <div class="order_info_item text_right">
+                            <p>交易总额(CNY)</p>
+                            <p class="p2 font_bold">{{ item.total }}</p>
+                        </div>
+                    </div>
+                    <p>{{ item.sellerName }}</p>
+                </div>
+            </div>
+        </div>
+    </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			
-		}
-	}
+export default {
+    data() {
+        return {
+            orderList: [
+                {
+                    createTime: '01/07 15:14',
+                    number: 100,
+                    moneyType: 'USDT',
+                    total: 650,
+                    sellerName: '雷神'
+                },
+                {
+                    createTime: '01/07 15:14',
+                    number: 100,
+                    moneyType: 'USDT',
+                    total: 650,
+                    sellerName: '火神'
+                },
+                {
+                    createTime: '01/07 15:14',
+                    number: 100,
+                    moneyType: 'USDT',
+                    total: 650,
+                    sellerName: '天神'
+                },
+            ],
+        }
+    },
+    methods: {
+
+    }
+}
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "@/common/scss/common.scss";
+.padding_box {
+    padding: 0 40upx;
+}
+.login_title {
+    color: #56546c;
+    font-size: 48upx;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 60upx;
+}
+.order_box {
+    margin-top: 80upx;
+    .order_item_box {
+        border-bottom: 2upx solid $borderColor;
+        .order_item_info {
+            padding: 30upx 40upx;
+            .order_info {
+                margin: 30upx 0;
+                font-size: 28upx;
+                .order_info_item {
+                    color: #c8cccf;
+                    width: 33%;
+                    .p2 {
+                        color: #909ca8;
 
+                        margin-top: 20upx;
+                    }
+                }
+            }
+            .order_status_text {
+                color: #8998a7;
+                .icon-tubiaozhizuo- {
+                    color: #c15463;
+                }
+            }
+        }
+    }
+}
 </style>

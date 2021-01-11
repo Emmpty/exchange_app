@@ -1,7 +1,7 @@
 import Interactive from '../utils/interactive';
 const common = {
-    // apiurl: 'http://192.168.110.10:8093',
-    apiurl: 'http://app.zgstlkj.com/panda',
+    apiurl: 'http://192.168.110.10:8013',
+    // apiurl: 'http://app.zgstlkj.com/panda',
     // 参数： url:请求地址  param：请求参数  way：请求方式 callBack：回调函数
     urlRequest: function (url, params, methods, callback, spacialHandle, noticeHandle) {
         // Interactive.interactive.showLoading('加载中')

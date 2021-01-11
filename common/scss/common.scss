@@ -1,9 +1,19 @@
 $primarycolor:rgb(21, 125, 251);
-$whiteColor:white;  
 $primaryDisabled:#B0DFFD;
 $primaryHoverColor:lighten($primarycolor, 10%);
+$whiteColor:white;  
+$borderColor:#E9EAEC;
+$trivialColor:rgb(153 ,153 ,153);
+$colorlight:rgb(130,130,130);
 
 
+.white-bgcolor{
+    background-color:$whiteColor;
+}
+.trivial-color{
+    color:$trivialColor;
+}
+// 布局
 .container_flex{
     display: flex; 
     display: -webkit-flex;
@@ -20,14 +30,27 @@ $primaryHoverColor:lighten($primarycolor, 10%);
     -webkit-justify-content:center;
     -webkit-align-items: center;
 }
+.float_left{
+    float: left;
+}
+.float_right{
+    float: right;
+}
+// 布局end
 // 字体 begin
-.text-center{
+.font_32{
+    font-size: 32upx;
+}
+.font_bold{
+    font-weight: bold;
+}
+.text_center{
     text-align: center;
-  }
-.text-left{
+}
+.text_left{
     text-align: left;
 }
-.text-right{
+.text_right{
     text-align: right;
 }
 .oneRow {

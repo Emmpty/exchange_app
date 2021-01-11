@@ -1,8 +1,8 @@
 <template>
     <view>
         <div class="container_flex column center login_box">
-            <div class='login_title text-left'>云海链交易所</div>
-            <div class="login_title2 text-left">登录云海链</div>
+            <div class='login_title text_left'>云海链交易所</div>
+            <div class="login_title2 text_left">登录云海链</div>
             <form class="form-container login-form">
                 <div class='input_box'>
                     <div style="height:130upx;margin-bottom:20upx">
@@ -10,7 +10,6 @@
                              :class="[{activeInput:account.length>0||focusIndex==0},{'fail':accountFail}]">
                             <input class="input"
                                    type='number'
-                                   :focus='accountFocus'
                                    @focus='focusFun(0)'
                                    @blur='blurFun()'
                                    @input="onAccountChange($event)"
@@ -38,7 +37,6 @@
                              :class="[{activeInput:password.length>0||focusIndex==1},{'fail':passwordFail}]">
                             <input :type="hidePassword?'password':'text'"
                                    :value='password'
-                                   :focus='passwordFocus'
                                    @blur='blurFun()'
                                    @input="onPasswordChange($event)"
                                    @focus='focusFun(1)'
@@ -60,7 +58,7 @@
                         :disabled='account.length==0||password.length==0||passwordFail||accountFail'
                         hover-class="primary-hover"
                         class="login_btn noborder"
-                        @click="onTeacherLoginBtnClick()">登录</button>
+                        @click="onLoginClick()">登录</button>
             </form>
             <div class="forget_register_box">
                 <span class="left_box"
@@ -91,8 +89,6 @@ export default {
             hidePassword: true,
             accountFail: false,
             passwordFail: false,
-            passwordFocus: false,
-            accountFocus: false,
             focusIndex: -1
         }
     },
@@ -110,8 +106,14 @@ export default {
                 title: '',
                 mask: true,
             })
-            this.$api.login({ account: this.account, password: this.password }, res => {
+            let config = { username: this.account, password: this.password }
+            this.$api.Login(this.$utils.md5Method(config), res => {
                 if (res.code === 0) {
+                    this.$interactive.toast('登陆成功')
+                    uni.setStorageSync('token', res.data.token)
+                    uni.navigateTo({
+                        url: '/pages/index/index'
+                    })
                 }
             })
         },
@@ -136,17 +138,8 @@ export default {
         },
         focusFun(n) {
             this.focusIndex = n
-            if (n === 1) {
-                this.passwordFocus = true
-                this.accountFocus = false
-            } else if (n === 0) {
-                this.passwordFocus = false
-                this.accountFocus = true
-            }
         },
         blurFun() {
-            this.accountFocus = false
-            this.passwordFocus = false
             this.focusIndex = -1
         },
         switchPassword() {

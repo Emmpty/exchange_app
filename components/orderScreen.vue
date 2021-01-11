@@ -1,0 +1,149 @@
+<template>
+    <div class="time-KP-box white-bgcolor">
+        <scroll-view class=""
+                     scroll-y="false">
+            <div class="part-container">
+                <div class="title">交易类型</div>
+                <div class='container_flex row time_box'>
+                    <div class="select-time-item"
+                         :class="{selected:index=== transactionTypeIndex}"
+                         v-for="(titem, index) in transactionTypeList"
+                         :key="index"
+                         @click="onSelectItemClick()">{{ titem }}</div>
+                </div>
+            </div>
+
+            <div class="part-container"
+                 v-if="qstateList">
+                <div class="title">订单状态</div>
+                <div class="time_box">
+                    <div class="select-time-item"
+                         v-for="(q, qindex) in qstateList"
+                         :key="qindex"
+                         :class="{'selected': qindex == qstateIndex,'allKp':qindex==0}"
+                         @click="changeSelectIndex(qindex)">
+                        {{qindex!=0?q.text +'('+q.count+')':q.text}}
+                    </div>
+                </div>
+            </div>
+        </scroll-view>
+        <slot></slot>
+    </div>
+</template>
+<script>
+export default {
+    props: ['transactionTypeList', 'selectedTimeIndex', 'startDate', 'endDate', 'qstateList', 'qstateIndex'],
+    data() {
+        return {
+            customTime: false
+        }
+    },
+    computed: {
+        isCustomTime() {
+            if (this.startDate !== '' && this.endDate !== '') {
+                return (this.customTime = false)
+            } else {
+                return (this.customTime = true)
+            }
+        }
+    },
+    methods: {
+        onSelectItemClick(name, id, index) {
+            this.$emit('onSelectTimeHander', name, id, index)
+        },
+        onKPSelectItemClick(index) {
+            this.$emit('onKPSelectTimeHander', index)
+        },
+        changeSelectIndex(index) {
+            this.$emit('changeSelectIndex', index)
+        }
+    },
+    onLoad() {
+    }
+}
+</script>
+<style scoped lang="scss">
+@import "@/common/scss/common.scss";
+.title {
+    font-size: 26upx;
+    color: rgba(144, 144, 144, 1);
+    text-align: justify;
+    padding-right: 30upx;
+    position: relative;
+    height: 60upx;
+    line-height: 60upx;
+}
+.time-KP-box {
+    padding-bottom: 30upx;
+}
+.part-container {
+    padding: 22upx 0upx 0upx 28upx;
+}
+.time_box {
+    flex-wrap: wrap;
+    padding-left: 15upx;
+    box-sizing: border-box;
+    display: flex;
+}
+.select-time-item {
+    background: rgba(247, 247, 247, 1);
+    // max-width: 180upx;
+    min-width: 115upx;
+    height: 60upx;
+    display: inline-block;
+    padding: 0 20upx;
+    text-align: center;
+    font-size: 28upx;
+    line-height: 60upx;
+    margin: 12upx 35upx 10upx 0upx;
+    color: $colorlight;
+    border-radius: 30upx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.2s;
+    flex: 1 1 auto;
+}
+.select-time-item.selected {
+    color: white;
+    background: rgba(69, 183, 255, 1);
+    // line-height: null !important;
+}
+
+.knowledgePoints-box {
+    padding: 20upx 30upx 22upx 28upx;
+    .knowledgePoints-text {
+        font-size: 30upx;
+        color: #000;
+        text-align: center;
+        margin: 0 20upx 0 0;
+    }
+    .knowledgePoints-selectItem-box {
+        position: relative;
+        left: 90upx;
+        top: -35upx;
+        padding: 0 30upx;
+    }
+    .knowledgePoints-selectItem {
+        height: 60upx;
+        line-height: 60upx;
+        border-radius: 15upx;
+        text-align: center;
+        font-size: 28upx;
+        margin-bottom: 30upx;
+        margin-right: 30upx;
+        color: #828282;
+        border: 1upx solid;
+        min-width: 100upx;
+        display: inline-block;
+        padding: 0 15upx;
+    }
+    .knowledgePoints-selectItem.selected {
+        background-color: $primarycolor;
+        color: #fff;
+    }
+    .knowledgePoints-selectItem.allKp {
+        margin-right: 100%;
+    }
+}
+</style>

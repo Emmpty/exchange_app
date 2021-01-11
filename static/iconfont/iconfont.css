@@ -1,11 +1,11 @@
 @font-face {
-    font-family: 'iconfont';  /* project id 2316079 */
-    src: url('https://at.alicdn.com/t/font_2316079_i7rvdyr0a4.eot');
-    src: url('https://at.alicdn.com/t/font_2316079_i7rvdyr0a4.eot?#iefix') format('embedded-opentype'),
-    url('https://at.alicdn.com/t/font_2316079_i7rvdyr0a4.woff2') format('woff2'),
-    url('https://at.alicdn.com/t/font_2316079_i7rvdyr0a4.woff') format('woff'),
-    url('https://at.alicdn.com/t/font_2316079_i7rvdyr0a4.ttf') format('truetype'),
-    url('https://at.alicdn.com/t/font_2316079_i7rvdyr0a4.svg#iconfont') format('svg');
+  font-family: 'iconfont';  /* project id 2316079 */
+  src: url('//at.alicdn.com/t/font_2316079_c4v5rq5kbw.eot');
+  src: url('//at.alicdn.com/t/font_2316079_c4v5rq5kbw.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_2316079_c4v5rq5kbw.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_2316079_c4v5rq5kbw.woff') format('woff'),
+  url('//at.alicdn.com/t/font_2316079_c4v5rq5kbw.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_2316079_c4v5rq5kbw.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -16,12 +16,56 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .iconfont {
-    font-family: "iconfont" !important;
-    font-size: 16px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  .icon-tubiaozhizuo-:before {
+    content: "\e605";
+  }
+  
+  .icon-arrow-right:before {
+    content: "\e646";
+  }
+  
+  .icon-zuojiantou:before {
+    content: "\e64e";
+  }
+  
+  .icon-point:before {
+    content: "\e60f";
+  }
+  
+  .icon-VIP:before {
+    content: "\e876";
+  }
+  
+  .icon-vip:before {
+    content: "\e609";
+  }
+  
+  .icon-shaixuan:before {
+    content: "\e75e";
+  }
+  
+  .icon-yonghu:before {
+    content: "\e612";
+  }
+  
+  .icon-zichan:before {
+    content: "\e614";
+  }
+  
+  .icon-xinxi:before {
+    content: "\eff2";
+  }
+  
+  .icon-gouxuan:before {
+    content: "\e613";
+  }
+  
+  .icon-zhifubao:before {
+    content: "\e60a";
+  }
+  
+  .icon-weixin:before {
+    content: "\e607";
   }
   
   .icon-cny:before {
@@ -79,6 +123,10 @@
   .icon-yanjing_bi:before {
     content: "\e601";
   }
+  
+  
+  
+  
   
   
   

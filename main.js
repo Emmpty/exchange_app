@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import App from './App'
-import Api from './common/api/api.js'
+import api from './common/api/api.js'
+import utils from './common/utils/utils.js';
+import interactive from './common/utils/interactive.js';
 
-Vue.prototype.$api = Api.lib
+
+Vue.prototype.$EventBus = new Vue(); //注册全局事件对象
+
+Vue.prototype.$api = api.lib
+Vue.prototype.$utils = utils.utils
+Vue.prototype.$interactive = interactive.interactive;
 
 uni.getSystemInfo({
     success: function (res) {
