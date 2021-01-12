@@ -91,12 +91,15 @@
                               class="right_text float_right">关闭</span>
                     </div>
                     <div class='switch-child-content'>
-                        <div class="container_flex row pay_box">
-                            <div class="pay_item"
-                                 :class="{select: selectedindex == index }"
-                                 @click.stop="payItemClick(item, index)"
-                                 v-for="(item, index) in payList"
-                                 :key="index">
+                        <scroll-view class="pay_box"
+                                     scroll-x='true'
+                                     :scroll-left='paysleft'
+                                     scroll-with-animation='true'>
+                            <view class="pay_item"
+                                  :class="{select: selectedindex == index }"
+                                  @click.stop="payItemClick(item, index)"
+                                  v-for="(item, index) in payList"
+                                  :key="index">
                                 <div style="margin-bottom: 15upx">
                                     <i :style="{color: item.color}"
                                        :class="'iconfont' + ' ' + item.iconContent"></i>
@@ -105,12 +108,14 @@
                                 <div>
                                     <span v-if="index === 0"
                                           class="good_price">推荐</span>
+                                    <span v-else
+                                          class="seize_a_seat"></span>
                                     <i class="iconfont float_right"
                                        style="color: #448BFB;"
                                        :class="{'icon-gouxuan':  selectedindex == index }"></i>
                                 </div>
-                            </div>
-                        </div>
+                            </view>
+                        </scroll-view>
                         <div class="pay_info">
                             <p>
                                 <span>价格</span>
@@ -126,7 +131,6 @@
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
                                 @click="confirmBuyOrSellClick()">确认{{ currentIndex==0?'购买':'出售' }}</button>
-
                     </div>
                 </div>
             </div>
@@ -141,6 +145,7 @@ export default {
     data() {
         return {
             scleft: 0,
+            paysleft: 0,
             currentIndex: 0,
             currentItemIndex: 0,
             currentItemData: {},
@@ -244,6 +249,11 @@ export default {
         clickStop() { },
         payItemClick(item, index) {
             this.selectedindex = index
+            if (index > 1) {
+                this.paysleft = (index - 1) * this.$systemInfo.windowWidth * 0.35
+            } else {
+                this.paysleft = '0'
+            }
         },
         itemClick(item, index) {
             if (index > 2) {
@@ -270,11 +280,6 @@ page {
 .uni-page-body {
     height: 100%;
     background-color: #fff;
-}
-::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    background-color: transparent;
 }
 .transaction_title {
     // width: 100%;
@@ -322,6 +327,11 @@ page {
             height: 120upx;
             color: rgb(140, 159, 173);
             border-bottom: 4upx solid #f3f5f6;
+            ::-webkit-scrollbar {
+                width: 0;
+                height: 0;
+                background-color: transparent;
+            }
             .bi_item {
                 display: inline-block;
                 width: 18%;
@@ -514,14 +524,37 @@ page {
     .switch-child-content {
         padding: 30upx;
         height: calc(100% - 110upx);
+        .scroll-view_H {
+            white-space: nowrap;
+            width: 100%;
+            .scroll-view-item_H {
+                display: inline-block;
+                width: 100%;
+                height: 300rpx;
+                line-height: 300rpx;
+                text-align: center;
+                font-size: 36rpx;
+            }
+            .uni-bg-red {
+                background: red;
+            }
+            .uni-bg-green {
+                background: green;
+            }
+        }
         .pay_box {
             padding: 40upx 0;
             font-size: 28upx;
             width: 100%;
-            overflow-x: scroll;
-            // justify-content: flex-start;
+            white-space: nowrap;
+            ::-webkit-scrollbar {
+                width: 0;
+                height: 0;
+                background-color: transparent;
+            }
             .pay_item {
-                flex-shrink: 0;
+                height: 90upx;
+                display: inline-block;
                 border-radius: 10upx;
                 width: 30%;
                 margin: 5upx 6% 5upx 0;
@@ -539,8 +572,13 @@ page {
                     background: rgb(239, 246, 254);
                     border: 2upx solid rgb(189, 211, 240);
                 }
+                .seize_a_seat {
+                    padding: 4upx 12upx;
+                    border: 0;
+                }
             }
         }
+
         .pay_info {
             border-bottom: 2upx solid $borderColor;
             p {
