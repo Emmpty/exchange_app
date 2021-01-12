@@ -24,11 +24,20 @@ $colorlight:rgb(130,130,130);
 .container_flex.row{
     flex-direction: row;
 }
+.container_flex.wcenter{
+    justify-content:center;
+    -webkit-justify-content:center;
+}
+.container_flex.hcenter{
+    align-items: center;
+    -webkit-align-items: center;
+}
 .container_flex.center{
     align-items: center;
     justify-content:center;
-    -webkit-justify-content:center;
     -webkit-align-items: center;
+    -webkit-justify-content:center;
+    
 }
 .float_left{
     float: left;
@@ -71,6 +80,7 @@ $colorlight:rgb(130,130,130);
 }
 // 字体 end
 
+// 按钮
 button[type="primary"]{
     background-color:$primarycolor;
     border-color:$primarycolor;
@@ -104,3 +114,5 @@ button.noborder::after{
     background-color:$primaryHoverColor !important;
     border-color:$primaryHoverColor !important;
 }
+
+// 按钮end

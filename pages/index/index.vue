@@ -45,18 +45,18 @@
                                 <div class='form_input account_input'
                                      :class="{activeInput:focusIndex==0}">
                                     <div class='left_label'
-                                         :class="{'show_icon': isNumber}">
+                                         :class="{'show_icon': !isNumber}">
                                         <i class='iconfont icon-cny'></i>
                                     </div>
                                     <input class="input"
                                            type='number'
                                            @focus='focusIndex = 0'
                                            @blur='focusIndex = -1'
-                                           v-model="number"
+                                           v-model="priceOrTotal"
                                            placeholder="100起"
                                            placeholder-style="color:#c6c6c6;;font-weight:normal;font-size:36upx;">
                                     <div class='right_label'
-                                         :class="{'showyanjing':!isNumber}">
+                                         :class="{'showyanjing':isNumber}">
                                         <span>{{ currentItemData.abbreviation }}</span>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <button type="primary"
-                                :disabled='number<100'
+                                :disabled='isNumber?priceOrTotal<1:priceOrTotal<100'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
                                 @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>{{ biPrice.buyProportion + '% 手续费' + titem.title }}</button>
@@ -98,13 +98,13 @@
                                  v-for="(item, index) in payList"
                                  :key="index">
                                 <div style="margin-bottom: 15upx">
-                                    <i :style="{color: index == 0 ? '#06B4FD': '#28C445'}"
+                                    <i :style="{color: item.name.indexOf('支付宝') >-1 ? '#06B4FD': '#28C445'}"
                                        :class="'iconfont' + ' ' + item.iconContent"></i>
                                     <span style="margin-left: 10upx">{{ item.name }}</span>
                                 </div>
                                 <div>
                                     <span v-if="index === 0"
-                                          class="good_price">价格最优</span>
+                                          class="good_price">推荐</span>
                                     <i class="iconfont float_right"
                                        style="color: #448BFB;"
                                        :class="{'icon-gouxuan':  selectedindex == index }"></i>
@@ -118,10 +118,10 @@
                             </p>
                             <p>
                                 <span>数量</span>
-                                <span class="float_right">{{ number/biPrice.buyPrice + ' ' + currentItemData.abbreviation }}</span>
+                                <span class="float_right">{{ isNumber ? priceOrTotal:priceOrTotal/biPrice.buyPrice + ' ' + currentItemData.abbreviation }}</span>
                             </p>
                         </div>
-                        <div class="money_box font_bold"> <i class='iconfont icon-cny'></i> {{ number }}</div>
+                        <div class="money_box"> <i class='iconfont icon-cny'></i> <span class="font_bold">{{ isNumber ? priceOrTotal*biPrice.buyPrice:priceOrTotal }}</span></div>
                         <button type="primary"
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
@@ -157,20 +157,25 @@ export default {
             ],
             payList: [
                 { name: '支付宝', iconContent: 'icon-zhifubao' },
-                { name: '微信', iconContent: 'icon-weixin' }
+                { name: '微信', iconContent: 'icon-weixin' },
+                { name: '银联', iconContent: 'icon-weixin' }
             ],
-            number: '',
+            priceOrTotal: '',
             focusIndex: -1,
-            isNumber: true,
+            isNumber: false,
             selectedindex: 0,
             showRechargeContent: false,
             biPrice: {}
         }
     },
+    watch: {
+    },
     components: {
         myMask,
     },
     onLoad() {
+        this.number = 0
+        this.priceTotal = 0
         this.currentItemData = this.biData[0]
         this.getUser()
         this.getPirce()
@@ -189,10 +194,33 @@ export default {
             this.showRechargeContent = false
             this.$refs.rechargeMask.hideMask()
         },
+        confirmBuyOrSellClick() {
+            this.hideModal()
+            let number = this.isNumber ? this.riceOrTotal : this.priceOrTotal / this.biPrice.buyPrice
+            let priceTotal = this.isNumber ? this.priceOrTotal * this.biPrice.buyPrice : this.priceOrTotal
+            uni.navigateTo({
+                url: '/pages/order/confirmOrder?priceTotal=' + priceTotal + '&number=' + number
+            })
+        },
         buyOrSellClick() {
-            // uni.navigateTo({
-            //     url: '/pages/login/login'
-            // })
+            let number = this.isNumber ? this.riceOrTotal : this.priceOrTotal / this.biPrice.buyPrice
+            this.$api.getMerchantAccountList({ ercAmount: number }, res => {
+                if (res.code === 0 && res.list.length > 0) {
+                    res.list.forEach(ele => {
+                        if (ele.type == 0) {
+                            ele.name = '支付宝'
+                            ele.iconContent = 'icon-zhifubao'
+                        } else if (ele.type == 1) {
+                            ele.name = '微信'
+                            ele.iconContent = 'icon-weixin'
+                        } else if (ele.type == 2) {
+                            ele.name = '银联'
+                            ele.iconContent = 'icon-weixin'
+                        }
+                    });
+                    this.payList = res.list
+                }
+            })
             this.showModal()
         },
         getPirce() {

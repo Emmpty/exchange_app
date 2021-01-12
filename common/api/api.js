@@ -5,6 +5,7 @@ const lib = {
     SumbitReg: SumbitReg, //提交注册
     GetUserInfo: GetUserInfo,
     GetPrice: GetPrice,
+    getMerchantAccountList: getMerchantAccountList,
 }
 // 提交登录
 function Login(data, CallBack) {
@@ -25,6 +26,11 @@ function GetUserInfo(data, CallBack) {
 // 获取币价格，手续费
 function GetPrice(data, CallBack) {
     Common.common.urlRequest('/user/getPrice', data, 'post', CallBack)
+}
+
+// 获取商户列表
+function getMerchantAccountList(data, CallBack) {
+    Common.common.urlRequest('/user/getMerchantAccountList', data, 'post', CallBack)
 }
 
 export default {
