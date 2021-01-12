@@ -46,25 +46,25 @@
                                 <div class='form_input account_input'
                                      :class="{activeInput:focusIndex==0}">
                                     <div class='left_label'
-                                         :class="{'show_icon': isNumber}">
+                                         :class="{'show_icon': !isNumber}">
                                         <i class='iconfont icon-cny'></i>
                                     </div>
                                     <input class="input"
                                            type='number'
                                            @focus='focusIndex = 0'
                                            @blur='focusIndex = -1'
-                                           v-model="number"
+                                           v-model="priceOrTotal"
                                            placeholder="100起"
                                            placeholder-style="color:#c6c6c6;;font-weight:normal;font-size:36upx;">
                                     <div class='right_label'
-                                         :class="{'showyanjing':!isNumber}">
+                                         :class="{'showyanjing':isNumber}">
                                         <span>{{ currentItemData.abbreviation }}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="transaction_text">
                                 <span class="left_text">价格约 6.43 CNY/{{ currentItemData.abbreviation }}</span>
-                                <span class="right_text"
+                                <span class="right_text float_right"
                                       @click="isNumber = !isNumber">
                                     <i class="iconfont icon-zhuanhuan"></i>
                                     <span>按{{ !isNumber?'数量':'金额' }}购买</span>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <button type="primary"
-                                :disabled='number<100'
+                                :disabled='isNumber?priceOrTotal<1:priceOrTotal<100'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
                                 @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>0手续费{{ titem.title }}</button>
