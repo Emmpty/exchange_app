@@ -98,7 +98,7 @@
                                  v-for="(item, index) in payList"
                                  :key="index">
                                 <div style="margin-bottom: 15upx">
-                                    <i :style="{color: item.name.indexOf('支付宝') >-1 ? '#06B4FD': '#28C445'}"
+                                    <i :style="{color: item.color}"
                                        :class="'iconfont' + ' ' + item.iconContent"></i>
                                     <span style="margin-left: 10upx">{{ item.name }}</span>
                                 </div>
@@ -156,9 +156,9 @@ export default {
                 // { name: '柚子', abbreviation: 'EOS', },
             ],
             payList: [
-                { name: '支付宝', iconContent: 'icon-zhifubao' },
-                { name: '微信', iconContent: 'icon-weixin' },
-                { name: '银联', iconContent: 'icon-weixin' }
+                { name: '支付宝', iconContent: 'icon-zhifubao', color: '#06B4FD' },
+                { name: '微信', iconContent: 'icon-weixin', color: '#28C445' },
+                { name: '银联', iconContent: 'icon-yinlianhuodong', color: '#EFA341' }
             ],
             priceOrTotal: '',
             focusIndex: -1,
@@ -210,15 +210,18 @@ export default {
                         if (ele.type == 0) {
                             ele.name = '支付宝'
                             ele.iconContent = 'icon-zhifubao'
+                            ele.color = '#06B4FD'
                         } else if (ele.type == 1) {
                             ele.name = '微信'
                             ele.iconContent = 'icon-weixin'
+                            ele.color = '#28C445'
                         } else if (ele.type == 2) {
                             ele.name = '银联'
-                            ele.iconContent = 'icon-weixin'
+                            ele.iconContent = 'icon-yinlianhuodong'
+                            ele.color = '#EFA341'
                         }
                     });
-                    this.payList = res.list
+                    // this.payList = res.list
                 }
             })
             this.showModal()
@@ -268,6 +271,11 @@ page {
     height: 100%;
     background-color: #fff;
 }
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background-color: transparent;
+}
 .transaction_title {
     // width: 100%;
     font-weight: bold;
@@ -310,11 +318,6 @@ page {
             left: 100%;
         }
         .bi_box {
-            ::-webkit-scrollbar {
-                width: 0;
-                height: 0;
-                background-color: transparent;
-            }
             white-space: nowrap;
             height: 120upx;
             color: rgb(140, 159, 173);
@@ -515,9 +518,12 @@ page {
             padding: 40upx 0;
             font-size: 28upx;
             width: 100%;
+            overflow-x: scroll;
+            // justify-content: flex-start;
             .pay_item {
+                flex-shrink: 0;
                 border-radius: 10upx;
-                width: 35%;
+                width: 30%;
                 margin: 5upx 6% 5upx 0;
                 padding: 24upx;
                 border: 1upx solid $borderColor;
