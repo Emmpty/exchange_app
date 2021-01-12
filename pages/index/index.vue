@@ -75,7 +75,7 @@
                                 :disabled='isNumber?priceOrTotal<1:priceOrTotal<100'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
-                                @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>0手续费{{ titem.title }}</button>
+                                @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>{{  biPrice.buyProportion + '% 手续费' + titem.title }}</button>
                     </form>
 
                 </div>
@@ -129,7 +129,11 @@
                                 <span class="float_right">{{ isNumber ? priceOrTotal:priceOrTotal/biPrice.buyPrice + ' ' + currentItemData.abbreviation }}</span>
                             </p>
                         </div>
-                        <div class="money_box"> <i class='iconfont icon-cny'></i> <span class="font_bold">{{ isNumber ? priceOrTotal*biPrice.buyPrice:priceOrTotal }}</span></div>
+                        <div class="money_box">
+                            <i class='iconfont icon-cny'></i>
+                            <span class="font_bold">{{ isNumber ? priceOrTotal*biPrice.buyPrice : priceOrTotal }}</span>
+                            <span class="sohuxufei_box float_right">手续费：{{ (isNumber ? priceOrTotal*biPrice.buyPrice : priceOrTotal) * biPrice.buyProportion /100 }}</span>
+                        </div>
                         <button type="primary"
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
@@ -204,6 +208,7 @@ export default {
         },
         confirmBuyOrSellClick() {
             this.hideModal()
+            this.priceOrTotal = ''
             let number = this.isNumber ? this.riceOrTotal : this.priceOrTotal / this.biPrice.buyPrice
             let priceTotal = this.isNumber ? this.priceOrTotal * this.biPrice.buyPrice : this.priceOrTotal
             uni.navigateTo({
@@ -229,7 +234,7 @@ export default {
                             ele.color = '#EFA341'
                         }
                     });
-                    // this.payList = res.list
+                    this.payList = res.list
                 }
             })
             this.showModal()
@@ -596,6 +601,12 @@ page {
             padding-top: 50upx;
             text-align: center;
             font-size: 60upx;
+            .sohuxufei_box {
+                font-size: 28upx;
+                position: relative;
+                bottom: -40upx;
+                color: $colorlight;
+            }
         }
     }
 }
