@@ -61,10 +61,10 @@
                         @click="onLoginClick()">登录</button>
             </form>
             <div class="forget_register_box">
-                <span class="left_box"
+                <!-- <span class="left_box"
                       @click="navto('forget')">忘记密码</span>
                 <span class="right_box"
-                      @click="navto('register')">注册账号</span>
+                      @click="navto('register')">注册账号</span> -->
             </div>
             <div class="other_login_box">其他方式登录</div>
             <div class="other_login_img">

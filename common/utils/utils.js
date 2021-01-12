@@ -1,9 +1,12 @@
-
+import Interactive from './interactive';
 import MD5 from '@/js_sdk/md5/md5.js'
 
 const MD5Key = 'zykjvrm_@#';
 
 const utils = {
+    notOpen() {
+        Interactive.interactive.toast('开发中...')
+    },
     md5faceCheck(str) {
         let sign = MD5(str)
         return sign

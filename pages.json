@@ -27,6 +27,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/confirmOrder",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "确认订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "globalStyle": {
         "navigationBarTextStyle": "white",

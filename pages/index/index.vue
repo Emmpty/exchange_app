@@ -4,7 +4,8 @@
             <span @click="currentIndex=0"
                   style="margin-right: 30upx;"
                   :class="{ active:currentIndex==0} ">我要买</span>
-            <span @click="currentIndex=1"
+            <!-- @click="currentIndex=1" -->
+            <span @click="$utils.notOpen"
                   :class="{ active:currentIndex==1} ">我要卖</span>
             <div class="order_icon float_right">
                 <image src="/static/images/icon_order.png"></image>
@@ -61,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="transaction_text">
-                                <span class="left_text">价格约 6.43 CNY/{{ currentItemData.abbreviation }}</span>
+                                <span class="left_text">价格约 {{ biPrice.buyPrice + 'CNY/' + currentItemData.abbreviation }}</span>
                                 <span class="right_text float_right"
                                       @click="isNumber = !isNumber">
                                     <i class="iconfont icon-zhuanhuan"></i>
@@ -73,7 +74,7 @@
                                 :disabled='number<100'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
-                                @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>0手续费{{ titem.title }}</button>
+                                @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>{{ biPrice.buyProportion + '% 手续费' + titem.title }}</button>
                     </form>
                 </div>
             </div>
@@ -113,11 +114,11 @@
                         <div class="pay_info">
                             <p>
                                 <span>价格</span>
-                                <span class="float_right">11111 {{'CNY/' + currentItemData.abbreviation }}</span>
+                                <span class="float_right">{{ biPrice.buyPrice + ' CNY/' + currentItemData.abbreviation }}</span>
                             </p>
                             <p>
                                 <span>数量</span>
-                                <span class="float_right">12312312 {{ currentItemData.abbreviation }}</span>
+                                <span class="float_right">{{ number/biPrice.buyPrice + ' ' + currentItemData.abbreviation }}</span>
                             </p>
                         </div>
                         <div class="money_box font_bold"> <i class='iconfont icon-cny'></i> {{ number }}</div>
@@ -149,10 +150,10 @@ export default {
             ],
             biData: [
                 { name: '泰达币', abbreviation: 'USDT', },
-                { name: '比特币', abbreviation: 'BTC', },
-                { name: '以太坊', abbreviation: 'ETH', },
-                { name: '火币积分', abbreviation: 'HT', },
-                { name: '柚子', abbreviation: 'EOS', },
+                // { name: '比特币', abbreviation: 'BTC', },
+                // { name: '以太坊', abbreviation: 'ETH', },
+                // { name: '火币积分', abbreviation: 'HT', },
+                // { name: '柚子', abbreviation: 'EOS', },
             ],
             payList: [
                 { name: '支付宝', iconContent: 'icon-zhifubao' },
@@ -162,7 +163,8 @@ export default {
             focusIndex: -1,
             isNumber: true,
             selectedindex: 0,
-            showRechargeContent: false
+            showRechargeContent: false,
+            biPrice: {}
         }
     },
     components: {
@@ -170,6 +172,8 @@ export default {
     },
     onLoad() {
         this.currentItemData = this.biData[0]
+        this.getUser()
+        this.getPirce()
     },
     methods: {
         goOrderPage() {
@@ -190,6 +194,21 @@ export default {
             //     url: '/pages/login/login'
             // })
             this.showModal()
+        },
+        getPirce() {
+            this.$api.GetPrice({}, res => {
+                if (res.code == 0) {
+                    this.biPrice = res.price
+                }
+            })
+            console.log('>>>>>>>>>>>', this.biPrice)
+        },
+        getUser() {
+            this.$api.GetUserInfo({}, res => {
+                if (res.code == 0) {
+
+                }
+            })
         },
         clickStop() { },
         payItemClick(item, index) {
@@ -498,6 +517,7 @@ page {
             font-size: 56upx;
         }
         .money_box {
+            color: $primarycolor;
             padding-top: 50upx;
             text-align: center;
             font-size: 60upx;

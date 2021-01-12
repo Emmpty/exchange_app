@@ -132,7 +132,13 @@ export default {
     },
     methods: {
         registerOrForgetPwd() {
+            let config = {}
+            if (this.btnText == '注册') {
 
+                this.$apr.SumbitReg()
+            } else if (this.btnText == '重置') {
+
+            }
         },
         sendCode() {
             if (this.timer) return;
