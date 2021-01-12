@@ -126,7 +126,7 @@
                             </p>
                             <p>
                                 <span>数量</span>
-                                <span class="float_right">{{ isNumber ? priceOrTotal:priceOrTotal/biPrice.buyPrice + ' ' + currentItemData.abbreviation }}</span>
+                                <span class="float_right">{{ isNumber ? priceOrTotal : (priceOrTotal/biPrice.buyPrice).toFixed(6) + ' ' + currentItemData.abbreviation }}</span>
                             </p>
                         </div>
                         <div class="money_box">
@@ -135,6 +135,7 @@
                             <span class="sohuxufei_box float_right">手续费：{{ (isNumber ? priceOrTotal*biPrice.buyPrice : priceOrTotal) * biPrice.buyProportion /100 }}</span>
                         </div>
                         <button type="primary"
+                                :disabled='!payId'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
                                 @click="confirmBuyOrSellClick()">确认{{ currentIndex==0?'购买':'出售' }}</button>
@@ -177,7 +178,11 @@ export default {
             isNumber: false,
             selectedindex: 0,
             showRechargeContent: false,
-            biPrice: {}
+            biPrice: {
+                buyPrice: 7,
+                buyProportion: 50
+            },
+            payId: ''
         }
     },
     watch: {
@@ -208,17 +213,30 @@ export default {
         },
         confirmBuyOrSellClick() {
             this.hideModal()
-            this.priceOrTotal = ''
-            let number = this.isNumber ? this.riceOrTotal : this.priceOrTotal / this.biPrice.buyPrice
+            let number = this.isNumber ? this.riceOrTotal : (this.priceOrTotal / this.biPrice.buyPrice).toFixed(6)
             let priceTotal = this.isNumber ? this.priceOrTotal * this.biPrice.buyPrice : this.priceOrTotal
-            uni.navigateTo({
-                url: '/pages/order/confirmOrder?priceTotal=' + priceTotal + '&number=' + number
+
+            this.$api.SubOrder({ merchantAccountId: this.payId, ercAmount: number }, res => {
+                if (res.code === 0) {
+                    this.priceOrTotal = ''
+                    let config = {
+                        payId: this.payId,
+                        priceTotal: priceTotal,
+                        number: number,
+                        orderNo: res.orderNo,
+                    }
+                    uni.navigateTo({
+                        url: '/pages/order/confirmOrder?config=' + JSON.stringify(config)
+                    })
+                } else {
+                    this.$interactive.toast('提交失败：', res.msg)
+                }
             })
         },
         buyOrSellClick() {
-            let number = this.isNumber ? this.riceOrTotal : this.priceOrTotal / this.biPrice.buyPrice
-            this.$api.getMerchantAccountList({ ercAmount: number }, res => {
+            this.$api.GetMerchantAccountList({}, res => {
                 if (res.code === 0 && res.list.length > 0) {
+                    this.showModal()
                     res.list.forEach(ele => {
                         if (ele.type == 0) {
                             ele.name = '支付宝'
@@ -234,10 +252,10 @@ export default {
                             ele.color = '#EFA341'
                         }
                     });
+                    this.payId = res.list[0].merchantId
                     this.payList = res.list
                 }
             })
-            this.showModal()
         },
         getPirce() {
             this.$api.GetPrice({}, res => {
@@ -257,6 +275,7 @@ export default {
         clickStop() { },
         payItemClick(item, index) {
             this.selectedindex = index
+            this.payId = item.payId
             if (index > 1) {
                 this.paysleft = (index - 1) * this.$systemInfo.windowWidth * 0.35
             } else {
@@ -561,7 +580,7 @@ page {
                 background-color: transparent;
             }
             .pay_item {
-                height: 90upx;
+                // height: 90upx;
                 display: inline-block;
                 border-radius: 10upx;
                 width: 30%;
@@ -597,14 +616,16 @@ page {
             font-size: 56upx;
         }
         .money_box {
+            position: relative;
             color: $primarycolor;
             padding-top: 50upx;
             text-align: center;
             font-size: 60upx;
             .sohuxufei_box {
+                position: absolute;
                 font-size: 28upx;
-                position: relative;
-                bottom: -40upx;
+                bottom: -24upx;
+                right: 0;
                 color: $colorlight;
             }
         }

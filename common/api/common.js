@@ -4,7 +4,7 @@ const common = {
     // apiurl: 'http://app.zgstlkj.com/panda',
     // 参数： url:请求地址  param：请求参数  way：请求方式 callBack：回调函数
     urlRequest: function (url, params, methods, callback, spacialHandle, noticeHandle) {
-        // Interactive.interactive.showLoading('加载中')
+        Interactive.interactive.showLoading('加载中')
         // uni.showLoading({
         //     title: '加载中',
         //     mask: true
@@ -38,19 +38,19 @@ const common = {
 
                 } else {
                     Interactive.interactive.toast(res.data.msg && res.data.msg || '网络异常');
-                    callback(res.data)
+                    // callback(res.data)
                 }
             },
             fail: (e) => {
-                callback(e)
-                Interactive.interactive.toast(e.msg)
+                // callback(e)
+                Interactive.interactive.toast('服务异常，请稍后再试')
                 uni.reLaunch({
                     url: '/pages/Login/index'
                 });
             },
             complete() {
-                // Interactive.interactive.hideLoading();
-                uni.hideLoading()
+                Interactive.interactive.hideLoading();
+                // uni.hideLoading()
                 uni.stopPullDownRefresh()
             }
         })

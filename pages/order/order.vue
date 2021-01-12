@@ -10,7 +10,7 @@
                         <span class="font_bold">购买 {{ 'USDT' }}</span>
                         <span class="float_right order_status_text">
                             <i class="iconfont icon-tubiaozhizuo-"></i>
-                            <span>{{ '已成功' }}</span>
+                            <span>{{ item.orderStatus | orderStatusTextFilters }}</span>
                             <i class="iconfont icon-arrow-right"></i>
                         </span>
                     </div>
@@ -20,15 +20,16 @@
                             <p class="p2 font_bold">{{ item.createTime }}</p>
                         </div>
                         <div class="order_info_item text_center">
-                            <p>数量{{ '(' + item.moneyType + ')' }}</p>
-                            <p class="p2 font_bold">{{ item.number }}</p>
+                            <!-- <p>数量{{ '(' + item.moneyType + ')' }}</p> -->
+                            <p>数量(USDT)</p>
+                            <p class="p2 font_bold">{{ item.ercAmount }}</p>
                         </div>
                         <div class="order_info_item text_right">
                             <p>交易总额(CNY)</p>
-                            <p class="p2 font_bold">{{ item.total }}</p>
+                            <p class="p2 font_bold">{{ item.payAmount }}</p>
                         </div>
                     </div>
-                    <p>{{ item.sellerName }}</p>
+                    <p>{{ item.veaMerchant.truename }}</p>
                 </div>
             </div>
         </div>
@@ -39,33 +40,34 @@
 export default {
     data() {
         return {
-            orderList: [
-                {
-                    createTime: '01/07 15:14',
-                    number: 100,
-                    moneyType: 'USDT',
-                    total: 650,
-                    sellerName: '雷神'
-                },
-                {
-                    createTime: '01/07 15:14',
-                    number: 100,
-                    moneyType: 'USDT',
-                    total: 650,
-                    sellerName: '火神'
-                },
-                {
-                    createTime: '01/07 15:14',
-                    number: 100,
-                    moneyType: 'USDT',
-                    total: 650,
-                    sellerName: '天神'
-                },
-            ],
+            orderList: [],
         }
     },
+    filters: {
+        orderStatusTextFilters(refundStatus) {
+            switch (refundStatus) {
+                case 0:
+                    return '待支付';
+                case 1:
+                    return '已支付';
+                case 2:
+                    return '已确认';
+                case 3:
+                    return '已完成';
+                case 4:
+                    return '已失效';
+            }
+        }
+    },
+    onLoad() {
+        this.getOrderList('')
+    },
     methods: {
-
+        getOrderList(type) {
+            this.$api.GetOrderList({ orderType: type }, res => {
+                this.orderList = res.list
+            })
+        },
     }
 }
 </script>
@@ -79,7 +81,6 @@ export default {
     color: #56546c;
     font-size: 48upx;
     font-weight: bold;
-    width: 100%;
     margin-top: 60upx;
 }
 .order_box {

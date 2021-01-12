@@ -5,7 +5,11 @@ const lib = {
     SumbitReg: SumbitReg, //提交注册
     GetUserInfo: GetUserInfo,
     GetPrice: GetPrice,
-    getMerchantAccountList: getMerchantAccountList,
+    GetMerchantAccountList: GetMerchantAccountList,
+    GetMerchantAccountInfo: GetMerchantAccountInfo,
+    SubOrder: SubOrder,
+    ConfirmPayOrder: ConfirmPayOrder,
+    GetOrderList: GetOrderList,
 }
 // 提交登录
 function Login(data, CallBack) {
@@ -28,9 +32,26 @@ function GetPrice(data, CallBack) {
     Common.common.urlRequest('/user/getPrice', data, 'post', CallBack)
 }
 
-// 获取商户列表
-function getMerchantAccountList(data, CallBack) {
-    Common.common.urlRequest('/user/getMerchantAccountList', data, 'post', CallBack)
+// 获取商户钱包列表
+function GetMerchantAccountList(data, CallBack) {
+    Common.common.urlRequest('/user/getMerchantAccountList', data, 'GET', CallBack)
+}
+// 获取商户钱包详情
+function GetMerchantAccountInfo(data, CallBack) {
+    Common.common.urlRequest('/user/getMerchantAccountInfo', data, 'GET', CallBack)
+}
+
+// 提交订单
+function SubOrder(data, CallBack) {
+    Common.common.urlRequest('/order/create', data, 'post', CallBack)
+}
+// 支付订单
+function ConfirmPayOrder(data, CallBack) {
+    Common.common.urlRequest('/order/buyconfirm', data, 'post', CallBack)
+}
+// 订单列表
+function GetOrderList(data, CallBack) {
+    Common.common.urlRequest('/order/list', data, 'post', CallBack)
 }
 
 export default {

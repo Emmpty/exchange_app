@@ -3,7 +3,7 @@
         {
             "path": "pages/index/index",
             "style": {
-                "navigationBarTitleText": "云海链交易所"
+                "navigationBarTitleText": "云海链"
             }
         },
         {
@@ -17,24 +17,20 @@
             "style": {
                 "navigationBarTitleText": "云海链"
             }
-        }
-        ,{
-            "path" : "pages/order/order",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/order/order",
+            "style": {
                 "navigationBarTitleText": "交易订单",
                 "enablePullDownRefresh": false
             }
-            
-        }
-        ,{
-            "path" : "pages/order/confirmOrder",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/order/confirmOrder",
+            "style": {
                 "navigationBarTitleText": "确认订单",
                 "enablePullDownRefresh": false
             }
-            
         }
     ],
     "globalStyle": {
