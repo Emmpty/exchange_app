@@ -13,12 +13,13 @@
                 <p @click="goOrderPage">订单</p>
             </div>
         </div>
-        <div class="container_flex row transaction_box"
-             :style="{transform: 'translateX(' + (currentIndex==0 ? '0' : '-100') + '%)'}">
-            <div class="buy_box"
-                 v-for="(titem, tindex) in buyAndSellList"
-                 :class="{left100: tindex==1}"
-                 :key="tindex">
+        <swiper class="swiper transaction_box"
+                disable-touch="false"
+                :current="currentIndex">
+            <swiper-item v-for="(titem, tindex) in buyAndSellList"
+                         :key="tindex"
+                         class="buy_box">
+                <!-- <div class="buy_box"> -->
                 <scroll-view class="bi_box"
                              :scroll-left='scleft'
                              scroll-with-animation
@@ -45,25 +46,25 @@
                                 <div class='form_input account_input'
                                      :class="{activeInput:focusIndex==0}">
                                     <div class='left_label'
-                                         :class="{'show_icon': !isNumber}">
+                                         :class="{'show_icon': isNumber}">
                                         <i class='iconfont icon-cny'></i>
                                     </div>
                                     <input class="input"
                                            type='number'
                                            @focus='focusIndex = 0'
                                            @blur='focusIndex = -1'
-                                           v-model="priceOrTotal"
+                                           v-model="number"
                                            placeholder="100起"
                                            placeholder-style="color:#c6c6c6;;font-weight:normal;font-size:36upx;">
                                     <div class='right_label'
-                                         :class="{'showyanjing':isNumber}">
+                                         :class="{'showyanjing':!isNumber}">
                                         <span>{{ currentItemData.abbreviation }}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="transaction_text">
-                                <span class="left_text">价格约 {{ biPrice.buyPrice + 'CNY/' + currentItemData.abbreviation }}</span>
-                                <span class="right_text float_right"
+                                <span class="left_text">价格约 6.43 CNY/{{ currentItemData.abbreviation }}</span>
+                                <span class="right_text"
                                       @click="isNumber = !isNumber">
                                     <i class="iconfont icon-zhuanhuan"></i>
                                     <span>按{{ !isNumber?'数量':'金额' }}购买</span>
@@ -71,14 +72,16 @@
                             </div>
                         </div>
                         <button type="primary"
-                                :disabled='isNumber?priceOrTotal<1:priceOrTotal<100'
+                                :disabled='number<100'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
-                                @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>{{ biPrice.buyProportion + '% 手续费' + titem.title }}</button>
+                                @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>0手续费{{ titem.title }}</button>
                     </form>
+
                 </div>
-            </div>
-        </div>
+                <!-- </div> -->
+            </swiper-item>
+        </swiper>
         <myMask ref="rechargeMask"
                 top="0">
             <div class='switch-child-box'
@@ -308,7 +311,7 @@ page {
 }
 .transaction_box {
     width: 100%;
-    height: calc(100% - 240upx);
+    height: calc(100% - 180upx);
     margin-top: 100upx;
     border-radius: 30upx 30upx 0 0;
     transition: 0.3s transform;
