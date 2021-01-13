@@ -54,7 +54,7 @@
                                            @focus='focusIndex = 0'
                                            @blur='focusIndex = -1'
                                            v-model="priceOrTotal"
-                                           placeholder="100起"
+                                           :placeholder="priceOrTotalText"
                                            placeholder-style="color:#c6c6c6;;font-weight:normal;font-size:36upx;">
                                     <div class='right_label'
                                          :class="{'showyanjing':isNumber}">
@@ -65,7 +65,7 @@
                             <div class="transaction_text">
                                 <span class="left_text">价格约 6.43 CNY/{{ currentItemData.abbreviation }}</span>
                                 <span class="right_text float_right"
-                                      @click="isNumber = !isNumber">
+                                      @click="switchNumOrMoney">
                                     <i class="iconfont icon-zhuanhuan"></i>
                                     <span>按{{ !isNumber?'数量':'金额' }}购买</span>
                                 </span>
@@ -126,13 +126,15 @@
                             </p>
                             <p>
                                 <span>数量</span>
-                                <span class="float_right">{{ isNumber ? priceOrTotal : (priceOrTotal/biPrice.buyPrice).toFixed(6) + ' ' + currentItemData.abbreviation }}</span>
+                                <!-- isNumber ? priceOrTotal : (priceOrTotal/biPrice.buyPrice).toFixed(6) -->
+                                <span class="float_right">{{ number + ' ' + currentItemData.abbreviation }}</span>
                             </p>
                         </div>
                         <div class="money_box">
                             <i class='iconfont icon-cny'></i>
-                            <span class="font_bold">{{ isNumber ? priceOrTotal*biPrice.buyPrice : priceOrTotal }}</span>
-                            <span class="sohuxufei_box float_right">手续费：{{ (isNumber ? priceOrTotal*biPrice.buyPrice : priceOrTotal) * biPrice.buyProportion /100 }}</span>
+                            <!-- isNumber ? priceOrTotal*biPrice.buyPrice : priceOrTotal -->
+                            <span class="font_bold">{{ priceTotal }}</span>
+                            <span class="sohuxufei_box float_right">含手续费：{{ fee }}</span>
                         </div>
                         <button type="primary"
                                 :disabled='!payId'
@@ -174,6 +176,7 @@ export default {
                 { name: '银联', iconContent: 'icon-yinlianhuodong', color: '#EFA341' }
             ],
             priceOrTotal: '',
+            priceOrTotalText: '100起',
             focusIndex: -1,
             isNumber: false,
             selectedindex: 0,
@@ -182,22 +185,45 @@ export default {
                 buyPrice: 7,
                 buyProportion: 50
             },
-            payId: ''
+            payId: '',
+            number: 0,  //购买数量
+            priceTotal: 0,  //总金额
+            fee: 0,     // 手续费
         }
     },
     watch: {
+        priceOrTotal(newV, oldV) {
+            newV = parseInt(newV)
+            if (this.isNumber && newV > 0) {
+                this.number = newV
+                let total = newV * this.biPrice.buyPrice
+                this.fee = total * this.biPrice.buyProportion / 100
+                this.priceTotal = total + this.fee
+            } else if (newV > 99) {
+                this.number = (newV / this.biPrice.buyPrice).toFixed(6)
+                this.fee = newV * this.biPrice.buyProportion / 100
+                this.priceTotal = newV + this.fee
+            }
+        },
     },
     components: {
         myMask,
     },
     onLoad() {
         this.number = 0
+        this.fee = 0
         this.priceTotal = 0
         this.currentItemData = this.biData[0]
         this.getUser()
         this.getPirce()
     },
     methods: {
+        switchNumOrMoney() {
+            this.isNumber = !this.isNumber
+            if (this.isNumber) this.priceOrTotalText = '请输入购买数量'
+            else this.priceOrTotalText = '100起'
+            this.priceOrTotal = ''
+        },
         goOrderPage() {
             uni.navigateTo({
                 url: '/pages/order/order'
@@ -212,25 +238,23 @@ export default {
             this.$refs.rechargeMask.hideMask()
         },
         confirmBuyOrSellClick() {
-            this.hideModal()
-            let number = this.isNumber ? this.riceOrTotal : (this.priceOrTotal / this.biPrice.buyPrice).toFixed(6)
-            let priceTotal = this.isNumber ? this.priceOrTotal * this.biPrice.buyPrice : this.priceOrTotal
-
-            this.$api.SubOrder({ merchantAccountId: this.payId, ercAmount: number }, res => {
-                if (res.code === 0) {
-                    this.priceOrTotal = ''
-                    let config = {
-                        payId: this.payId,
-                        priceTotal: priceTotal,
-                        number: number,
-                        orderNo: res.orderNo,
-                    }
-                    uni.navigateTo({
-                        url: '/pages/order/confirmOrder?config=' + JSON.stringify(config)
-                    })
-                } else {
-                    this.$interactive.toast('提交失败：', res.msg)
+            // let number = this.isNumber ? this.priceOrTotal : (this.priceOrTotal / this.biPrice.buyPrice).toFixed(6)
+            // let priceTotal = this.isNumber ? this.priceOrTotal * this.biPrice.buyPrice : this.priceOrTotal
+            this.$api.SubOrder({ merchantAccountId: this.payId, ercAmount: this.number }, res => {
+                let config = {
+                    payId: this.payId,
+                    priceTotal: this.priceTotal,
+                    number: this.number,
+                    orderNo: res.orderNo,
                 }
+                this.hideModal()
+                this.priceOrTotal = ''
+                this.number = 0
+                this.fee = 0
+                this.priceTotal = 0
+                uni.navigateTo({
+                    url: '/pages/order/confirmOrder?config=' + JSON.stringify(config)
+                })
             })
         },
         buyOrSellClick() {
@@ -263,7 +287,6 @@ export default {
                     this.biPrice = res.price
                 }
             })
-            console.log('>>>>>>>>>>>', this.biPrice)
         },
         getUser() {
             this.$api.GetUserInfo({}, res => {

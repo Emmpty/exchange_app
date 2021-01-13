@@ -12,7 +12,6 @@ const interactive = {
     hideLoading() {
         if (this.needLoadingRequestCount <= 0) return;
         this.needLoadingRequestCount--;
-        console.log('>>>>>hide')
         if (this.needLoadingRequestCount === 0) {
             uni.hideLoading()
         }
