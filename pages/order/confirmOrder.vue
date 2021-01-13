@@ -11,8 +11,8 @@
             </div>
             <div class="business_box border_bottom padding_h_box">
                 <div class="container_flex hcenter font_bold">
-                    <span class="first_name">{{ truename[0] }}</span>
-                    <span class="name_box">{{ truename }}</span>
+                    <span class="first_name">{{ username[0] }}</span>
+                    <span class="name_box">{{ username }}</span>
                     <image class="icon_img"
                            src="@/static/images/huangguan.png"
                            mode=""></image>
@@ -27,7 +27,7 @@
             </div>
             <div class="business_info font_bold border_bottom padding_h_box">
                 <div><span>卖家姓名</span>
-                    <span class="float_right">{{ truename }}</span>
+                    <span class="float_right">{{ username }}</span>
                 </div>
                 <div style="margin-top: 50upx;"><span>支付宝账号</span>
                     <span class="float_right">{{ account }}</span>
@@ -66,7 +66,7 @@ export default {
             name: '隆重盖世',
             focusIndex: -1,
             account: '',
-            truename: '',
+            username: '',
             payNo: '',
         }
     },
@@ -83,7 +83,7 @@ export default {
             this.$api.GetMerchantAccountInfo({ merchantAccountId: this.config.payId }, res => {
                 if (res.code === 0) {
                     this.account = res.info.account
-                    this.truename = res.info.veaMerchant.truename
+                    this.username = res.info.veaMerchant.username
                 }
             })
         },

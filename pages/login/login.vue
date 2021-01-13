@@ -111,7 +111,7 @@ export default {
                 if (res.code === 0) {
                     this.$interactive.toast('登陆成功')
                     uni.setStorageSync('token', res.data.token)
-                    uni.navigateTo({
+                    uni.redirectTo({
                         url: '/pages/index/index'
                     })
                 }

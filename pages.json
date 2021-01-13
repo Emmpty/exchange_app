@@ -9,6 +9,7 @@
         {
             "path": "pages/login/login",
             "style": {
+                // "navigationStyle":"custom",
                 "navigationBarTitleText": "登录"
             }
         },
@@ -31,15 +32,13 @@
                 "navigationBarTitleText": "确认订单",
                 "enablePullDownRefresh": false
             }
-        }
-        ,{
-            "path" : "pages/order/orderDetails",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/order/orderDetails",
+            "style": {
                 "navigationBarTitleText": "订单详情",
                 "enablePullDownRefresh": false
             }
-            
         }
     ],
     "globalStyle": {

@@ -40,7 +40,7 @@
             </div>
             <div class="business_box">
                 <span>卖家昵称</span>
-                <span class="float_right">{{ orderItemData.veaOrderDetail.truename }}
+                <span class="float_right">{{ orderItemData.veaOrderDetail.username }}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>

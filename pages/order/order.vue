@@ -27,22 +27,22 @@
                         </div>
                         <div class="order_info_item text_right">
                             <p>交易总额(CNY)</p>
-                            <p class="p2 font_bold">{{ item.payAmount + item.fee }}</p>
+                            <p class="p2 font_bold">{{ (item.payAmount + item.fee).toFixed(2) }}</p>
                         </div>
                     </div>
-                    <div class="order_no">
+                    <!-- <div class="order_no">
                         <span>
                             订单号
                         </span>
                         <span class="float_right"> {{ item.orderNo }}</span>
-                    </div>
+                    </div> -->
                     <div class="business_name_box container_flex">
-                        <div class="container_flex hcenter">{{  item.veaOrderDetail && item.veaOrderDetail.truename }}
+                        <div class="container_flex hcenter">{{  item.veaOrderDetail && item.veaOrderDetail.username }}
                             <image class="icon_img"
                                    src="@/static/images/huangguan.png"
                                    mode=""></image>
                         </div>
-                        <div><i class="iconfont icon-arrow-right"></i></div>
+                        <!-- <div><i class="iconfont icon-arrow-right"></i></div> -->
                     </div>
                 </div>
             </div>
