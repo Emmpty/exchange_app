@@ -6,13 +6,17 @@ $borderColor:#E9EAEC;
 $trivialColor:rgb(153 ,153 ,153);
 $colorlight:rgb(130,130,130);
 
-
+// color
+.primary_color{
+    color: $primarycolor;
+}
 .white-bgcolor{
     background-color:$whiteColor;
 }
 .trivial-color{
     color:$trivialColor;
 }
+// color end
 // 布局
 .container_flex{
     display: flex; 
@@ -116,3 +120,11 @@ button.noborder::after{
 }
 
 // 按钮end
+
+
+// img
+.icon_img {
+    width: 40upx;
+    height: 40upx;
+}
+// img end

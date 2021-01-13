@@ -276,7 +276,7 @@ export default {
                             ele.color = '#EFA341'
                         }
                     });
-                    this.payId = res.list[0].merchantId
+                    this.payId = res.list[0].id
                     this.payList = res.list
                 }
             })
@@ -298,7 +298,7 @@ export default {
         clickStop() { },
         payItemClick(item, index) {
             this.selectedindex = index
-            this.payId = item.payId
+            this.payId = item.id
             if (index > 1) {
                 this.paysleft = (index - 1) * this.$systemInfo.windowWidth * 0.35
             } else {

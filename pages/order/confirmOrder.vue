@@ -13,7 +13,7 @@
                 <div class="container_flex hcenter font_bold">
                     <span class="first_name">{{ truename[0] }}</span>
                     <span class="name_box">{{ truename }}</span>
-                    <image class="name_img"
+                    <image class="icon_img"
                            src="@/static/images/huangguan.png"
                            mode=""></image>
                     <!-- <i class="iconfont "></i> -->
@@ -88,12 +88,19 @@ export default {
             })
         },
         paySuccessClick() {
+            let _this = this
             this.$api.ConfirmPayOrder({ orderNo: this.config.orderNo, confirmType: '0', payNo: this.payNo }, res => {
                 if (res.code == 0) {
                     this.$interactive.toast('购买成功')
-                    uni.redirectTo({
-                        url: '/pages/order/order'
-                    })
+                    setTimeout(() => {
+                        if (_this.config.back) {
+                            return uni.navigateBack({})
+                        }
+                        uni.redirectTo({
+                            url: '/pages/order/order'
+                        })
+                    }, 1000);
+
                 }
             })
         },
@@ -155,13 +162,13 @@ export default {
     .name_box {
         margin: 0 10upx;
     }
-    .name_img {
+    .first_name {
+        display: inline-block;
+        text-align: center;
         width: 40upx;
         height: 40upx;
-    }
-    .first_name {
         color: #fff;
-        padding: 8upx 14upx;
+        padding: 8upx;
         border-radius: 100%;
         background: $primarycolor;
     }

@@ -30,7 +30,7 @@ const common = {
                         success: function (res) {
                             if (res.confirm) {
                                 uni.reLaunch({
-                                    url: '/pages/Login/index'
+                                    url: '/pages/login/login'
                                 });
                             } else if (res.cancel) { }
                         }
@@ -45,7 +45,7 @@ const common = {
                 // callback(e)
                 Interactive.interactive.toast('服务异常，请稍后再试')
                 uni.reLaunch({
-                    url: '/pages/Login/index'
+                    url: '/pages/login/login'
                 });
             },
             complete() {
