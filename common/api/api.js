@@ -10,6 +10,7 @@ const lib = {
     SubOrder: SubOrder,
     ConfirmPayOrder: ConfirmPayOrder,
     GetOrderList: GetOrderList,
+    updateVersion: updateVersion,
 }
 // 提交登录
 function Login(data, CallBack) {
@@ -52,6 +53,11 @@ function ConfirmPayOrder(data, CallBack) {
 // 订单列表
 function GetOrderList(data, CallBack) {
     Common.common.urlRequest('/order/list', data, 'post', CallBack)
+}
+
+// 版本更新
+function updateVersion(data, CallBack) {
+    Common.common.urlRequest('/version/Android', data, 'post', CallBack)
 }
 
 export default {

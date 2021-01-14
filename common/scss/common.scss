@@ -49,6 +49,13 @@ $colorlight:rgb(130,130,130);
 .float_right{
     float: right;
 }
+.pingmucenter {
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
 // 布局end
 // 字体 begin
 .font_32{
@@ -128,3 +135,54 @@ button.noborder::after{
     height: 40upx;
 }
 // img end
+
+// activeModel
+.active_box{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.fail_box_text1{
+    font-size: 38upx;
+    color: rgb(71, 79, 102);
+    font-weight:600;
+    text-align:center;
+    
+  }
+  .fail_box_text2{
+    font-size: 32upx;
+    color: rgb(122,130,153);
+    margin-top: 20upx;
+  }
+  .button-box{
+    position: absolute;
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+    bottom: 15upx;
+    width: 100%;
+    height: 100upx;
+    align-items:center;
+    -webkit-align-items: center;
+    left:0;
+   
+  }
+  .quit_btn,.confirm_btn{
+    flex: 1;
+    height: 84upx;
+    border-radius: 40upx;
+    font-size: 34upx;
+    line-height: 84upx;
+    margin: 0 30upx;
+  }
+  .quit_btn{
+    border:1px solid $primarycolor;
+    color:$primarycolor !important;
+  }
+  .confirm_btn{
+    color: #fff;
+  }
+// activeModel end

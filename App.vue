@@ -1,4 +1,7 @@
+
 <script>
+import myMask from '@/components/mask'
+
 export default {
     onLaunch: function () {
     },
@@ -12,5 +15,4 @@ export default {
 <style>
 /*每个页面公共css */
 @import "@/static/iconfont/iconfont.css";
-@import "@/common/scss/common.scss";
 </style>
