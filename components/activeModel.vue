@@ -18,7 +18,7 @@
                                 class="quit_btn"
                                 plain="true"
                                 hover-class="plain-hover"
-                                type="book_primary"
+                                type="primary"
                                 @click.stop="cancelQuit()">取消</button>
                         <button class="noborder confirm_btn"
                                 hover-class="primary-hover"
