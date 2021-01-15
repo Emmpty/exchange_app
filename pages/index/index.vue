@@ -219,8 +219,8 @@ export default {
         this.getPirce()
     },
     mounted() {
-        this.$refs.updataModel.updateVersion()
         //#ifdef APP-PLUS  
+        this.$refs.updataModel.updateVersion()
         //#endif
     },
     methods: {
