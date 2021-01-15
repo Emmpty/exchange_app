@@ -30,12 +30,12 @@
                             <p class="p2 font_bold">{{ (item.payAmount + item.fee).toFixed(2) }}</p>
                         </div>
                     </div>
-                    <!-- <div class="order_no">
+                    <div class="order_no">
                         <span>
                             订单号
                         </span>
                         <span class="float_right"> {{ item.orderNo }}</span>
-                    </div> -->
+                    </div>
                     <div class="business_name_box container_flex">
                         <div class="container_flex hcenter">{{  item.veaOrderDetail && item.veaOrderDetail.username }}
                             <image class="icon_img"

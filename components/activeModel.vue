@@ -5,7 +5,7 @@
                 noclickhide="true"
                 @onHideHander="onHideUpdateMask()"
                 @onShowHander="onShowUpdateMask()">
-            <div class="model_box container_flex column center pingmucenter"
+            <div class="model_box container_flex column center"
                  :class="{'active': showActive}"
                  :style="{ height: aheight +'upx', width: awidth +'upx' }">
                 <!-- <slot></slot> -->
@@ -41,6 +41,7 @@ export default {
             hideUpdateCancel: 0,
             updateText: '',
             updateUrl: '',
+            wgtUrl: '',
         }
     },
     components: {
@@ -49,12 +50,13 @@ export default {
     methods: {
         updateVersion() {
             this.$api.updateVersion({}, res => {
-                console.log('>>>版本更新信息', this.$version, res.item.versionNo)
-                if (this.$version !== res.item.versionNo) {
+                console.log('>>>版本更新信息', this.$common.version, res.item.versionNo)
+                if (this.$common.version !== res.item.versionNo) {
                     this.$refs.updataMask.showMask()
                     this.updateText = res.item.remark
                     this.hideUpdateCancel = res.item.note
                     this.updateUrl = res.item.versionUrl
+                    this.wgtUrl = res.item.wgtUrl
                 }
             })
         },
@@ -68,18 +70,66 @@ export default {
             }, 200)
         },
         confirmUpdate() {
-            plus.runtime.openURL(this.updateUrl);
-            if (plus.os.name.toLowerCase() === 'android') {
-                plus.runtime.quit();
-            }
-            else {
-                const threadClass = plus.ios.importClass("NSThread");
-                const mainThread = plus.ios.invoke(threadClass, "mainThread");
-                plus.ios.invoke(mainThread, "exit");
+            let _this = this
+            if (this.wgtUrl) {
+                this.hotUpdateFun()
+            } else if (this.updateUrl) {
+                plus.runtime.openURL(this.updateUrl);
+                if (plus.os.name.toLowerCase() === 'android') {
+                    plus.runtime.quit();
+                }
+                else {
+                    const threadClass = plus.ios.importClass("NSThread");
+                    const mainThread = plus.ios.invoke(threadClass, "mainThread");
+                    plus.ios.invoke(mainThread, "exit");
+                }
+            } else {
+                plus.nativeUI.toast('无安装包可用，请联系管理员')
             }
         },
         cancelQuit() {
             this.$refs.updataMask.hideMask()
+        },
+        hotUpdateFun() {
+            let _this = this
+            var watiting = plus.nativeUI.showWaiting("开始下载：0%");
+            // 创建下载任务
+            const downloadTask = uni.downloadFile({
+                url: _this.wgtUrl,
+                success: (res) => {
+                    if (res.statusCode === 200) {
+                        watiting.setTitle("安装中...");
+                        console.log('>>>>>tempFilePath', res.tempFilePath)
+                        plus.runtime.install(res.tempFilePath, {
+                            force: true
+                        }, function (succ) {
+                            console.log('install success...');
+                            plus.nativeUI.closeWaiting();
+                            plus.nativeUI.alert('更新完成！', function () {
+                                // 热更新自动安装
+                                plus.runtime.restart();
+                            });
+                        }, function (e) {
+                            plus.nativeUI.closeWaiting();
+                            plus.nativeUI.alert('更新失败,点击确认手动更新', function () {
+                                plus.runtime.openURL(_this.updateUrl);
+                                plus.runtime.quit();
+                            });
+                            console.error('install fail...', e);
+                        });
+                    }
+                }
+            });
+            downloadTask.onProgressUpdate((res) => {
+                console.log('下载进度' + res.progress);
+                // console.log('已经下载的数据长度' + res.totalBytesWritten);
+                // console.log('预期需要下载的数据总长度' + res.totalBytesExpectedToWrite);
+                watiting.setTitle("已下载：" + res.progress + "%");
+                // 测试条件，取消下载任务。
+                // if (res.progress > 50) {
+                //     downloadTask.abort();
+                // }
+            });
         },
     },
     onload() {

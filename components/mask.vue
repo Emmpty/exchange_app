@@ -1,7 +1,7 @@
 <template>
     <div v-if="isShow"
          catchtouchmove="ture"
-         class="mask"
+         class="mask container_flex center"
          :class="{'active': showBgk}"
          :style="{top:top+'upx'}"
          id="mask"
