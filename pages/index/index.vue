@@ -166,10 +166,10 @@ export default {
             ],
             biData: [
                 { name: '泰达币', abbreviation: 'USDT', },
-                // { name: '比特币', abbreviation: 'BTC', },
-                // { name: '以太坊', abbreviation: 'ETH', },
-                // { name: '火币积分', abbreviation: 'HT', },
-                // { name: '柚子', abbreviation: 'EOS', },
+                { name: '比特币', abbreviation: 'BTC', },
+                { name: '以太坊', abbreviation: 'ETH', },
+                { name: '火币积分', abbreviation: 'HT', },
+                { name: '柚子', abbreviation: 'EOS', },
             ],
             payList: [
                 { name: '支付宝', iconContent: 'icon-zhifubao', color: '#06B4FD' },
@@ -312,6 +312,9 @@ export default {
             }
         },
         itemClick(item, index) {
+            if (index > 0) {
+                return this.$utils.notOpen('暂未开放')
+            }
             if (index > 2) {
                 this.scleft = (index - 2) * this.$systemInfo.windowWidth * 0.18
             } else {
