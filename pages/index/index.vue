@@ -55,7 +55,7 @@
                                            @blur='focusIndex = -1'
                                            v-model="priceOrTotal"
                                            :placeholder="priceOrTotalText"
-                                           placeholder-style="color:#c6c6c6;;font-weight:normal;font-size:36upx;">
+                                           placeholder-style="color:#c6c6c6;font-weight:normal;font-size:36upx;">
                                     <div class='right_label'
                                          :class="{'showyanjing':isNumber}">
                                         <span>{{ currentItemData.abbreviation }}</span>

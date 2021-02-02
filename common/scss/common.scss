@@ -132,7 +132,27 @@ button.noborder::after{
     background-color:$primaryHoverColor !important;
     border-color:$primaryHoverColor !important;
 }
-
+// .click-hover:active{
+//     background-color:$bgcolor !important;
+//     border-color:$bgcolor !important;
+// }
+.click-hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    transition: .3s;
+    opacity: .5;
+    background-color: $bgcolor;
+    transform-origin: left;
+    transform-origin:center;
+    transform: scale(0);
+}
+.click-hover:active::after {
+    transform: scale(1);
+}
 // 按钮end
 
 

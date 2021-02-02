@@ -55,6 +55,8 @@ export default {
     data() {
         return {
             orderList: [],
+            orderType: '',
+            orderTitle: ''
         }
     },
     filters: {
@@ -74,10 +76,24 @@ export default {
         }
     },
     onShow() {
-        this.getOrderList('')
 
     },
-    onLoad() {
+    onLoad(option) {
+        if (option.type) {
+            this.orderType = option.type
+        }
+        switch (this.orderType) {
+            case 'buy':
+                this.orderTitle = '买入'
+                break;
+            case 'sell':
+                this.orderTitle = '卖出'
+                break;
+            default:
+                this.orderTitle = ''
+                break;
+        }
+        this.getOrderList(this.orderType)
     },
     onReachBottom() {
         console.log(">>>>>>lower")

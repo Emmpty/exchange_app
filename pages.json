@@ -49,7 +49,7 @@
         {
             "path": "pages/mine/certification",
             "style": {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "本人认证",
                 "enablePullDownRefresh": false
             }
         }

@@ -20,17 +20,35 @@
             <div class="mine_menu">
                 <p class="menu_title">我的交易</p>
                 <div class="menu_box">
-                    <div class="item_box">
-                        <p>5</p>
+                    <div class="item_box click-hover"
+                         @click="goOderList('buy')">
+                        <p><i class="iconfont icon-mairujilu"></i></p>
                         <p>我买入的</p>
                     </div>
-                    <div class="item_box">
-                        <p>5</p>
+                    <div class="item_box click-hover"
+                         @click="goOderList('sell')">
+                        <p><i class="iconfont icon-maichujilu"></i></p>
                         <p>我卖出的</p>
                     </div>
-                    <div class="item_box">
-                        <p>5</p>
+                    <div class="item_box click-hover"
+                         @click="goOderList('')">
+                        <p><i class="iconfont icon-dingdanzhongxinicon"></i></p>
                         <p>我的订单</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mine_menu margin_top_box">
+                <p class="menu_title">我的信息</p>
+                <div class="menu_box">
+                    <div class="item_box click-hover"
+                         @click="collection()">
+                        <p><i class="iconfont icon-zichan"></i></p>
+                        <p>收款信息</p>
+                    </div>
+                    <div class="item_box click-hover"
+                         @click="gotoCheckFace()">
+                        <p><i class="iconfont icon-shenfenshibie"></i></p>
+                        <p>实名信息</p>
                     </div>
                 </div>
             </div>
@@ -74,7 +92,16 @@ export default {
                 url: '/pages/mine/certification'
             })
         },
-
+        goOderList(type) {
+            uni.navigateTo({
+                url: '/pages/order/order?type=' + type
+            })
+        },
+        collection() {
+            uni.navigateTo({
+                url: '/pages/mine/collection'
+            })
+        }
     }
 }
 </script>
@@ -86,6 +113,9 @@ export default {
 </style>
 <style lang="scss" scoped>
 @import "@/common/scss/common.scss";
+.margin_top_box {
+    margin-top: 30upx;
+}
 .padding_box {
     position: relative;
     padding: 0 40upx;
@@ -110,14 +140,14 @@ export default {
 }
 .mine_menu {
     position: relative;
-    top: -40upx;
+    top: -60upx;
     border-radius: 20upx;
     padding: 40upx 30upx;
     background-color: #fff;
-    box-shadow: 0 2upx 20upx rgba(0, 0, 0, 0.2);
+    color: #56546c;
+    box-shadow: 0 2upx 20upx rgba(0, 0, 0, 0.1);
     .menu_title {
         font-size: 36upx;
-        color: #101010;
         font-weight: bold;
         margin-bottom: 20upx;
     }
@@ -128,20 +158,41 @@ export default {
         justify-content: space-between;
         margin-bottom: 30upx;
         .item_box {
+            position: relative;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             flex: 1;
+            i {
+                font-size: 60upx;
+            }
+            .icon-mairujilu {
+                color: #96e9ff;
+            }
+            .icon-maichujilu {
+                color: #ffc0d8;
+            }
+            .icon-dingdanzhongxinicon {
+                color: #ffbd27;
+                font-size: 55upx;
+            }
+            .icon-zichan {
+                color: #b19c4a;
+            }
+            .icon-shenfenshibie {
+                color: #8bc17d;
+            }
             p:nth-of-type(1) {
                 color: #101010;
                 font-weight: bold;
                 font-size: 56upx;
             }
             p:nth-of-type(2) {
+                margin-top: 10upx;
                 color: #101010;
                 font-size: 28upx;
-                color: #969697;
+                color: #56546c;
             }
         }
     }
