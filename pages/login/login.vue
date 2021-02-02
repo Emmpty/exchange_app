@@ -111,7 +111,8 @@ export default {
                 if (res.code === 0) {
                     this.$interactive.toast('登陆成功')
                     uni.setStorageSync('token', res.data.token)
-                    uni.redirectTo({
+                    console.log('>>>>>>登陆成功')
+                    uni.switchTab({
                         url: '/pages/index/index'
                     })
                 }

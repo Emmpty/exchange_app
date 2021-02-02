@@ -2,7 +2,7 @@
     <view class="page">
         <div class="container_flex column mine_box wcenter padding_box">
             <div class="container_flex hcenter"
-                 style="margin-bottom: 40upx">
+                 style="margin: 30upx 0">
                 <image class="avatar"
                        src="/static/logo.png"
                        mode=""></image>
@@ -17,7 +17,6 @@
             </div>
         </div>
         <div class="padding_box">
-
             <div class="mine_menu">
                 <p class="menu_title">我的交易</p>
                 <div class="menu_box">
@@ -82,18 +81,18 @@ export default {
 <style >
 .page {
     height: 100%;
-    background-color: #f0f0f0;
+    background-color: #fff;
 }
 </style>
 <style lang="scss" scoped>
 @import "@/common/scss/common.scss";
 .padding_box {
     position: relative;
-    padding: 0 20upx;
-    background-color: #f0f0f0;
+    padding: 0 40upx;
+    background-color: #fff;
 }
 .mine_box {
-    height: 400upx;
+    height: 450upx;
     color: #fff;
     background-color: #5290ff;
     .avatar {
@@ -113,7 +112,7 @@ export default {
     position: relative;
     top: -40upx;
     border-radius: 20upx;
-    padding: 40upx 20upx;
+    padding: 40upx 30upx;
     background-color: #fff;
     box-shadow: 0 2upx 20upx rgba(0, 0, 0, 0.2);
     .menu_title {
