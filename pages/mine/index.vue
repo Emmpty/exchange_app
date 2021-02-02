@@ -124,7 +124,7 @@ export default {
 .mine_box {
     height: 450upx;
     color: #fff;
-    background-color: #5290ff;
+    background-color: $primarycolor;
     .avatar {
         width: 100upx;
         height: 100upx;
@@ -135,7 +135,7 @@ export default {
         border-radius: 10upx;
         font-size: 28upx;
         padding: 10upx 20upx;
-        background-color: #4281f0;
+        background-color: rgba(14, 111, 210, 0.5);
     }
 }
 .mine_menu {

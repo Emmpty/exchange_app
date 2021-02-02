@@ -69,13 +69,13 @@ export default {
             nameFail: false,
             idCardFail: false,
             focusIndex: -1,
-            title: '实名认证',
-            btnText: '实名认证',
+            title: '人脸识别认证',
+            btnText: '确保本人操作并认证',
             isCertification: false
         }
     },
     onLoad(option) {
-        this.title = '实名认证'
+        this.title = '人脸识别认证'
     },
     methods: {
         onNameChange(e) {
@@ -321,7 +321,7 @@ export default {
         line-height: 90upx;
         border-radius: 45upx;
         text-align: center;
-        font-size: 35upx;
+        font-size: 30upx;
         margin-top: 60upx;
     }
     .forget_register_box {
