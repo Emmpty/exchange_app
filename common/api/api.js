@@ -11,6 +11,7 @@ const lib = {
     ConfirmPayOrder: ConfirmPayOrder,
     GetOrderList: GetOrderList,
     updateVersion: updateVersion,
+    checkFaceFrequency: checkFaceFrequency,
 }
 // 提交登录
 function Login(data, CallBack) {
@@ -59,7 +60,10 @@ function GetOrderList(data, CallBack) {
 function updateVersion(data, CallBack) {
     Common.common.urlRequest('/version/Android', data, 'post', CallBack)
 }
-
+// 记录人脸识别次数
+function checkFaceFrequency(data, CallBack) {
+    Common.common.urlRequest('/user/verify/addFailNum', data, 'post', CallBack)
+}
 export default {
     lib
 }

@@ -2,9 +2,7 @@
     <view>
         <div class="container_flex column center login_box">
             <div class='login_title text_left'>{{ title }}</div>
-            <!-- <div class="login_title2 text_left">6-20位密码</div> -->
             <form class="form-container login-form">
-                <div></div>
                 <div class='input_box'>
                     <div style="height:130upx;">
                         <div class='form_input account_input'

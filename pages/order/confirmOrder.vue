@@ -7,7 +7,7 @@
                     <i class='iconfont icon-cny'></i>
                     <span class="font_bold">{{ priceTotal }}</span>
                 </p>
-                <p class="border_bg_box">您正在向云海链认证卖家购买：{{ number }} USDT </p>
+                <p class="border_bg_box">您正在向XMQ认证卖家购买：{{ number }} USDT </p>
             </div>
             <div class="business_box border_bottom padding_h_box">
                 <div class="container_flex hcenter font_bold">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="protect_box container_flex row hcenter">
                     <div><i class="iconfont icon-gouxuan"></i>已缴纳保证金</div>
-                    <div><i class="iconfont icon-gouxuan"></i>云海链认证商家</div>
+                    <div><i class="iconfont icon-gouxuan"></i>XMQ认证商家</div>
                     <div><i class="iconfont icon-gouxuan"></i>担保交易</div>
                     <!-- <div><i class="iconfont icon-arrow-right"></i></div> -->
                 </div>

@@ -1,8 +1,8 @@
 <template>
     <view>
         <div class="container_flex column center login_box">
-            <div class='login_title text_left'>云海链交易所</div>
-            <div class="login_title2 text_left">登录云海链</div>
+            <div class='login_title text_left'>XMQ交易所</div>
+            <div class="login_title2 text_left">登录XMQ</div>
             <form class="form-container login-form">
                 <div class='input_box'>
                     <div style="height:130upx;margin-bottom:20upx">

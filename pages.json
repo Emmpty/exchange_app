@@ -3,20 +3,26 @@
         {
             "path": "pages/index/index",
             "style": {
-                "navigationBarTitleText": "云海链"
+                "navigationBarTitleText": "XMQ"
+            }
+        },
+        {
+            "path": "pages/mine/index",
+            "style": {
+                "navigationStyle": "custom"
+                // "navigationBarTitleText": "我的"
             }
         },
         {
             "path": "pages/login/login",
             "style": {
-                // "navigationStyle":"custom",
                 "navigationBarTitleText": "登录"
             }
         },
         {
             "path": "pages/login/registerOrForgetPwd",
             "style": {
-                "navigationBarTitleText": "云海链"
+                "navigationBarTitleText": "XMQ"
             }
         },
         {
@@ -39,11 +45,42 @@
                 "navigationBarTitleText": "订单详情",
                 "enablePullDownRefresh": false
             }
+        },
+        {
+            "path": "pages/mine/certification",
+            "style": {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
         }
     ],
+    "tabBar": {
+        "color": "#515151",
+        "selectedColor": "#157dfb",
+        "borderStyle": "#E9EAEC",
+        "backgroundColor": "#ffffff",
+        "height": "50px",
+        "fontSize": "10px",
+        "iconWidth": "24px",
+        "spacing": "3px",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "iconPath": "static/images/exchange.png",
+                "selectedIconPath": "static/images/exchange_select.png",
+                "text": "交易"
+            },
+            {
+                "pagePath": "pages/mine/index",
+                "iconPath": "static/images/my.png",
+                "selectedIconPath": "static/images/my_select.png",
+                "text": "我的"
+            }
+        ]
+    },
     "globalStyle": {
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "云海链",
+        "navigationBarTitleText": "XMQ",
         "navigationBarBackgroundColor": "#157dfb",
         "backgroundColor": "#F8F8F8",
         "scrollIndicator": "none", // 不显示滚动条  

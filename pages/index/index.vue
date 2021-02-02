@@ -4,8 +4,8 @@
             <span @click="currentIndex=0"
                   style="margin-right: 30upx;"
                   :class="{ active:currentIndex==0} ">我要买</span>
-            <!-- @click="currentIndex=1" -->
-            <span @click="$utils.notOpen"
+            <!-- @click="$utils.notOpen()" -->
+            <span @click="currentIndex=1"
                   :class="{ active:currentIndex==1} ">我要卖</span>
             <div class="order_icon float_right">
                 <image src="/static/images/icon_order.png"></image>
@@ -67,7 +67,7 @@
                                 <span class="right_text float_right"
                                       @click="switchNumOrMoney">
                                     <i class="iconfont icon-zhuanhuan"></i>
-                                    <span>按{{ !isNumber?'数量':'金额' }}购买</span>
+                                    <span>按{{ !isNumber?'数量':'金额' }}{{ currentIndex==0?'购买':'出售' }}</span>
                                 </span>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                  :class="{ 'show': showRechargeContent }">
                 <div style="height: 100%">
                     <div class='switch-header font_32 trivial-color'>
-                        <span class="left_text">确认购买</span>
+                        <span class="left_text">确认{{ currentIndex==0?'购买':'出售' }}</span>
                         <span @click="hideModal"
                               class="right_text float_right">关闭</span>
                     </div>
@@ -226,7 +226,7 @@ export default {
     methods: {
         switchNumOrMoney() {
             this.isNumber = !this.isNumber
-            if (this.isNumber) this.priceOrTotalText = '请输入购买数量'
+            if (this.isNumber) this.priceOrTotalText = '请输入数量'
             else this.priceOrTotalText = '100起'
             this.priceOrTotal = ''
         },
@@ -369,12 +369,12 @@ page {
     width: 100%;
     height: calc(100% - 180upx);
     margin-top: 100upx;
-    border-radius: 30upx 30upx 0 0;
+    border-radius: 20upx 20upx 0 0;
     transition: 0.3s transform;
     .buy_box {
         width: 100%;
         background-color: #fff;
-        border-radius: 30upx 30upx 0 0;
+        border-radius: 20upx 20upx 0 0;
         height: 100%;
         padding: 30upx 0;
         &.left100 {

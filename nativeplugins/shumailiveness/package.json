@@ -1,0 +1,65 @@
+{
+    "name": "shumailiveness",
+    "id": "shumailiveness",
+    "version": "1.1.2",
+    "description": "原生工具类",
+    "_dp_type": "nativeplugin",
+    "_dp_nativeplugin": {
+        "ios": {
+            "plugins": [
+                {
+                    "type": "module",
+                    "name": "shumailiveness",
+                    "class": "ZJFLivenessModule"
+                }
+            ],
+            "integrateType": "library",
+            "frameworks": [],
+            "resources": [
+                "LivenessBundle.bundle"
+            ],
+            "privacies": [
+                "NSCameraUsageDescription",
+                "NSPhotoLibraryAddUsageDescription",
+                "NSPhotoLibraryUsageDescription"
+            ],
+            "deploymentTarget": "8.0",
+            "parameters": {
+                "livenessappsecrect": {
+                    "des": "授权appsecrect",
+                    "key": "liveness_app_secrect",
+                    "value": "KYGgeZhN7OosHooanzyCPlthdcd0SH8Y"
+                },
+                "livenessappid": {
+                    "des": "授权appid",
+                    "key": "liveness_app_id",
+                    "value": "KYGgeZhN7OosHooa"
+                }
+            }
+        },
+        "android": {
+            "plugins": [
+                {
+                    "type": "module",
+                    "name": "shumailiveness",
+                    "class": "com.shumai.liveness.uniapp.LivenessWXModule"
+                }
+            ],
+            "hooksClass": "com.shumai.liveness.uniapp.LivenessAppProxy",
+            "integrateType": "aar",
+            "minSdkVersion": 14,
+            "parameters": {
+                "livenessappsecrect": {
+                    "des": "授权appsecrect",
+                    "key": "liveness_app_secrect",
+                    "value": "KYGgeZhN7OosHooanzyCPlthdcd0SH8Y"
+                },
+                "livenessappid": {
+                    "des": "授权appid",
+                    "key": "liveness_app_id",
+                    "value": "KYGgeZhN7OosHooa"
+                }
+            }
+        }
+    }
+}
