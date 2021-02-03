@@ -1,6 +1,6 @@
 <template>
     <view>
-        <div class='login_title text_left padding_box'>订单记录</div>
+        <div class='login_title text_left padding_box'>{{ orderTitle }}记录</div>
         <div class="order_box">
             <div class="order_item_box"
                  v-for="(item, index) in orderList"
@@ -12,7 +12,7 @@
                               @click="orderStatusClick(item)">
                             <i class="iconfont icon-tubiaozhizuo-"
                                :style="item.orderStatus | orderStatusStyleFilters"></i>
-                            <span>{{ item.orderStatus | orderStatusTextFilters }}</span>
+                            <span>{{ item.orderStatus | orderStatusTextFilters(item.orderStatus, item.type) }}</span>
                             <i class="iconfont icon-arrow-right"></i>
                         </span>
                     </div>
@@ -90,14 +90,14 @@ export default {
         myMask, orderScreen
     },
     filters: {
-        orderStatusTextFilters(refundStatus) {
+        orderStatusTextFilters(refundStatus, type) {
             switch (refundStatus) {
                 case 0:
-                    return '待支付';
+                    return type == 1 ? '待支付' : '待商家审核';
                 case 1:
-                    return '已支付';
+                    return type == 1 ? '已支付' : '商家已审核';
                 case 2:
-                    return '已确认';
+                    return type == 1 ? '已确认' : '待确认';
                 case 3:
                     return '已完成';
                 case 4:
@@ -145,7 +145,7 @@ export default {
                 this.orderTitle = '卖出'
                 break;
             default:
-                this.orderTitle = ''
+                this.orderTitle = '订单'
                 break;
         }
         this.getOrderList()
@@ -169,14 +169,14 @@ export default {
             }
         },
         orderStatusClick(item) {
-            if (item.orderStatus === 0) {
+            if (item.orderStatus === 0 && item.type === 1) {
                 let config = {
                     payId: item.merchantAccountId,
                     payNo: item.payNo,
                     priceTotal: item.payAmount + item.fee,
                     number: item.ercAmount,
                     orderNo: item.orderNo,
-                    type: this.type,
+                    type: item.type,
                     back: true
                 }
                 uni.navigateTo({

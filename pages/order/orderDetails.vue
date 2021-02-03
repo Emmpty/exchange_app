@@ -2,8 +2,8 @@
     <view class="padding_box">
         <div class="container_flex row login_box hcenter">
             <div>
-                <div class='login_title text_left'>{{ orderItemData.orderStatus | orderStatusFilters }}</div>
-                <div class="login_title2 text_left">{{ orderItemData.orderStatus | orderStatusTextFilters(orderItemData.orderStatus, orderItemData.ercAmount) }}</div>
+                <div class='login_title text_left'>{{ orderItemData.orderStatus | orderStatusFilters(orderItemData.orderStatus, orderItemData.type) }}</div>
+                <div class="login_title2 text_left">{{ orderItemData.orderStatus | orderStatusTextFilters(orderItemData.orderStatus, orderItemData.ercAmount, orderItemData.type) }}</div>
             </div>
             <div class="bg_border_box container_flex center"
                  :style="orderItemData.orderStatus | orderStatusStyleFilters">
@@ -38,7 +38,8 @@
                 <span>订单时间</span>
                 <span class="float_right">{{ orderItemData.createTime }}</span>
             </div>
-            <div class="business_box">
+            <div v-if="orderItemData.type ==1 || (orderItemData.type != 2 && orderItemData.orderStatus > 1)"
+                 class="business_box">
                 <span>商家昵称</span>
                 <span class="float_right">{{ orderItemData.veaOrderDetail.username }}
                     <i class="iconfont icon-arrow-right"></i>
@@ -62,21 +63,21 @@ export default {
         }
     },
     filters: {
-        orderStatusFilters(orderStatus) {
+        orderStatusFilters(orderStatus, type) {
             switch (orderStatus) {
                 case 0:
-                    return '待支付';
+                    return type == 1 ? '待支付' : '待商家审核';
                 case 1:
-                    return '已支付';
+                    return type == 1 ? '已支付' : '商家已审核';
                 case 2:
-                    return '已确认';
+                    return type == 1 ? '已确认' : '待确认';
                 case 3:
                     return '已完成';
                 case 4:
                     return '已失效';
             }
         },
-        orderStatusTextFilters(orderStatus, ercAmount) {
+        orderStatusTextFilters(orderStatus, ercAmount, type) {
             switch (orderStatus) {
                 // case 0:
                 //     return '订单待确认支付';

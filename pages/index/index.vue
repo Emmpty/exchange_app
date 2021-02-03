@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <button type="primary"
-                                :disabled='isNumber?priceOrTotal<1:priceOrTotal<100'
+                                :disabled='currentIndex==0 ? (isNumber?priceOrTotal<1:priceOrTotal<100) : (isNumber ? priceOrTotal<50 : priceOrTotal< biPrice.buyPrice * 50)'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
                                 @click="buyOrSellClick()"><i class="iconfont icon-shandianpaixu"></i>{{  biPrice.buyProportion + '% 手续费' + titem.title }}</button>
@@ -233,7 +233,7 @@ export default {
         this.fee = 0
         this.priceTotal = 0
         this.currentItemData = this.biData[0]
-        // this.getUser()
+        this.getUser()
         this.getPirce()
     },
     mounted() {
@@ -245,14 +245,18 @@ export default {
         buyTypeClick(index) {
             this.currentIndex = index
             this.priceOrTotal = ''
+            this.priceOrTotalText = this.currentIndex == 0 ? '100起' : this.biPrice.buyPrice * 50 + '起'
         },
         switchPassword() {
             this.hidePassword = !this.hidePassword
         },
         switchNumOrMoney() {
             this.isNumber = !this.isNumber
-            if (this.isNumber) this.priceOrTotalText = '请输入数量'
-            else this.priceOrTotalText = '100起'
+            if (this.isNumber) {
+                this.priceOrTotalText = this.currentIndex == 0 ? '请输入数量' : '50个起'
+            } else {
+                this.priceOrTotalText = this.currentIndex == 0 ? '100起' : this.biPrice.buyPrice * 50 + '起'
+            }
             this.priceOrTotal = ''
         },
         goOrderPage() {

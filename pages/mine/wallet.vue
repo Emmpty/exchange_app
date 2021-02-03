@@ -157,7 +157,6 @@ export default {
                             ele.name = '支付宝'
                             ele.iconContent = 'icon-zhifubao'
                             ele.color = '#06B4FD'
-                            this.currentItem = ele
                         } else if (ele.type == 1) {
                             ele.name = '微信'
                             ele.iconContent = 'icon-weixin'
@@ -169,6 +168,7 @@ export default {
                         }
                     });
                     that.payList = res.list
+                    this.currentItem = that.payList[this.selectedindex]
                 }
             })
         },
