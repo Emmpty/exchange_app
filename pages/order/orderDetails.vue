@@ -39,12 +39,17 @@
                 <span class="float_right">{{ orderItemData.createTime }}</span>
             </div>
             <div class="business_box">
-                <span>卖家昵称</span>
+                <span>商家昵称</span>
                 <span class="float_right">{{ orderItemData.veaOrderDetail.username }}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
         </div>
+        <button type="primary"
+                v-if="orderItemData.orderStatus == 2"
+                hover-class="primary-hover"
+                class="primary_btn noborder"
+                @click="changeOrder()">{{ orderItemData.orderStatus | changeOrderText }}</button>
     </view>
 </template>
 
@@ -62,9 +67,9 @@ export default {
                 case 0:
                     return '待支付';
                 case 1:
-                    return '买家已支付';
+                    return '已支付';
                 case 2:
-                    return '商家已确认';
+                    return '已确认';
                 case 3:
                     return '已完成';
                 case 4:
@@ -76,13 +81,19 @@ export default {
                 // case 0:
                 //     return '订单待确认支付';
                 case 1:
-                    return '已支付，待商家确认';
+                    return '已支付，待确认';
                 case 2:
-                    return '商家已确认，请您确认是否到账';
+                    return '已确认，请您确认是否到账';
                 case 3:
                     return ercAmount + ' USDT已存入您的账户';
                 case 4:
                     return '订单已失效';
+            }
+        },
+        changeOrderText(orderStatus) {
+            switch (orderStatus) {
+                case 2:
+                    return '确认到账';
             }
         },
         orderStatusStyleFilters(orderStatus) {
@@ -122,13 +133,38 @@ export default {
         }
     },
     methods: {
+        changeOrder() {
+            let _this = this
+            this.$api.ChangeOrder({ orderNo: this.orderItemData.orderNo, confirmType: '2', payNo: this.orderItemData.payNo }, res => {
+                if (res.code == 0) {
+                    this.$interactive.toast('确认成功')
+                    setTimeout(() => {
+                        if (_this.orderItemData.back) {
+                            return uni.navigateBack({})
+                        }
+                        uni.redirectTo({
+                            url: '/pages/order/order'
+                        })
+                    }, 1000);
 
+                }
+            })
+        },
     }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "@/common/scss/common.scss";
+.primary_btn {
+    width: 100%;
+    height: 90upx;
+    line-height: 90upx;
+    border-radius: 45upx;
+    text-align: center;
+    font-size: 30upx;
+    margin-top: 60upx;
+}
 .padding_box {
     padding: 0 40upx;
 }

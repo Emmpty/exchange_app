@@ -23,12 +23,12 @@
                 <p class="menu_title">我的交易</p>
                 <div class="menu_box">
                     <div class="item_box click-hover"
-                         @click="goOderList('buy')">
+                         @click="goOderList(1)">
                         <p><i class="iconfont icon-mairujilu"></i></p>
                         <p>我买入的</p>
                     </div>
                     <div class="item_box click-hover"
-                         @click="goOderList('sell')">
+                         @click="goOderList(2)">
                         <p><i class="iconfont icon-maichujilu"></i></p>
                         <p>我卖出的</p>
                     </div>

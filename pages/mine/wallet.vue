@@ -41,40 +41,58 @@
                                    type='text'
                                    @focus='focusFun(0)'
                                    @blur='blurFun()'
-                                   v-model="walletNum"
+                                   v-model="currentItem.account"
                                    placeholder="请输入您的收款账户"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
                             <div class='right_label'
-                                 :class="{'showyanjing':walletNum.length>0}"
-                                 @click='clearWalletNum()'>
+                                 :class="{'showyanjing':currentItem.account.length>0}"
+                                 @click='currentItem.account= ""'>
                                 <span class='iconfont icon-guanbi'></span>
                             </div>
                         </div>
                     </div>
-                    <!-- 密码 -->
-                    <div class='password_box'>
+                    <div class='password_box'
+                         v-if="showBankName ||currentItem.bankName">
                         <div class='form_input'
                              :class="[{activeInput:focusIndex==1}]">
                             <input type="idcard"
-                                   v-model='walletName'
+                                   v-model='currentItem.bankName'
                                    @blur='blurFun()'
                                    @focus='focusFun(1)'
+                                   class="input"
+                                   placeholder="请输入您的银行名称"
+                                   placeholder-style="color:#c6c6c6;;font-weight:normal">
+                            <div class='right_label'
+                                 :class="{'showyanjing':currentItem.bankName.length>0}"
+                                 @click="currentItem.bankName = ''">
+                                <span class='iconfont icon-guanbi'></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class='password_box'>
+                        <div class='form_input'
+                             :class="[{activeInput:focusIndex==2}]">
+                            <input type="idcard"
+                                   v-model='walletName'
+                                   @blur='blurFun()'
+                                   @focus='focusFun(2)'
                                    class="input"
                                    placeholder="请输入您的收款昵称"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
                             <div class='right_label'
                                  :class="{'showyanjing':walletName.length>0}"
-                                 @click='clearWalletName()'>
+                                 @click='walletName = ""'>
                                 <span class='iconfont icon-guanbi'></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+                    <div class="tip_box">一经绑定无法修改，请确认无误</div>
                 </div>
                 <button type="primary"
-                        :disabled='walletNum.length<1 || walletName.length<1'
+                        :disabled='currentItem.account.length<1 || (showBankName && currentItem.bankName.length<1)'
                         hover-class="primary-hover"
                         class="login_btn noborder"
-                        @click="startDetect()">确认绑定</button>
+                        @click="bindWallet()">确认绑定</button>
             </form>
         </div>
     </view>
@@ -84,17 +102,24 @@
 export default {
     data() {
         return {
-            walletNum: '',
-            walletName: '',
+            currentItem: {
+                account: '',
+                bankName: ''
+            },
             paysleft: 0,
             selectedindex: 0,
             focusIndex: -1,
+            showBankName: false,
             payList: [
-                { name: '支付宝', iconContent: 'icon-zhifubao', color: '#06B4FD' },
-                { name: '微信', iconContent: 'icon-weixin', color: '#28C445' },
-                { name: '银联', iconContent: 'icon-yinlianhuodong', color: '#EFA341' }
+                // { name: '支付宝', iconContent: 'icon-zhifubao', color: '#06B4FD', type: 0, },
+                // { name: '微信', iconContent: 'icon-weixin', color: '#28C445', type: 1, },
+                // { name: '银联', iconContent: 'icon-yinlianhuodong', color: '#EFA341', type: 2, }
             ],
         }
+    },
+    onLoad() {
+        this.getUserWallet()
+        console.log('>>>>>>>>', this.currentItem.account.length)
     },
     methods: {
         focusFun(n) {
@@ -103,20 +128,63 @@ export default {
         blurFun() {
             this.focusIndex = -1
         },
-        clearWalletNum() {
-            this.walletNum = ''
-        },
-        clearWalletName() {
-            this.walletName = ''
-        },
         payItemClick(item, index) {
+            if (index == 2) {
+                this.showBankName = true
+            } else {
+                this.showBankName = false
+            }
             this.selectedindex = index
-            // this.payId = item.id
+            this.currentItem = item
             if (index > 1) {
                 this.paysleft = (index - 1) * this.$systemInfo.windowWidth * 0.35
             } else {
                 this.paysleft = '0'
             }
+        },
+        getUserWallet() {
+            let that = this
+            this.$api.GetUserAccountList({}, res => {
+                if (res.code === 0 && res.list.length > 0) {
+                    res.list.forEach(ele => {
+                        if (ele.account == null) {
+                            ele.account = ''
+                        }
+                        if (ele.bankName == null) {
+                            ele.bankName = ''
+                        }
+                        if (ele.type == 0) {
+                            ele.name = '支付宝'
+                            ele.iconContent = 'icon-zhifubao'
+                            ele.color = '#06B4FD'
+                            this.currentItem = ele
+                        } else if (ele.type == 1) {
+                            ele.name = '微信'
+                            ele.iconContent = 'icon-weixin'
+                            ele.color = '#28C445'
+                        } else if (ele.type == 2) {
+                            ele.name = '银联'
+                            ele.iconContent = 'icon-yinlianhuodong'
+                            ele.color = '#EFA341'
+                        }
+                    });
+                    that.payList = res.list
+                }
+            })
+        },
+        bindWallet() {
+            let config = {
+                id: this.currentItem.id,
+                type: this.currentItem.type,
+                bankName: this.currentItem.bankName,
+                account: this.currentItem.account
+            }
+            this.$api.updateUserAccountList(config, res => {
+                if (res.code === 0) {
+                    this.$interactive.toast('绑定成功')
+                    this.getUserWallet()
+                }
+            })
         },
     }
 }
@@ -180,11 +248,15 @@ export default {
     margin-top: 80upx;
     width: 100%;
     .input_box {
+        .tip_box {
+            color: #56546c;
+            font-size: 28upx;
+            margin-top: 40upx;
+        }
         .fail_text {
             font-size: 24upx;
             color: red;
         }
-
         .account_input .right_label {
             display: flex !important;
         }

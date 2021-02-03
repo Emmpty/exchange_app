@@ -1,8 +1,9 @@
 <template>
     <div v-if="isShow"
          catchtouchmove="ture"
-         class="mask container_flex center"
-         :class="{'active': showBgk}"
+         @touchmove.stop.prevent="moveHandle"
+         class="mask"
+         :class="{'active': showBgk, 'center': isFlexCenter, 'container_flex': isFlexCenter}"
          :style="{top:top+'upx'}"
          id="mask"
          @click.stop="hideMask($event)">
@@ -11,11 +12,11 @@
 </template>
 <script>
 export default {
-    props: ['top', 'noclickhide'],
+    props: ['top', 'noclickhide', 'isFlexCenter'],
     data() {
         return {
             isShow: false,
-            showBgk: false
+            showBgk: false,
         }
     },
     onLoad() {
@@ -23,6 +24,9 @@ export default {
         console.log('00')
     },
     methods: {
+        moveHandle() {
+            return
+        },
         hideMask(e) {
             if (!e) {
                 this.toHideMask()

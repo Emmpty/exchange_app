@@ -6,23 +6,22 @@
                 <div class="title">交易类型</div>
                 <div class='container_flex row time_box'>
                     <div class="select-time-item"
-                         :class="{selected:index=== transactionTypeIndex}"
+                         :class="{selected:index === transactionTypeIndex}"
                          v-for="(titem, index) in transactionTypeList"
                          :key="index"
-                         @click="onSelectItemClick()">{{ titem }}</div>
+                         @click="changetTpye(index)">{{ titem.title }}</div>
                 </div>
             </div>
-
             <div class="part-container"
-                 v-if="qstateList">
+                 v-if="orderStateList">
                 <div class="title">订单状态</div>
                 <div class="time_box">
                     <div class="select-time-item"
-                         v-for="(q, qindex) in qstateList"
+                         v-for="(q, qindex) in orderStateList"
                          :key="qindex"
-                         :class="{'selected': qindex == qstateIndex,'allKp':qindex==0}"
-                         @click="changeSelectIndex(qindex)">
-                        {{qindex!=0?q.text +'('+q.count+')':q.text}}
+                         :class="{'selected': qindex === orderStateIndex}"
+                         @click="changeOrderTpye(qindex)">
+                        {{ q.title }}
                     </div>
                 </div>
             </div>
@@ -32,30 +31,31 @@
 </template>
 <script>
 export default {
-    props: ['transactionTypeList', 'selectedTimeIndex', 'startDate', 'endDate', 'qstateList', 'qstateIndex'],
+    props: ['transactionTypeList', 'orderStateList'],
     data() {
         return {
-            customTime: false
+            transactionTypeIndex: -1,
+            orderStateIndex: -1
         }
     },
     computed: {
-        isCustomTime() {
-            if (this.startDate !== '' && this.endDate !== '') {
-                return (this.customTime = false)
-            } else {
-                return (this.customTime = true)
-            }
-        }
     },
     methods: {
-        onSelectItemClick(name, id, index) {
-            this.$emit('onSelectTimeHander', name, id, index)
+        changetTpye(index) {
+            if (this.transactionTypeIndex == index) {
+                this.transactionTypeIndex = -1
+            } else {
+                this.transactionTypeIndex = index
+            }
+            this.$emit('changetTpye', this.transactionTypeIndex)
         },
-        onKPSelectItemClick(index) {
-            this.$emit('onKPSelectTimeHander', index)
-        },
-        changeSelectIndex(index) {
-            this.$emit('changeSelectIndex', index)
+        changeOrderTpye(index) {
+            if (this.orderStateIndex == index) {
+                this.orderStateIndex = -1
+            } else {
+                this.orderStateIndex = index
+            }
+            this.$emit('changeOrderTpye', this.orderStateIndex)
         }
     },
     onLoad() {
@@ -65,15 +65,17 @@ export default {
 <style scoped lang="scss">
 @import "@/common/scss/common.scss";
 .title {
-    font-size: 26upx;
-    color: rgba(144, 144, 144, 1);
+    font-size: 32upx;
+    color: #909ca2;
     text-align: justify;
     padding-right: 30upx;
     position: relative;
     height: 60upx;
     line-height: 60upx;
+    font-weight: bold;
 }
 .time-KP-box {
+    border-top: 2upx solid $borderColor;
     padding-bottom: 30upx;
 }
 .part-container {
@@ -87,7 +89,6 @@ export default {
 }
 .select-time-item {
     background: rgba(247, 247, 247, 1);
-    // max-width: 180upx;
     min-width: 115upx;
     height: 60upx;
     display: inline-block;
@@ -97,7 +98,7 @@ export default {
     line-height: 60upx;
     margin: 12upx 35upx 10upx 0upx;
     color: $colorlight;
-    border-radius: 30upx;
+    border-radius: 20upx;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

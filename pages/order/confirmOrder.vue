@@ -38,7 +38,7 @@
                     <div class='form_input account_input'
                          :class="{activeInput:focusIndex==0}">
                         <input class="input"
-                               type='number'
+                               type='text'
                                @focus='focusIndex = 0'
                                @blur='focusIndex = -1'
                                v-model="payNo"
@@ -197,10 +197,6 @@ export default {
     text-align: center;
     font-size: 30upx;
     margin-top: 60upx;
-    // i {
-    //     font-size: 36upx;
-    //     margin-right: 10upx;
-    // }
 }
 .input_box {
     margin-top: 50upx;

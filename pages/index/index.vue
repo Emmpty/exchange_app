@@ -126,18 +126,34 @@
                             </p>
                             <p>
                                 <span>数量</span>
-                                <!-- isNumber ? priceOrTotal : (priceOrTotal/biPrice.buyPrice).toFixed(6) -->
                                 <span class="float_right">{{ number + ' ' + currentItemData.abbreviation }}</span>
                             </p>
+                            <div class='password_box'>
+                                <div class='form_input'
+                                     :class="[{activeInput:payPassword.length>0||focusIndex==1}]">
+                                    <input :type="hidePassword?'password':'text'"
+                                           v-model='payPassword'
+                                           @blur='focusIndex = -1'
+                                           @focus='focusIndex = 1'
+                                           class="input"
+                                           placeholder="请输入支付密码"
+                                           placeholder-style="color:#c6c6c6;;font-weight:normal">
+                                    <div class='right_label'
+                                         :class="{'showyanjing':payPassword.length>0}"
+                                         @click='switchPassword()'>
+                                        <span class='iconfont'
+                                              :class="[{'icon-yanjing-zheng':!hidePassword},{'icon-yanjing_bi':hidePassword}]"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="money_box">
                             <i class='iconfont icon-cny'></i>
-                            <!-- isNumber ? priceOrTotal*biPrice.buyPrice : priceOrTotal -->
                             <span class="font_bold">{{ priceTotal }}</span>
                             <span class="sohuxufei_box float_right">含手续费：{{ fee }}</span>
                         </div>
                         <button type="primary"
-                                :disabled='!payId'
+                                :disabled='!payId || payPassword.length == 0'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
                                 @click="confirmBuyOrSellClick()">确认{{ currentIndex==0?'购买':'出售' }}</button>
@@ -190,6 +206,8 @@ export default {
             number: 0,  //购买数量
             priceTotal: 0,  //总金额
             fee: 0,     // 手续费
+            payPassword: '',
+            hidePassword: true,
         }
     },
     watch: {
@@ -199,11 +217,11 @@ export default {
                 this.number = newV
                 let total = newV * this.biPrice.buyPrice
                 this.fee = total * this.biPrice.buyProportion / 100
-                this.priceTotal = total + this.fee
+                this.priceTotal = this.currentIndex == 0 ? total + this.fee : total - this.fee
             } else if (newV > 99) {
                 this.number = (newV / this.biPrice.buyPrice).toFixed(6)
                 this.fee = newV * this.biPrice.buyProportion / 100
-                this.priceTotal = newV + this.fee
+                this.priceTotal = this.currentIndex == 0 ? newV + this.fee : newV - this.fee
             }
         },
     },
@@ -215,7 +233,7 @@ export default {
         this.fee = 0
         this.priceTotal = 0
         this.currentItemData = this.biData[0]
-        this.getUser()
+        // this.getUser()
         this.getPirce()
     },
     mounted() {
@@ -224,6 +242,9 @@ export default {
         //#endif
     },
     methods: {
+        switchPassword() {
+            this.hidePassword = !this.hidePassword
+        },
         switchNumOrMoney() {
             this.isNumber = !this.isNumber
             if (this.isNumber) this.priceOrTotalText = '请输入数量'
@@ -244,9 +265,13 @@ export default {
             this.$refs.rechargeMask.hideMask()
         },
         confirmBuyOrSellClick() {
-            // let number = this.isNumber ? this.priceOrTotal : (this.priceOrTotal / this.biPrice.buyPrice).toFixed(6)
-            // let priceTotal = this.isNumber ? this.priceOrTotal * this.biPrice.buyPrice : this.priceOrTotal
-            this.$api.SubOrder({ merchantAccountId: this.payId, ercAmount: this.number }, res => {
+            let query = {
+                merchantAccountId: this.payId,
+                ercAmount: this.number,
+                type: this.currentIndex == 0 ? 1 : 2,
+                payPassword: this.payPassword,
+            }
+            this.$api.SubOrder(this.$utils.md5Method(query), res => {
                 let config = {
                     payId: this.payId,
                     priceTotal: this.priceTotal,
@@ -254,6 +279,7 @@ export default {
                     orderNo: res.orderNo,
                 }
                 this.hideModal()
+                this.payPassword = ''
                 this.priceOrTotal = ''
                 this.number = 0
                 this.fee = 0
@@ -264,7 +290,7 @@ export default {
             })
         },
         buyOrSellClick() {
-            this.$api.GetMerchantAccountList({}, res => {
+            this.$api.GetMerchantAccountList({ ercAmount: this.number }, res => {
                 if (res.code === 0 && res.list.length > 0) {
                     this.showModal()
                     res.list.forEach(ele => {
@@ -508,7 +534,6 @@ page {
                 padding: 0upx 2upx;
                 transition: border 0.2s;
                 &.activeInput {
-                    // border-color: rgb(133, 133, 133);
                     border-color: lighten($primarycolor, 10%);
                 }
             }
@@ -535,9 +560,9 @@ page {
 }
 .login_btn {
     width: 100%;
-    height: 90upx;
-    line-height: 90upx;
-    border-radius: 45upx;
+    height: 80upx;
+    line-height: 80upx;
+    border-radius: 40upx;
     text-align: center;
     font-size: 30upx;
     margin-top: 60upx;
@@ -659,6 +684,62 @@ page {
                 bottom: -24upx;
                 right: 0;
                 color: $colorlight;
+            }
+        }
+    }
+}
+.password_box {
+    height: 0upx;
+    margin-top: 0upx;
+    height: 130upx;
+    width: 80%;
+    margin-left: 10%;
+    .form_input {
+        border: 0;
+        border-bottom: 2upx solid #e9eaf0;
+        display: block;
+        padding: 0upx 2upx;
+        transition: border 0.2s;
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        align-items: center;
+        &.activeInput {
+            border-color: lighten($primarycolor, 10%);
+        }
+        .input {
+            flex: 1;
+            padding-right: 2upx;
+            box-sizing: border-box;
+            height: 90upx;
+            line-height: 90upx;
+            color: #56546c;
+            font-weight: bold;
+            border: 0;
+        }
+        .right_label {
+            display: inline-block;
+            height: 60upx;
+            padding-left: 20upx;
+            border-radius: 28upx;
+            line-height: 60upx;
+            text-align: center;
+            transform: scale(0);
+            transition: all 0.3s;
+            opacity: 0;
+            span {
+                font-size: 40upx;
+                color: rgb(95, 95, 95);
+            }
+            .icon-yanjing-zheng {
+                color: $primarycolor;
+            }
+            .icon-yanjing_bi {
+                color: #c1c1c1;
+            }
+            &.showyanjing {
+                opacity: 1;
+                transform: scale(1);
             }
         }
     }

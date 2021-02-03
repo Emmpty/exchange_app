@@ -22,7 +22,6 @@
                             <p class="p2 font_bold">{{ item.createTime.substring(5, 16) }}</p>
                         </div>
                         <div class="order_info_item text_center">
-                            <!-- <p>数量{{ '(' + item.moneyType + ')' }}</p> -->
                             <p>数量(USDT)</p>
                             <p class="p2 font_bold">{{ item.ercAmount }}</p>
                         </div>
@@ -48,17 +47,47 @@
                 </div>
             </div>
         </div>
+        <myMask ref="orderMask"
+                top="200">
+            <orderScreen :transactionTypeList="transactionTypeList"
+                         :orderStateList='orderStateList'
+                         @changetTpye="changetTpye"
+                         @changeOrderTpye="changeOrderTpye">
+                <button class="login_btn noborder"
+                        @click="getOrderList()"
+                        hover-class="primary-hover"
+                        type="primary">确定</button>
+            </orderScreen>
+        </myMask>
     </view>
 </template>
 
 <script>
+import myMask from '@/components/mask.vue'
+import orderScreen from '@/components/orderScreen.vue'
+
 export default {
     data() {
         return {
             orderList: [],
             orderType: '',
-            orderTitle: ''
+            type: '',
+            orderTitle: '',
+            transactionTypeList: [
+                { type: 1, title: '买入' },
+                { type: 2, title: '卖出' },
+            ],
+            orderStateList: [
+                { type: 0, title: '待支付' },
+                { type: 1, title: '已支付' },
+                { type: 2, title: '已确认' },
+                { type: 3, title: '已完成' },
+                { type: 4, title: '已失效' },
+            ],
         }
+    },
+    components: {
+        myMask, orderScreen
     },
     filters: {
         orderStatusTextFilters(refundStatus) {
@@ -91,37 +120,63 @@ export default {
             }
         },
     },
+    onNavigationBarButtonTap(e) {
+        const index = e.index;
+        if (index === 0) {
+            if (this.$refs.orderMask.isShow) {
+                this.$refs.orderMask.hideMask()
+            } else {
+                this.$refs.orderMask.showMask()
+            }
+        }
+    },
     onShow() {
 
     },
     onLoad(option) {
         if (option.type) {
-            this.orderType = option.type
+            this.type = option.type
         }
         switch (this.orderType) {
-            case 'buy':
+            case 1:
                 this.orderTitle = '买入'
                 break;
-            case 'sell':
+            case 2:
                 this.orderTitle = '卖出'
                 break;
             default:
                 this.orderTitle = ''
                 break;
         }
-        this.getOrderList(this.orderType)
+        this.getOrderList()
     },
     onReachBottom() {
         console.log(">>>>>>lower")
     },
     methods: {
+        changetTpye(index) {
+            if (index != -1) {
+                this.type = this.transactionTypeList[index].type
+            } else {
+                this.type = ''
+            }
+        },
+        changeOrderTpye(index) {
+            if (index != -1) {
+                this.orderType = this.orderStateList[index].type
+            } else {
+                this.orderType = ''
+            }
+        },
         orderStatusClick(item) {
             if (item.orderStatus === 0) {
                 let config = {
                     payId: item.merchantAccountId,
+                    payNo: item.payNo,
                     priceTotal: item.payAmount + item.fee,
                     number: item.ercAmount,
                     orderNo: item.orderNo,
+                    type: this.type,
                     back: true
                 }
                 uni.navigateTo({
@@ -134,8 +189,8 @@ export default {
 
             }
         },
-        getOrderList(type) {
-            this.$api.GetOrderList({ orderType: type }, res => {
+        getOrderList() {
+            this.$api.GetOrderList({ orderType: parseInt(this.orderType), type: parseInt(this.type) }, res => {
                 this.orderList = res.list
             })
         },
@@ -155,7 +210,7 @@ export default {
     margin-top: 60upx;
 }
 .order_box {
-    margin-top: 80upx;
+    margin-top: 60upx;
     height: calc(100% - 200upx);
     .order_item_box {
         border-bottom: 2upx solid $borderColor;
@@ -187,6 +242,19 @@ export default {
                 }
             }
         }
+    }
+}
+.login_btn {
+    width: 90%;
+    height: 80upx;
+    line-height: 80upx;
+    border-radius: 40upx;
+    text-align: center;
+    font-size: 30upx;
+    margin-top: 60upx;
+    i {
+        font-size: 36upx;
+        margin-right: 10upx;
     }
 }
 </style>

@@ -29,7 +29,17 @@
             "path": "pages/order/order",
             "style": {
                 "navigationBarTitleText": "交易订单",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+                "titleNView": {
+                    "buttons": [
+                        {
+                            "fontSrc": "/static/iconfont/iconfont.ttf",
+                            "fontSize": "40upx",
+                            "float": "right",
+                            "text": "\ue75e"
+                        }
+                    ]
+                }
             }
         },
         {
@@ -52,24 +62,20 @@
                 "navigationBarTitleText": "人脸识别认证",
                 "enablePullDownRefresh": false
             }
-        }
-        ,{
-            "path" : "pages/mine/information",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/mine/information",
+            "style": {
                 "navigationBarTitleText": "实名信息",
                 "enablePullDownRefresh": false
             }
-            
-        }
-        ,{
-            "path" : "pages/mine/wallet",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/mine/wallet",
+            "style": {
                 "navigationBarTitleText": "我的钱包",
                 "enablePullDownRefresh": false
             }
-            
         }
     ],
     "tabBar": {

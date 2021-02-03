@@ -12,6 +12,9 @@ const lib = {
     GetOrderList: GetOrderList,
     updateVersion: updateVersion,
     checkFaceFrequency: checkFaceFrequency,
+    ChangeOrder: ChangeOrder,
+    GetUserAccountList: GetUserAccountList,
+    updateUserAccountList: updateUserAccountList,
 }
 // 提交登录
 function Login(data, CallBack) {
@@ -42,7 +45,14 @@ function GetMerchantAccountList(data, CallBack) {
 function GetMerchantAccountInfo(data, CallBack) {
     Common.common.urlRequest('/user/getMerchantAccountInfo', data, 'GET', CallBack)
 }
-
+// 获取用户钱包详情
+function GetUserAccountList(data, CallBack) {
+    Common.common.urlRequest('/vea/user/account/list', data, 'GET', CallBack)
+}
+// 更改用户钱包
+function updateUserAccountList(data, CallBack) {
+    Common.common.urlRequest('/vea/user/account/saveOrUpdate', data, 'post', CallBack)
+}
 // 提交订单
 function SubOrder(data, CallBack) {
     Common.common.urlRequest('/order/create', data, 'post', CallBack)
@@ -55,7 +65,10 @@ function ConfirmPayOrder(data, CallBack) {
 function GetOrderList(data, CallBack) {
     Common.common.urlRequest('/order/list', data, 'post', CallBack)
 }
-
+// 确认到账
+function ChangeOrder(data, CallBack) {
+    Common.common.urlRequest('/order/buyconfirm', data, 'post', CallBack)
+}
 // 版本更新
 function updateVersion(data, CallBack) {
     Common.common.urlRequest('/version/Android', data, 'post', CallBack)
