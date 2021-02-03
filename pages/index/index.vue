@@ -1,11 +1,11 @@
 <template>
     <view style="height:100%">
         <div class="transaction_title">
-            <span @click="currentIndex=0"
+            <span @click="buyTypeClick(0)"
                   style="margin-right: 30upx;"
                   :class="{ active:currentIndex==0} ">我要买</span>
             <!-- @click="$utils.notOpen()" -->
-            <span @click="currentIndex=1"
+            <span @click="buyTypeClick(1)"
                   :class="{ active:currentIndex==1} ">我要卖</span>
             <div class="order_icon float_right">
                 <image src="/static/images/icon_order.png"></image>
@@ -242,6 +242,10 @@ export default {
         //#endif
     },
     methods: {
+        buyTypeClick(index) {
+            this.currentIndex = index
+            this.priceOrTotal = ''
+        },
         switchPassword() {
             this.hidePassword = !this.hidePassword
         },
@@ -284,9 +288,15 @@ export default {
                 this.number = 0
                 this.fee = 0
                 this.priceTotal = 0
-                uni.navigateTo({
-                    url: '/pages/order/confirmOrder?config=' + JSON.stringify(config)
-                })
+                if (this.currentIndex == 0) {
+                    uni.navigateTo({
+                        url: '/pages/order/confirmOrder?config=' + JSON.stringify(config)
+                    })
+                } else {
+                    uni.navigateTo({
+                        url: '/pages/order/order?type=2'
+                    })
+                }
             })
         },
         buyOrSellClick() {
