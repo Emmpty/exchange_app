@@ -53,6 +53,24 @@
                 "enablePullDownRefresh": false
             }
         }
+        ,{
+            "path" : "pages/mine/information",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "实名信息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/wallet",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的钱包",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "tabBar": {
         "color": "#515151",

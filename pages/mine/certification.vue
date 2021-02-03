@@ -106,7 +106,7 @@ export default {
             this.nameFail = false
         },
         clearIdCard() {
-            this.name = ''
+            this.idCard = ''
             this.idCardFail = false
         },
         checkFaceFrequencyFun() {
@@ -281,17 +281,6 @@ export default {
                     font-size: 40upx;
                     color: rgb(95, 95, 95);
                 }
-                .countDown_box {
-                    color: $primarycolor;
-                    font-size: 30upx;
-                }
-                .icon-yanjing-zheng,
-                .icon-yanzhengma1 {
-                    color: $primarycolor;
-                }
-                .icon-yanzhengma1 {
-                    font-size: 50upx;
-                }
                 &.showyanjing {
                     opacity: 1;
                     transform: scale(1);
@@ -323,65 +312,6 @@ export default {
         text-align: center;
         font-size: 30upx;
         margin-top: 60upx;
-    }
-    .forget_register_box {
-        width: 100%;
-        margin-top: 40upx;
-        font-size: 28upx;
-        .left_box {
-            float: left;
-        }
-        .right_box {
-            float: right;
-        }
-        span {
-            color: $primarycolor;
-        }
-    }
-    .other_login_box {
-        text-align: center;
-        height: 40upx;
-        width: 280upx;
-        position: relative;
-        margin: auto;
-        margin-top: 100upx;
-    }
-    .other_login_box::before {
-        content: "";
-        height: 2upx;
-        background-color: #d1caca;
-        position: absolute;
-        width: 80upx;
-        left: -60upx;
-        top: 20upx;
-    }
-    .other_login_box::after {
-        content: "";
-        height: 2upx;
-        background-color: #d1caca;
-        position: absolute;
-        width: 80upx;
-        top: 20upx;
-        right: -60upx;
-    }
-    .other_login_img {
-        width: 80%;
-        display: flex;
-        justify-content: space-around;
-        .div_circular {
-            width: 100upx;
-            height: 100upx;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 100%;
-            margin-top: 60upx;
-            background-color: rgba(233, 233, 233, 0.4);
-            img {
-                width: 50upx;
-                height: 50upx;
-            }
-        }
     }
 }
 </style>

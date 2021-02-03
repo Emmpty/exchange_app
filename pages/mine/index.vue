@@ -6,15 +6,17 @@
                 <image class="avatar"
                        src="/static/logo.png"
                        mode=""></image>
-                <span>犁田耙</span>
+                <span>犁田耙 <i class="iconfont icon-VIP"></i></span>
             </div>
-            <div class="shiming_box"
+            <div v-if="!isRealName"
+                 class="shiming_box"
                  @click="gotoCheckFace()">
                 <span>偷偷告诉你，实名认证后，更容易卖出哦</span>
                 <span class="float_right">
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
+            <div v-else>已实名认证</div>
         </div>
         <div class="padding_box">
             <div class="mine_menu">
@@ -63,6 +65,7 @@ export default {
         return {
             orderItemData: {},
             orderStatusText: '',
+            isRealName: true
         }
     },
     filters: {
@@ -88,8 +91,12 @@ export default {
     },
     methods: {
         gotoCheckFace() {
+            let url = '/pages/mine/information'
+            if (!this.isRealName) {
+                url = '/pages/mine/certification'
+            }
             uni.navigateTo({
-                url: '/pages/mine/certification'
+                url: url
             })
         },
         goOderList(type) {
@@ -99,7 +106,7 @@ export default {
         },
         collection() {
             uni.navigateTo({
-                url: '/pages/mine/collection'
+                url: '/pages/mine/wallet'
             })
         }
     }
@@ -142,14 +149,14 @@ export default {
     position: relative;
     top: -60upx;
     border-radius: 20upx;
-    padding: 40upx 30upx;
+    padding: 30upx;
     background-color: #fff;
     color: #56546c;
     box-shadow: 0 2upx 20upx rgba(0, 0, 0, 0.1);
     .menu_title {
         font-size: 36upx;
         font-weight: bold;
-        margin-bottom: 20upx;
+        margin-bottom: 30upx;
     }
     .menu_box {
         display: flex;
@@ -196,5 +203,10 @@ export default {
             }
         }
     }
+}
+.icon-VIP {
+    color: #f2cb51;
+    font-size: 36upx;
+    margin-left: 15upx;
 }
 </style>

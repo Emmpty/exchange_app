@@ -10,7 +10,8 @@
                         <span class="font_bold">购买 {{ 'USDT' }}</span>
                         <span class="float_right order_status_text"
                               @click="orderStatusClick(item)">
-                            <i class="iconfont icon-tubiaozhizuo-"></i>
+                            <i class="iconfont icon-tubiaozhizuo-"
+                               :style="item.orderStatus | orderStatusStyleFilters"></i>
                             <span>{{ item.orderStatus | orderStatusTextFilters }}</span>
                             <i class="iconfont icon-arrow-right"></i>
                         </span>
@@ -73,7 +74,22 @@ export default {
                 case 4:
                     return '已失效';
             }
-        }
+        },
+        orderStatusStyleFilters(orderStatus) {
+            switch (orderStatus) {
+                case 0:
+                    return 'color: #c15463';
+                case 1:
+                    return 'color: rgb(255,186,0)';
+                case 2:
+                    return 'color: rgb(24,144,255)';
+                case 3:
+                    return 'color: rgb(19,206,102)';
+                case 4:
+                    return 'color: rgb(144,147,153)';
+
+            }
+        },
     },
     onShow() {
 
@@ -160,9 +176,6 @@ export default {
             }
             .order_status_text {
                 color: #8998a7;
-                .icon-tubiaozhizuo- {
-                    color: #c15463;
-                }
             }
             .order_no {
                 margin: 40upx 0;
