@@ -3,8 +3,8 @@
          catchtouchmove="ture"
          @touchmove.stop.prevent="moveHandle"
          class="mask"
-         :class="{'active': showBgk, 'center': isFlexCenter, 'container_flex': isFlexCenter}"
-         :style="{top:top+'upx'}"
+         :class="{'active': showBgk, 'container_flex': isflexcenter, 'center': isflexcenter }"
+         :style="{top: top + 'upx'}"
          id="mask"
          @click.stop="hideMask($event)">
         <slot></slot>
@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-    props: ['top', 'noclickhide', 'isFlexCenter'],
+    props: ['top', 'noclickhide', 'isflexcenter'],
     data() {
         return {
             isShow: false,
@@ -21,7 +21,7 @@ export default {
     },
     onLoad() {
         this.isShow = false
-        console.log('00')
+
     },
     methods: {
         moveHandle() {
@@ -68,7 +68,7 @@ export default {
     height: 100%;
     position: fixed;
     left: 0;
-    z-index: 999;
+    z-index: 1111;
     opacity: 0;
     transition: all 0.2s;
 }

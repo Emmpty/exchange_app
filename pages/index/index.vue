@@ -37,7 +37,7 @@
                 <div class="transaction_info">
                     <div class="info_title">
                         <span> {{ titem.title + (isNumber?'数量':'金额') }}</span>
-                        <span class="cny_box">CNY</span>
+                        <span class="cny_box">{{ isNumber ? 'USDT' : 'CNY'}}</span>
                         <span class="iconfont icon-xiala"></span>
                     </div>
                     <form class="form-container login-form">
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="transaction_text">
-                                <span class="left_text">价格约 6.43 CNY/{{ currentItemData.abbreviation }}</span>
+                                <span class="left_text">价格约 {{ biPrice.buyPrice }} CNY/{{ currentItemData.abbreviation }}</span>
                                 <span class="right_text float_right"
                                       @click="switchNumOrMoney">
                                     <i class="iconfont icon-zhuanhuan"></i>
@@ -126,7 +126,7 @@
                             </p>
                             <p>
                                 <span>数量</span>
-                                <span class="float_right">{{ number + ' ' + currentItemData.abbreviation }}</span>
+                                <span class="float_right">{{ currentIndex==0 ? number : (number + number * this.biPrice.buyProportion / 100) }}{{ ' ' + currentItemData.abbreviation }}</span>
                             </p>
                             <div class='password_box'>
                                 <div class='form_input'
@@ -150,7 +150,7 @@
                         <div class="money_box">
                             <i class='iconfont icon-cny'></i>
                             <span class="font_bold">{{ priceTotal }}</span>
-                            <span class="sohuxufei_box float_right">含手续费：{{ fee }}</span>
+                            <span class="sohuxufei_box float_right">手续费：{{ currentIndex==0 ? fee : (number * this.biPrice.buyProportion / 100 + '个USDT') }}</span>
                         </div>
                         <button type="primary"
                                 :disabled='!payId || payPassword.length == 0'
@@ -193,9 +193,9 @@ export default {
                 { name: '银联', iconContent: 'icon-yinlianhuodong', color: '#EFA341' }
             ],
             priceOrTotal: '',
-            priceOrTotalText: '100起',
+            priceOrTotalText: '请输入数量',
             focusIndex: -1,
-            isNumber: false,
+            isNumber: true,
             selectedindex: 0,
             showRechargeContent: false,
             biPrice: {
@@ -217,11 +217,11 @@ export default {
                 this.number = newV
                 let total = newV * this.biPrice.buyPrice
                 this.fee = total * this.biPrice.buyProportion / 100
-                this.priceTotal = this.currentIndex == 0 ? total + this.fee : total - this.fee
+                this.priceTotal = this.currentIndex == 0 ? total + this.fee : total
             } else if (newV > 99) {
                 this.number = (newV / this.biPrice.buyPrice).toFixed(6)
                 this.fee = newV * this.biPrice.buyProportion / 100
-                this.priceTotal = this.currentIndex == 0 ? newV + this.fee : newV - this.fee
+                this.priceTotal = this.currentIndex == 0 ? newV + this.fee : newV
             }
         },
     },
@@ -237,15 +237,16 @@ export default {
         this.getPirce()
     },
     mounted() {
-        //#ifdef APP-PLUS  
         this.$refs.updataModel.updateVersion()
+        //#ifdef APP-PLUS  
         //#endif
     },
     methods: {
         buyTypeClick(index) {
+
             this.currentIndex = index
             this.priceOrTotal = ''
-            this.priceOrTotalText = this.currentIndex == 0 ? '100起' : this.biPrice.buyPrice * 50 + '起'
+            this.priceOrTotalText = this.currentIndex == 0 ? '请输入数量' : '50起'
         },
         switchPassword() {
             this.hidePassword = !this.hidePassword

@@ -2,6 +2,7 @@
     <view>
         <myMask ref="updataMask"
                 top="0"
+                :isflexcenter="true"
                 noclickhide="true"
                 @onHideHander="onHideUpdateMask()"
                 @onShowHander="onShowUpdateMask()">
