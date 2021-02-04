@@ -36,8 +36,9 @@
                         </span>
                         <span class="float_right"> {{ item.orderNo }}</span>
                     </div>
-                    <div class="business_name_box container_flex">
-                        <div class="container_flex hcenter">{{  item.veaOrderDetail && item.veaOrderDetail.username }}
+                    <div v-if="item.veaOrderDetail"
+                         class="business_name_box container_flex">
+                        <div class="container_flex hcenter">{{ item.veaOrderDetail.username }}
                             <image class="icon_img"
                                    src="@/static/images/huangguan.png"
                                    mode=""></image>

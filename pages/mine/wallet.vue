@@ -129,6 +129,11 @@ export default {
             this.focusIndex = -1
         },
         payItemClick(item, index) {
+            if (item.account) {
+                this.isBind = true
+            } else {
+                this.isBind = false
+            }
             if (index == 2) {
                 this.showBankName = true
             } else {

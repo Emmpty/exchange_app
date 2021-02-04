@@ -65,7 +65,7 @@ export default {
         return {
             orderItemData: {},
             orderStatusText: '',
-            isRealName: true
+            isRealName: false
         }
     },
     filters: {

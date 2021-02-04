@@ -15,7 +15,7 @@
         <div class="order_info_box padding_box">
             <div>
                 <span class="first_name">{{ 'U' }}</span>
-                <span class="font_bold">{{ '购买USDT' }}</span>
+                <span class="font_bold">{{ orderItemData.type==1 ? '购买':'出售'}} {{ 'USDT' }}</span>
             </div>
             <div class="total_box">
                 <span>总价</span>
