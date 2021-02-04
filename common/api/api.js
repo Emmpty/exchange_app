@@ -15,6 +15,7 @@ const lib = {
     ChangeOrder: ChangeOrder,
     GetUserAccountList: GetUserAccountList,
     updateUserAccountList: updateUserAccountList,
+    GetVerifyInfo: GetVerifyInfo,
 }
 // 提交登录
 function Login(data, CallBack) {
@@ -77,6 +78,11 @@ function updateVersion(data, CallBack) {
 function checkFaceFrequency(data, CallBack) {
     Common.common.urlRequest('/user/verify/addFailNum', data, 'post', CallBack)
 }
+// 获取用户实名信息
+function GetVerifyInfo(data, CallBack) {
+    Common.common.urlRequest('/user/getVerifyInfo', data, 'post', CallBack)
+}
+
 export default {
     lib
 }

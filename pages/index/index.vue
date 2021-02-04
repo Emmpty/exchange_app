@@ -237,13 +237,12 @@ export default {
         this.getPirce()
     },
     mounted() {
-        this.$refs.updataModel.updateVersion()
         //#ifdef APP-PLUS  
+        this.$refs.updataModel.updateVersion()
         //#endif
     },
     methods: {
         buyTypeClick(index) {
-
             this.currentIndex = index
             this.priceOrTotal = ''
             this.priceOrTotalText = this.currentIndex == 0 ? '请输入数量' : '50起'
@@ -332,13 +331,6 @@ export default {
             this.$api.GetPrice({}, res => {
                 if (res.code == 0) {
                     this.biPrice = res.price
-                }
-            })
-        },
-        getUser() {
-            this.$api.GetUserInfo({}, res => {
-                if (res.code == 0) {
-
                 }
             })
         },

@@ -4,11 +4,12 @@
             <div class="container_flex hcenter"
                  style="margin: 30upx 0">
                 <image class="avatar"
-                       src="/static/logo.png"
+                       :src="userInfo.avatar  || '/static/yhllogo.png'"
                        mode=""></image>
-                <span>犁田耙 <i class="iconfont icon-VIP"></i></span>
+                <span>{{ userInfo.username }} <i v-if="userInfo.verifyStatus == 1"
+                       class="iconfont icon-VIP"></i></span>
             </div>
-            <div v-if="!isRealName"
+            <div v-if="userInfo.verifyStatus != 1"
                  class="shiming_box"
                  @click="gotoCheckFace()">
                 <span>偷偷告诉你，实名认证后，更容易卖出哦</span>
@@ -65,7 +66,7 @@ export default {
         return {
             orderItemData: {},
             orderStatusText: '',
-            isRealName: false
+            userInfo: {}
         }
     },
     filters: {
@@ -87,12 +88,19 @@ export default {
 
     },
     onLoad(option) {
-
+        this.getUser()
     },
     methods: {
+        getUser() {
+            this.$api.GetUserInfo({}, res => {
+                if (res.code == 0) {
+                    this.userInfo = res.user
+                }
+            })
+        },
         gotoCheckFace() {
             let url = '/pages/mine/information'
-            if (!this.isRealName) {
+            if (this.userInfo.verifyStatus != 1) {
                 url = '/pages/mine/certification'
             }
             uni.navigateTo({

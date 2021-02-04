@@ -12,11 +12,11 @@
         <div class="order_info_box padding_box">
             <div class="total_box">
                 <span>姓名</span>
-                <span class="float_right">{{ userData.username }}</span>
+                <span class="float_right">{{ userData.realName }}</span>
             </div>
             <div>
-                <span>账号</span>
-                <span class="float_right">{{ userData.account }}</span>
+                <span>手机号</span>
+                <span class="float_right">{{ userData.mobile }}</span>
             </div>
             <div>
                 <span>UID</span>
@@ -24,7 +24,7 @@
             </div>
             <div>
                 <span>证件号码</span>
-                <span class="float_right">{{ userData.idCard }}</span>
+                <span class="float_right">{{ userData.idcard }}</span>
             </div>
         </div>
     </view>
@@ -35,20 +35,24 @@ export default {
     data() {
         return {
             userData: {
-                username: '测试',
-                account: '10001',
-                userId: '1',
-                idCard: '44098119961112111X',
             },
         }
     },
     filters: {
     },
     onLoad(option) {
-        this.userData.idCard = this.userData.idCard.replace(this.userData.idCard.substring(4, 14), "*********")
+        this.getVerifyInfo()
+
     },
     methods: {
-
+        getVerifyInfo() {
+            this.$api.GetVerifyInfo({}, res => {
+                if (res.code === 0) {
+                    this.userData = res.info
+                    this.userData.idcard = this.userData.idcard.replace(this.userData.idcard.substring(4, 14), "*********")
+                }
+            })
+        }
     }
 }
 </script>
