@@ -233,7 +233,6 @@ export default {
         this.fee = 0
         this.priceTotal = 0
         this.currentItemData = this.biData[0]
-        this.getUser()
         this.getPirce()
     },
     mounted() {
@@ -292,6 +291,7 @@ export default {
                 this.number = 0
                 this.fee = 0
                 this.priceTotal = 0
+                uni.setStorageSync('checkFace', 'false')
                 if (this.currentIndex == 0) {
                     uni.navigateTo({
                         url: '/pages/order/confirmOrder?config=' + JSON.stringify(config)
@@ -306,24 +306,33 @@ export default {
         buyOrSellClick() {
             this.$api.GetMerchantAccountList({ ercAmount: this.number }, res => {
                 if (res.code === 0 && res.list.length > 0) {
-                    this.showModal()
-                    res.list.forEach(ele => {
-                        if (ele.type == 0) {
-                            ele.name = '支付宝'
-                            ele.iconContent = 'icon-zhifubao'
-                            ele.color = '#06B4FD'
-                        } else if (ele.type == 1) {
-                            ele.name = '微信'
-                            ele.iconContent = 'icon-weixin'
-                            ele.color = '#28C445'
-                        } else if (ele.type == 2) {
-                            ele.name = '银联'
-                            ele.iconContent = 'icon-yinlianhuodong'
-                            ele.color = '#EFA341'
-                        }
-                    });
-                    this.payId = res.list[0].id
-                    this.payList = res.list
+                    let checkFace = uni.getStorageSync('checkFace')
+                    if (checkFace != 'true') {
+                        this.$interactive.showCancelModal('为确保本人操作，请刷脸认证', () => {
+                            uni.navigateTo({
+                                url: '/pages/mine/certification'
+                            })
+                        });
+                    } else {
+                        this.showModal()
+                        res.list.forEach(ele => {
+                            if (ele.type == 0) {
+                                ele.name = '支付宝'
+                                ele.iconContent = 'icon-zhifubao'
+                                ele.color = '#06B4FD'
+                            } else if (ele.type == 1) {
+                                ele.name = '微信'
+                                ele.iconContent = 'icon-weixin'
+                                ele.color = '#28C445'
+                            } else if (ele.type == 2) {
+                                ele.name = '银联'
+                                ele.iconContent = 'icon-yinlianhuodong'
+                                ele.color = '#EFA341'
+                            }
+                        });
+                        this.payId = res.list[0].id
+                        this.payList = res.list
+                    }
                 }
             })
         },

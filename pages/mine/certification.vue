@@ -76,8 +76,18 @@ export default {
     },
     onLoad(option) {
         this.title = '人脸识别认证'
+        this.getVerifyInfo()
     },
     methods: {
+        getVerifyInfo() {
+            this.$api.GetVerifyInfo({}, res => {
+                if (res.code === 0) {
+                    this.name = res.info.realName
+                    this.idCard = res.info.idcard
+                    this.idCard = this.idCard.replace(this.idCard.substring(4, 14), "*********")
+                }
+            })
+        },
         onNameChange(e) {
             let _a = e.mp.detail.value.replace(/ /g, '').trim()
             if (!this.$utils.checkName(_a)) {
@@ -194,7 +204,9 @@ export default {
         },
         // 发起实名认证
         SubShiMingRenZheng() {
+            uni.setStorageSync('checkFace', 'true')
             this.$interactive.toast('刷脸成功')
+            uni.navigateBack({ delta: 1 })
             // this.$api.SubShiMingRenZheng(this.config, res => {
             //     if (res.code == 0) {
             //         this.$interactive.unShowCancelModal("实名申请成功", () => {

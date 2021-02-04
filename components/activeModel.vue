@@ -3,6 +3,7 @@
         <myMask ref="updataMask"
                 top="0"
                 :isflexcenter="true"
+                :hindex="true"
                 noclickhide="true"
                 @onHideHander="onHideUpdateMask()"
                 @onShowHander="onShowUpdateMask()">

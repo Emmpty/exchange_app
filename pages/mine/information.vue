@@ -42,7 +42,6 @@ export default {
     },
     onLoad(option) {
         this.getVerifyInfo()
-
     },
     methods: {
         getVerifyInfo() {
