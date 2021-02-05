@@ -12,7 +12,7 @@
                               @click="orderStatusClick(item)">
                             <i class="iconfont icon-tubiaozhizuo-"
                                :style="item.orderStatus | orderStatusStyleFilters"></i>
-                            <span>{{ item.orderStatus | orderStatusTextFilters(item.orderStatus, item.type) }}</span>
+                            <span>{{ item.orderStatus | orderStatusTextFilters(item.type) }}</span>
                             <i class="iconfont icon-arrow-right"></i>
                         </span>
                     </div>
@@ -92,6 +92,7 @@ export default {
     },
     filters: {
         orderStatusTextFilters(refundStatus, type) {
+            console.log('?>>>>>>', refundStatus, type)
             switch (refundStatus) {
                 case 0:
                     return type == 1 ? '待支付' : '待商家审核';
