@@ -209,7 +209,9 @@ export default {
         SubShiMingRenZheng() {
             uni.setStorageSync('checkFace', 'true')
             this.$interactive.toast('刷脸成功')
-            uni.navigateBack({ delta: 1 })
+            setTimeout(() => {
+                uni.navigateBack({ delta: 1 })
+            }, 1000);
             // this.$api.SubShiMingRenZheng(this.config, res => {
             //     if (res.code == 0) {
             //         this.$interactive.unShowCancelModal("实名申请成功", () => {
