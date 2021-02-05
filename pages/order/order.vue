@@ -194,6 +194,7 @@ export default {
         getOrderList() {
             this.$api.GetOrderList({ orderType: parseInt(this.orderType), type: parseInt(this.type) }, res => {
                 this.orderList = res.list
+                this.$refs.orderMask.hideMask()
             })
         },
     }

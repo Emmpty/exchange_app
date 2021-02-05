@@ -68,9 +68,9 @@ export default {
                 case 0:
                     return type == 1 ? '待支付' : '待商家审核';
                 case 1:
-                    return type == 1 ? '已支付' : '商家已审核';
+                    return type == 1 ? '已支付' : '商家已通过';
                 case 2:
-                    return type == 1 ? '已确认' : '待确认';
+                    return '待确认';
                 case 3:
                     return '已完成';
                 case 4:
@@ -82,7 +82,7 @@ export default {
                 // case 0:
                 //     return '订单待确认支付';
                 case 1:
-                    return '已支付，待确认';
+                    return type == 1 ? '已支付，待确认' : '待商家审核';
                 case 2:
                     return '已确认，请您确认是否到账';
                 case 3:
