@@ -2,8 +2,8 @@
     <view class="padding_box">
         <div class="container_flex row login_box hcenter">
             <div>
-                <div class='login_title text_left'>{{ orderItemData.orderStatus | orderStatusFilters(orderItemData.orderStatus, orderItemData.type) }}</div>
-                <div class="login_title2 text_left">{{ orderItemData.orderStatus | orderStatusTextFilters(orderItemData.orderStatus, orderItemData.ercAmount, orderItemData.type) }}</div>
+                <div class='login_title text_left'>{{ orderItemData.orderStatus | orderStatusFilters(orderItemData.type) }}</div>
+                <div class="login_title2 text_left">{{ orderItemData.orderStatus | orderStatusTextFilters(orderItemData.ercAmount, orderItemData.type) }}</div>
             </div>
             <div class="bg_border_box container_flex center"
                  :style="orderItemData.orderStatus | orderStatusStyleFilters">
