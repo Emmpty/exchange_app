@@ -52,6 +52,8 @@
                 top="200">
             <orderScreen :transactionTypeList="transactionTypeList"
                          :orderStateList='orderStateList'
+                         :transactionTypeIndex="transactionTypeIndex"
+                         :orderStateIndex="orderStateIndex"
                          @changetTpye="changetTpye"
                          @changeOrderTpye="changeOrderTpye">
                 <button class="login_btn noborder"
@@ -73,6 +75,8 @@ export default {
             orderList: [],
             orderType: '',
             type: '',
+            transactionTypeIndex: -1,
+            orderStateIndex: -1,
             transactionTypeList: [
                 { type: 1, title: '买入' },
                 { type: 2, title: '卖出' },
@@ -137,6 +141,13 @@ export default {
     onLoad(option) {
         if (option.type) {
             this.type = option.type
+            if (this.type == 1) {
+                this.transactionTypeIndex = 0
+            } else if (this.type == 2) {
+                transactionTypeIndex = 1
+            } else {
+                transactionTypeIndex = -1
+            }
         }
         this.getOrderList()
     },
@@ -145,17 +156,21 @@ export default {
     },
     methods: {
         changetTpye(index) {
-            if (index != -1) {
-                this.type = this.transactionTypeList[index].type
-            } else {
+            if (this.transactionTypeIndex == index) {
+                this.transactionTypeIndex = -1
                 this.type = ''
+            } else {
+                this.transactionTypeIndex = index
+                this.type = this.transactionTypeList[index].type
             }
         },
         changeOrderTpye(index) {
-            if (index != -1) {
-                this.orderType = this.orderStateList[index].type
-            } else {
+            if (this.orderStateIndex == index) {
+                this.orderStateIndex = -1
                 this.orderType = ''
+            } else {
+                this.orderStateIndex = index
+                this.orderType = this.orderStateList[index].type
             }
         },
         orderStatusClick(item) {
@@ -183,8 +198,6 @@ export default {
             this.$api.GetOrderList({ orderType: parseInt(this.orderType), type: parseInt(this.type) }, res => {
                 this.orderList = res.list
                 this.$refs.orderMask.hideMask()
-                this.orderType = ''
-                this.type = ''
             })
         },
     }

@@ -31,31 +31,19 @@
 </template>
 <script>
 export default {
-    props: ['transactionTypeList', 'orderStateList'],
+    props: ['transactionTypeList', 'orderStateList', 'transactionTypeIndex', 'orderStateIndex'],
     data() {
         return {
-            transactionTypeIndex: -1,
-            orderStateIndex: -1
         }
     },
     computed: {
     },
     methods: {
         changetTpye(index) {
-            if (this.transactionTypeIndex == index) {
-                this.transactionTypeIndex = -1
-            } else {
-                this.transactionTypeIndex = index
-            }
-            this.$emit('changetTpye', this.transactionTypeIndex)
+            this.$emit('changetTpye', index)
         },
         changeOrderTpye(index) {
-            if (this.orderStateIndex == index) {
-                this.orderStateIndex = -1
-            } else {
-                this.orderStateIndex = index
-            }
-            this.$emit('changeOrderTpye', this.orderStateIndex)
+            this.$emit('changeOrderTpye', index)
         }
     },
     onLoad() {
