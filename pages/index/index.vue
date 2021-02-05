@@ -217,11 +217,11 @@ export default {
                 this.number = newV
                 let total = newV * this.biPrice.buyPrice
                 this.fee = total * this.biPrice.buyProportion / 100
-                this.priceTotal = this.currentIndex == 0 ? total + this.fee : total
+                this.priceTotal = (this.currentIndex == 0 ? total + this.fee : total).toFixed(4)
             } else if (newV > 99) {
                 this.number = (newV / this.biPrice.buyPrice).toFixed(6)
                 this.fee = newV * this.biPrice.buyProportion / 100
-                this.priceTotal = this.currentIndex == 0 ? newV + this.fee : newV
+                this.priceTotal = (this.currentIndex == 0 ? newV + this.fee : newV).toFixed(4)
             }
         },
     },
@@ -310,7 +310,7 @@ export default {
                     if (checkFace != 'true') {
                         this.$interactive.showCancelModal('为确保本人操作，请刷脸认证', () => {
                             uni.navigateTo({
-                                url: '/pages/mine/certification'
+                                url: '/pages/mine/certification?isPay=true'
                             })
                         });
                     } else {

@@ -76,6 +76,16 @@ export default {
             this.priceTotal = this.config.priceTotal
             this.number = this.config.number
         }
+        // let pages = getCurrentPages(); // 获取当前页面
+        // let currentPage = pages[pages.length - 1]
+        // let curRoute = currentPage.route //获取当前页面路由
+        // let curParam = currentPage.options; //获取路由参数
+        // // 拼接参数
+        // let param = ''
+        // for (let key in curParam) {
+        //     param += '&' + key + '=' + curParam[key]
+        // }
+        // console.log(">>>>>>>>>", curRoute, curParam, param)
         this.getMerchantInfo()
     },
     methods: {

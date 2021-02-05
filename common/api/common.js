@@ -1,15 +1,11 @@
 import Interactive from '../utils/interactive';
 const common = {
-    version: '1.0.6',
-    // apiurl: 'http://192.168.110.10:8013',1
+    version: '1.0.7',
+    // apiurl: 'http://192.168.110.10:8013',
     apiurl: 'http://exapp.zgstlkj.com/yhl',
     // 参数： url:请求地址  param：请求参数  way：请求方式 callBack：回调函数
     urlRequest: function (url, params, methods, callback, spacialHandle, noticeHandle) {
         Interactive.interactive.showLoading('加载中')
-        // uni.showLoading({
-        //     title: '加载中',
-        //     mask: true
-        // });
         uni.request({
             url: this.apiurl + url,
             method: methods,
@@ -38,12 +34,10 @@ const common = {
                     });
 
                 } else {
-                    Interactive.interactive.toast(res.data.msg && res.data.msg || '网络异常');
-                    // callback(res.data)
+                    Interactive.interactive.toast(res.data.msg && res.data.msg || '未知异常');
                 }
             },
             fail: (e) => {
-                // callback(e)
                 Interactive.interactive.toast('服务异常，请稍后再试')
                 uni.reLaunch({
                     url: '/pages/login/login'
@@ -51,7 +45,6 @@ const common = {
             },
             complete() {
                 Interactive.interactive.hideLoading();
-                // uni.hideLoading()
                 uni.stopPullDownRefresh()
             }
         })

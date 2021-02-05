@@ -16,6 +16,8 @@ const lib = {
     GetUserAccountList: GetUserAccountList,
     updateUserAccountList: updateUserAccountList,
     GetVerifyInfo: GetVerifyInfo,
+    SubShiMingRenZheng: SubShiMingRenZheng,
+    uploadBase64: uploadBase64,
 }
 // 提交登录
 function Login(data, CallBack) {
@@ -24,6 +26,10 @@ function Login(data, CallBack) {
 //提交注册
 function SumbitReg(data, CallBack) {
     Common.common.urlRequest('/user/register', data, 'post', CallBack)
+}
+// 实名认证
+function SubShiMingRenZheng(data, CallBack) {
+    Common.common.urlRequest('/user/verify', data, 'post', CallBack)
 }
 // 短信验证码
 function SendCode(data, CallBack) {
@@ -81,6 +87,10 @@ function checkFaceFrequency(data, CallBack) {
 // 获取用户实名信息
 function GetVerifyInfo(data, CallBack) {
     Common.common.urlRequest('/user/getVerifyInfo', data, 'post', CallBack)
+}
+// 上传图片
+function uploadBase64(data, CallBack) {
+    Common.common.urlRequest('/oss/uploadBase64', data, 'post', CallBack)
 }
 
 export default {

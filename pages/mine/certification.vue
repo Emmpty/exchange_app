@@ -8,20 +8,21 @@
                     <div style="height:130upx;">
                         <div class='form_input account_input'
                              :class="[{activeInput:focusIndex==0},{'fail':nameFail}]">
-                            <!-- @focus='focusFun(0)'
-                                   @blur='blurFun()'
-                                   @input="onNameChange($event)" -->
                             <input class="input"
+                                   @focus='focusFun(0)'
+                                   @blur='blurFun()'
+                                   @input="onNameChange($event)"
                                    type='text'
-                                   disabled
+                                   :disabled="!canEditName"
                                    v-model="name"
                                    placeholder="真实姓名"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
-                            <!-- <div class='right_label'
+                            <div v-if="canEditName"
+                                 class='right_label'
                                  :class="{'showyanjing':name.length>0}"
                                  @click='clearName()'>
                                 <span class='iconfont icon-guanbi'></span>
-                            </div> -->
+                            </div>
                         </div>
                         <div class='fail_text'
                              v-if='nameFail'>请正确姓名</div>
@@ -30,20 +31,21 @@
                     <div class='password_box'>
                         <div class='form_input'
                              :class="[{activeInput:focusIndex==1},{'fail':idCardFail}]">
-                            <!-- @blur='blurFun()'
-                                   @input="onIdCardChange($event)"
-                                   @focus='focusFun(1)' -->
                             <input type="idcard"
+                                   @blur='blurFun()'
+                                   @input="onIdCardChange($event)"
+                                   @focus='focusFun(1)'
                                    v-model='idCard'
-                                   disabled
+                                   :disabled="!canEditIdCard"
                                    class="input"
                                    placeholder="身份证号码"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
-                            <!-- <div class='right_label'
+                            <div v-if="canEditIdCard"
+                                 class='right_label'
                                  :class="{'showyanjing':idCard.length>0}"
                                  @click='clearIdCard()'>
                                 <span class='iconfont icon-guanbi'></span>
-                            </div> -->
+                            </div>
                         </div>
                         <div class='fail_text'
                              v-if='idCardFail'>请输入正确的身份证号码</div>
@@ -74,17 +76,25 @@ export default {
             focusIndex: -1,
             title: '人脸识别认证',
             btnText: '确保本人操作并认证',
-            isCertification: false
+            isCertification: false,
+            canEditName: true,
+            canEditIdCard: true,
+            isPay: -1,
         }
     },
     onLoad(option) {
+        if (option.isPay) this.isPay = option.isPay
         this.title = '人脸识别认证'
         this.getVerifyInfo()
     },
     methods: {
         getVerifyInfo() {
             this.$api.GetVerifyInfo({}, res => {
-                if (res.code === 0) {
+                if (res.code === 0 && res.info) {
+                    if (res.info.realName && res.info.idcard) {
+                        this.canEditName = false
+                        this.canEditIdCard = false
+                    }
                     this.name = res.info.realName
                     this.idCard = res.info.idcard
                     // this.idcard = this.idcard.replace(this.idcard.substring(4, 14), "*********")
@@ -146,7 +156,6 @@ export default {
                 // passImgPath 通过图片地址,未剪裁完整图像
                 // code == 0 时检测成功，会返回图片地址
                 // console.log('活体验证', result.passFace);
-                console.log('>>>>>>>>>res', result)
                 // _this.checkFaceFrequencyFun()
                 if (result.code == 0) {
                     _this.startCheckIdCard(result)
@@ -178,12 +187,11 @@ export default {
                     image: result.passFace
                 },
                 success: (res) => {
-                    console.log('身份验证>>112', JSON.stringify(res.data));
                     if (res.data.code === 200) {
                         if (res.data.data.incorrect === 100 && res.data.data.score > 0.45) {
                             console.log('>>>>>>>>实名认证成功')
                             this.isCertification = false
-                            this.SubShiMingRenZheng()
+                            this.SubShiMingRenZheng(result.passFace)
                         } else {
                             this.isCertification = false
                             modal.toast({
@@ -205,24 +213,62 @@ export default {
                 }
             });
         },
+        // Base64转文件
+        // getBlobBydataURI(dataURI, type) {
+        //     var binary = window.atob(dataURI.split(',')[1]);
+        //     console.log('>>>>>>window', window, binary)
+        //     var array = [];
+        //     for (var i = 0; i < binary.length; i++) {
+        //         array.push(binary.charCodeAt(i));
+        //     }
+        //     return new Blob([new Uint8Array(array)], {
+        //         type: type
+        //     });
+        // },
+        compare(img) {
+            return new Promise(resolve => {
+                let that = this
+                // console.log('>>>>>3333', img)
+                // let blob = this.getBlobBydataURI(img, 'image/png')
+                // let formData = new FormData()
+                // formData.append("file", blob, "file_" + Date.parse(new Date()) + ".png")
+                this.$api.uploadBase64({ base64: img }, res => {
+                    if (res.code == 0) {
+                        resolve(res.data)
+                    } else {
+                        this.$interactive.toast(res.msg)
+                    }
+                });
+            });
+        },
         // 发起实名认证
-        SubShiMingRenZheng() {
-            uni.setStorageSync('checkFace', 'true')
-            this.$interactive.toast('刷脸成功')
-            setTimeout(() => {
-                uni.navigateBack({ delta: 1 })
-            }, 1000);
-            // this.$api.SubShiMingRenZheng(this.config, res => {
-            //     if (res.code == 0) {
-            //         this.$interactive.unShowCancelModal("实名申请成功", () => {
-            //             uni.switchTab({
-            //                 url: "/pages/Mine/index"
-            //             });
-            //         });
-            //     } else {
-            //         this.$interactive.toast(res.msg)
-            //     }
-            // });
+        SubShiMingRenZheng(faceBase64Img) {
+            if (!this.canEditName) {
+                if (this.isPay == 'true') uni.setStorageSync('checkFace', 'true')
+                this.$interactive.unShowCancelModal("刷脸成功", () => {
+                    setTimeout(() => {
+                        uni.navigateBack({ delta: 1 })
+                    }, 1000);
+                });
+            } else {
+                this.compare(faceBase64Img).then(res1 => {
+                    let config = { realName: this.name, idcard: this.idCard, facePhotos: res1.serverPath }
+                    this.$api.SubShiMingRenZheng(config, res => {
+                        console.log('>>>>>>>', config, res)
+                        if (res.code == 0) {
+                            if (this.isPay == 'true') uni.setStorageSync('checkFace', 'true')
+                            this.$interactive.unShowCancelModal("实名成功", () => {
+                                setTimeout(() => {
+                                    uni.navigateBack({ delta: 1 })
+                                }, 1000);
+                            });
+                        } else {
+                            this.$interactive.toast(res.msg)
+                        }
+                    });
+                })
+            }
+
         },
     }
 }
