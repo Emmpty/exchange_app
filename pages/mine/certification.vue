@@ -8,19 +8,20 @@
                     <div style="height:130upx;">
                         <div class='form_input account_input'
                              :class="[{activeInput:focusIndex==0},{'fail':nameFail}]">
+                            <!-- @focus='focusFun(0)'
+                                   @blur='blurFun()'
+                                   @input="onNameChange($event)" -->
                             <input class="input"
                                    type='text'
-                                   @focus='focusFun(0)'
-                                   @blur='blurFun()'
-                                   @input="onNameChange($event)"
+                                   disabled
                                    v-model="name"
                                    placeholder="真实姓名"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
-                            <div class='right_label'
+                            <!-- <div class='right_label'
                                  :class="{'showyanjing':name.length>0}"
                                  @click='clearName()'>
                                 <span class='iconfont icon-guanbi'></span>
-                            </div>
+                            </div> -->
                         </div>
                         <div class='fail_text'
                              v-if='nameFail'>请正确姓名</div>
@@ -29,19 +30,20 @@
                     <div class='password_box'>
                         <div class='form_input'
                              :class="[{activeInput:focusIndex==1},{'fail':idCardFail}]">
+                            <!-- @blur='blurFun()'
+                                   @input="onIdCardChange($event)"
+                                   @focus='focusFun(1)' -->
                             <input type="idcard"
                                    v-model='idCard'
-                                   @blur='blurFun()'
-                                   @input="onIdCardChange($event)"
-                                   @focus='focusFun(1)'
+                                   disabled
                                    class="input"
                                    placeholder="身份证号码"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
-                            <div class='right_label'
+                            <!-- <div class='right_label'
                                  :class="{'showyanjing':idCard.length>0}"
                                  @click='clearIdCard()'>
                                 <span class='iconfont icon-guanbi'></span>
-                            </div>
+                            </div> -->
                         </div>
                         <div class='fail_text'
                              v-if='idCardFail'>请输入正确的身份证号码</div>
@@ -66,6 +68,7 @@ export default {
         return {
             name: '',
             idCard: '',
+            idcard: '',
             nameFail: false,
             idCardFail: false,
             focusIndex: -1,
@@ -84,7 +87,7 @@ export default {
                 if (res.code === 0) {
                     this.name = res.info.realName
                     this.idCard = res.info.idcard
-                    this.idCard = this.idCard.replace(this.idCard.substring(4, 14), "*********")
+                    // this.idcard = this.idcard.replace(this.idcard.substring(4, 14), "*********")
                 }
             })
         },
@@ -318,8 +321,8 @@ export default {
     }
     .login_btn {
         width: 100%;
-        height: 90upx;
-        line-height: 90upx;
+        height: 80upx;
+        line-height: 80upx;
         border-radius: 45upx;
         text-align: center;
         font-size: 30upx;

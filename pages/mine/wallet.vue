@@ -45,6 +45,7 @@
                                    placeholder="请输入您的收款账户"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
                             <div class='right_label'
+                                 v-if="payList[selectedindex] && !payList[selectedindex].account"
                                  :class="{'showyanjing':currentItem.account.length>0}"
                                  @click='currentItem.account= ""'>
                                 <span class='iconfont icon-guanbi'></span>
@@ -63,6 +64,7 @@
                                    placeholder="请输入您的银行名称"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
                             <div class='right_label'
+                                 v-if="payList[selectedindex] && !payList[selectedindex].account"
                                  :class="{'showyanjing':currentItem.bankName.length>0}"
                                  @click="currentItem.bankName = ''">
                                 <span class='iconfont icon-guanbi'></span>
@@ -89,6 +91,7 @@
                     <div class="tip_box">一经绑定无法修改，请确认无误</div>
                 </div>
                 <button type="primary"
+                        v-if="payList[selectedindex] && !payList[selectedindex].account"
                         :disabled='currentItem.account.length<1 || (showBankName && currentItem.bankName.length<1)'
                         hover-class="primary-hover"
                         class="login_btn noborder"
