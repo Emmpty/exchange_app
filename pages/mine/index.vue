@@ -87,8 +87,11 @@ export default {
 
 
     },
-    onLoad(option) {
+    onShow() {
         this.getUser()
+    },
+    onLoad(option) {
+        // this.getUser()
     },
     methods: {
         getUser() {

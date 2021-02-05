@@ -1,6 +1,6 @@
 <template>
     <view>
-        <div class='login_title text_left padding_box'>{{ orderTitle }}记录</div>
+        <div class='login_title text_left padding_box'>订单记录</div>
         <div class="order_box">
             <div class="order_item_box"
                  v-for="(item, index) in orderList"
@@ -73,7 +73,6 @@ export default {
             orderList: [],
             orderType: '',
             type: '',
-            orderTitle: '',
             transactionTypeList: [
                 { type: 1, title: '买入' },
                 { type: 2, title: '卖出' },
@@ -139,17 +138,6 @@ export default {
         if (option.type) {
             this.type = option.type
         }
-        switch (this.orderType) {
-            case 1:
-                this.orderTitle = '买入'
-                break;
-            case 2:
-                this.orderTitle = '卖出'
-                break;
-            default:
-                this.orderTitle = '订单'
-                break;
-        }
         this.getOrderList()
     },
     onReachBottom() {
@@ -195,6 +183,8 @@ export default {
             this.$api.GetOrderList({ orderType: parseInt(this.orderType), type: parseInt(this.type) }, res => {
                 this.orderList = res.list
                 this.$refs.orderMask.hideMask()
+                this.orderType = ''
+                this.type = ''
             })
         },
     }
