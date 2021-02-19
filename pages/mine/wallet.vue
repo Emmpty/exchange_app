@@ -45,7 +45,6 @@
                                    placeholder="请输入您的收款账户"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
                             <div class='right_label'
-                                 v-if="payList[selectedindex] && !payList[selectedindex].account"
                                  :class="{'showyanjing':currentItem.account.length>0}"
                                  @click='currentItem.account= ""'>
                                 <span class='iconfont icon-guanbi'></span>
@@ -64,7 +63,6 @@
                                    placeholder="请输入您的银行名称"
                                    placeholder-style="color:#c6c6c6;;font-weight:normal">
                             <div class='right_label'
-                                 v-if="payList[selectedindex] && !payList[selectedindex].account"
                                  :class="{'showyanjing':currentItem.bankName.length>0}"
                                  @click="currentItem.bankName = ''">
                                 <span class='iconfont icon-guanbi'></span>
@@ -88,10 +86,10 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="tip_box">一经绑定无法修改，请确认无误</div>
+                    <!-- <div class="tip_box">一经绑定无法修改，请确认无误</div> -->
                 </div>
+                <!-- v-if="!isBind" -->
                 <button type="primary"
-                        v-if="payList[selectedindex] && !payList[selectedindex].account"
                         :disabled='currentItem.account.length<1 || (showBankName && currentItem.bankName.length<1)'
                         hover-class="primary-hover"
                         class="login_btn noborder"
@@ -118,6 +116,7 @@ export default {
                 // { name: '微信', iconContent: 'icon-weixin', color: '#28C445', type: 1, },
                 // { name: '银联', iconContent: 'icon-yinlianhuodong', color: '#EFA341', type: 2, }
             ],
+            isBind: false
         }
     },
     onLoad() {
@@ -132,11 +131,11 @@ export default {
             this.focusIndex = -1
         },
         payItemClick(item, index) {
-            if (item.account) {
-                this.isBind = true
-            } else {
-                this.isBind = false
-            }
+            // if (item.account) {
+            //     this.isBind = true
+            // } else {
+            //     this.isBind = false
+            // }
             if (index == 2) {
                 this.showBankName = true
             } else {
@@ -155,7 +154,9 @@ export default {
             this.$api.GetUserAccountList({}, res => {
                 if (res.code === 0 && res.list.length > 0) {
                     res.list.forEach(ele => {
-                        if (ele.account == null) {
+                        if (ele.account) {
+                            // that.isBind = true
+                        } else if (ele.account == null) {
                             ele.account = ''
                         }
                         if (ele.bankName == null) {
@@ -176,7 +177,7 @@ export default {
                         }
                     });
                     that.payList = res.list
-                    this.currentItem = that.payList[this.selectedindex]
+                    that.currentItem = that.payList[this.selectedindex]
                 }
             })
         },

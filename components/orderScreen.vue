@@ -21,7 +21,7 @@
                          :key="qindex"
                          :class="{'selected': qindex === orderStateIndex}"
                          @click="changeOrderTpye(qindex)">
-                        {{ q.title }}
+                        {{ q.type | orderStatusTextFilters(transactionTypeIndex) }}
                     </div>
                 </div>
             </div>
@@ -35,6 +35,22 @@ export default {
     data() {
         return {
         }
+    },
+    filters: {
+        orderStatusTextFilters(refundStatus, type) {
+            switch (refundStatus) {
+                case 0:
+                    return type == 0 || type == -1 ? '待支付' : '待打款';
+                case 1:
+                    return type == 0 || type == -1 ? '已支付' : '已打款';
+                case 2:
+                    return type == 0 || type == -1 ? '待确认' : '已确认';
+                case 3:
+                    return '已完成';
+                case 4:
+                    return '已失效';
+            }
+        },
     },
     computed: {
     },

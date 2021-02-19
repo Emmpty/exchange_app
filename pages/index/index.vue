@@ -242,6 +242,7 @@ export default {
     },
     methods: {
         buyTypeClick(index) {
+            this.isNumber = true
             this.currentIndex = index
             this.priceOrTotal = ''
             this.priceOrTotalText = this.currentIndex == 0 ? '请输入数量' : '50起'
@@ -333,6 +334,8 @@ export default {
                         this.payId = res.list[0].id
                         this.payList = res.list
                     }
+                } else {
+                    this.$interactive.toast('商户钱包异常')
                 }
             })
         },

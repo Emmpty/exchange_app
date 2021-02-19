@@ -12,7 +12,8 @@ const lib = {
     GetOrderList: GetOrderList,
     updateVersion: updateVersion,
     checkFaceFrequency: checkFaceFrequency,
-    ChangeOrder: ChangeOrder,
+    ChangeBuyOrder: ChangeBuyOrder,
+    ChangeSellOrder: ChangeSellOrder,
     GetUserAccountList: GetUserAccountList,
     updateUserAccountList: updateUserAccountList,
     GetVerifyInfo: GetVerifyInfo,
@@ -72,9 +73,13 @@ function ConfirmPayOrder(data, CallBack) {
 function GetOrderList(data, CallBack) {
     Common.common.urlRequest('/order/list', data, 'post', CallBack)
 }
-// 确认到账
-function ChangeOrder(data, CallBack) {
+// 确认买单到账
+function ChangeBuyOrder(data, CallBack) {
     Common.common.urlRequest('/order/buyconfirm', data, 'post', CallBack)
+}
+// 确认卖单到账
+function ChangeSellOrder(data, CallBack) {
+    Common.common.urlRequest('/order/sellconfirm', data, 'post', CallBack)
 }
 // 版本更新
 function updateVersion(data, CallBack) {

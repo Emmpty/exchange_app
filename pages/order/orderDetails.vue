@@ -47,10 +47,10 @@
             </div>
         </div>
         <button type="primary"
-                v-if="orderItemData.orderStatus == 2"
+                v-if="(orderItemData.type == 1 && orderItemData.orderStatus == 2) || (orderItemData.type == 2 && orderItemData.orderStatus == 1)"
                 hover-class="primary-hover"
                 class="primary_btn noborder"
-                @click="changeOrder()">{{ orderItemData.orderStatus | changeOrderText }}</button>
+                @click="changeOrder()">{{ '确认完成订单' }}</button>
     </view>
 </template>
 
@@ -66,11 +66,11 @@ export default {
         orderStatusFilters(orderStatus, type) {
             switch (orderStatus) {
                 case 0:
-                    return type == 1 ? '待支付' : '待商家审核';
+                    return type == 1 ? '待支付' : '待打款';
                 case 1:
-                    return type == 1 ? '已支付' : '商家已通过';
+                    return type == 1 ? '已支付' : '已打款';
                 case 2:
-                    return '待确认';
+                    return type == 1 ? '待确认' : '已确认';
                 case 3:
                     return '已完成';
                 case 4:
@@ -82,9 +82,9 @@ export default {
                 // case 0:
                 //     return '订单待确认支付';
                 case 1:
-                    return type == 1 ? '已支付，待确认' : '待商家审核';
+                    return type == 1 ? '用户已支付，待商家确认' : '商家已打款，待用户确认';
                 case 2:
-                    return '已确认，请您确认是否到账';
+                    return '商家已确认，请您确认是否到账';
                 case 3:
                     return ercAmount + ' USDT已存入您的账户';
                 case 4:
@@ -136,20 +136,38 @@ export default {
     methods: {
         changeOrder() {
             let _this = this
-            this.$api.ChangeOrder({ orderNo: this.orderItemData.orderNo, confirmType: '2', payNo: this.orderItemData.payNo }, res => {
-                if (res.code == 0) {
-                    this.$interactive.toast('确认成功')
-                    setTimeout(() => {
-                        if (_this.orderItemData.back) {
-                            return uni.navigateBack({})
-                        }
-                        uni.redirectTo({
-                            url: '/pages/order/order'
-                        })
-                    }, 1000);
+            if (this.orderItemData.type == 1) {
+                this.$api.ChangeBuyOrder({ orderNo: this.orderItemData.orderNo, confirmType: '2', payNo: this.orderItemData.payNo }, res => {
+                    if (res.code == 0) {
+                        this.$interactive.toast('确认成功')
+                        setTimeout(() => {
+                            if (_this.orderItemData.back) {
+                                return uni.navigateBack({})
+                            }
+                            uni.redirectTo({
+                                url: '/pages/order/order'
+                            })
+                        }, 1000);
 
-                }
-            })
+                    }
+                })
+            } else {
+                this.$api.ChangeSellOrder({ orderNo: this.orderItemData.orderNo, confirmType: '2' }, res => {
+                    if (res.code == 0) {
+                        this.$interactive.toast('确认成功')
+                        setTimeout(() => {
+                            if (_this.orderItemData.back) {
+                                return uni.navigateBack({})
+                            }
+                            uni.redirectTo({
+                                url: '/pages/order/order'
+                            })
+                        }, 1000);
+
+                    }
+                })
+            }
+
         },
     }
 }

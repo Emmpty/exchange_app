@@ -7,7 +7,7 @@
                  :key="index">
                 <div class="order_item_info padding_box">
                     <div>
-                        <span class="font_bold">购买 {{ 'USDT' }}</span>
+                        <span class="font_bold">{{ item.type == 1 ?'购买':'卖出' }} {{ 'USDT' }}</span>
                         <span class="float_right order_status_text"
                               @click="orderStatusClick(item)">
                             <i class="iconfont icon-tubiaozhizuo-"
@@ -95,14 +95,13 @@ export default {
     },
     filters: {
         orderStatusTextFilters(refundStatus, type) {
-            console.log('?>>>>>>', refundStatus, type)
             switch (refundStatus) {
                 case 0:
-                    return type == 1 ? '待支付' : '待商家审核';
+                    return type == 1 ? '待支付' : '待打款';
                 case 1:
-                    return type == 1 ? '已支付' : '商家已审核';
+                    return type == 1 ? '已支付' : '已打款';
                 case 2:
-                    return type == 1 ? '已确认' : '待确认';
+                    return type == 1 ? '待确认' : '已确认';
                 case 3:
                     return '已完成';
                 case 4:
@@ -144,9 +143,9 @@ export default {
             if (this.type == 1) {
                 this.transactionTypeIndex = 0
             } else if (this.type == 2) {
-                transactionTypeIndex = 1
+                this.transactionTypeIndex = 1
             } else {
-                transactionTypeIndex = -1
+                this.transactionTypeIndex = -1
             }
         }
         this.getOrderList()

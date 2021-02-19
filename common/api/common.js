@@ -1,6 +1,6 @@
 import Interactive from '../utils/interactive';
 const common = {
-    version: '1.0.7',
+    version: '1.0.9',
     // apiurl: 'http://192.168.110.10:8013',
     apiurl: 'http://exapp.zgstlkj.com/yhl',
     // 参数： url:请求地址  param：请求参数  way：请求方式 callBack：回调函数
