@@ -79,8 +79,8 @@ export default {
         },
         orderStatusTextFilters(orderStatus, ercAmount, type) {
             switch (orderStatus) {
-                // case 0:
-                //     return '订单待确认支付';
+                case 0:
+                    return type == 1 ? '订单待确认支付' : '待商家审核打款';
                 case 1:
                     return type == 1 ? '用户已支付，待商家确认' : '商家已打款，待用户确认';
                 case 2:
@@ -99,8 +99,8 @@ export default {
         },
         orderStatusStyleFilters(orderStatus) {
             switch (orderStatus) {
-                // case 0:
-                //     return 'background-color: rgba(255,73,73,.4);color: rgb(255,73,73)';
+                case 0:
+                    return 'background-color: rgba(255,73,73,.2);color: rgb(255,73,73,.5)';
                 case 1:
                     return 'background-color: rgba(255,186,0,.3);color: rgb(255,186,0)';
                 case 2:
@@ -114,8 +114,8 @@ export default {
         },
         orderStatusClassFilters(orderStatus) {
             switch (orderStatus) {
-                // case 0:
-                //     return '';
+                case 0:
+                    return 'icon-dengdai1';
                 case 1:
                     return 'icon-dagou';
                 case 2:
@@ -225,6 +225,7 @@ export default {
         text-align: center;
         width: 40upx;
         height: 40upx;
+        line-height: 40upx;
         color: #fff;
         padding: 8upx;
         border-radius: 100%;

@@ -135,7 +135,7 @@ export default {
         }
     },
     onShow() {
-
+        this.getOrderList()
     },
     onLoad(option) {
         if (option.type) {
@@ -148,7 +148,6 @@ export default {
                 this.transactionTypeIndex = -1
             }
         }
-        this.getOrderList()
     },
     onReachBottom() {
         console.log(">>>>>>lower")

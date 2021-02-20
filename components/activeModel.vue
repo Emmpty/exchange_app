@@ -56,7 +56,7 @@ export default {
                 if (this.$common.version !== res.item.versionNo) {
                     this.$refs.updataMask.showMask()
                     this.updateText = res.item.remark
-                    this.hideUpdateCancel = res.item.note
+                    this.hideUpdateCancel = res.item.status
                     this.updateUrl = res.item.versionUrl
                     this.wgtUrl = res.item.wgtUrl
                 }
