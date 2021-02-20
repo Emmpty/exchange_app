@@ -11,8 +11,8 @@
             </div>
             <div class="business_box border_bottom padding_h_box">
                 <div class="container_flex hcenter font_bold">
-                    <span class="first_name">{{ username[0] }}</span>
-                    <span class="name_box">{{ username }}</span>
+                    <span class="first_name">{{ orderInfo.veaMerchant.username[0] }}</span>
+                    <span class="name_box">{{ orderInfo.veaMerchant.username }}</span>
                     <image class="icon_img"
                            src="@/static/images/huangguan.png"
                            mode=""></image>
@@ -27,11 +27,21 @@
             </div>
             <div class="business_info font_bold border_bottom padding_h_box">
                 <div><span>卖家姓名</span>
-                    <span class="float_right">{{ username }}</span>
+                    <span class="float_right">{{ orderInfo.veaMerchant.username }}</span>
                 </div>
-                <div style="margin-top: 50upx;"><span>支付宝账号</span>
-                    <span class="float_right">{{ account }}</span>
+                <div style="margin-top: 50upx;">
+                    <span>{{ orderInfo.type | payTypeFileter }}</span>
+                    <span class="float_right"
+                          @click="copyAccount">{{ orderInfo.account }}
+                        <i class="iconfont icon-fuzhi"></i>
+                    </span>
                 </div>
+            </div>
+            <div class="business_info font_bold border_bottom padding_h_box"
+                 @click="showCode">
+                <span>查看收款码</span>
+                <i style="margin-top: 5upx;"
+                   class="iconfont icon-arrow-right float_right"></i>
             </div>
             <div class='input_box'>
                 <div style="height:130upx;margin-bottom:20upx">
@@ -52,21 +62,38 @@
                     class="primary_btn noborder"
                     @click="paySuccessClick()">我已付款成功</button>
         </div>
+        <myMask ref="codeMask"
+                top="0"
+                :isflexcenter="true">
+            <div class="code_img_box">
+                <!-- src="../../static/images/wxcode.jpg" -->
+                <image :src="orderInfo.qrCode"
+                       mode="widthFix"></image>
+                <button style="width: 80%"
+                        type="primary"
+                        hover-class="primary-hover"
+                        class="primary_btn noborder"
+                        @click="saveCodeImg()">保存图片</button>
+            </div>
+        </myMask>
     </view>
 </template>
 
 <script>
+import myMask from '@/components/mask.vue'
+
 export default {
     data() {
         return {
-            // showMask: false,
             config: {},
             priceTotal: 0,
             number: 0,
-            name: '隆重盖世',
             focusIndex: -1,
-            account: '',
-            username: '',
+            orderInfo: {
+                veaMerchant: {
+                    username: ''
+                }
+            },
             payNo: '',
         }
     },
@@ -88,12 +115,61 @@ export default {
         // console.log(">>>>>>>>>", curRoute, curParam, param)
         this.getMerchantInfo()
     },
+    filters: {
+        payTypeFileter(type) {
+            switch (type) {
+                case 0:
+                    return '支付宝账号';
+                case 1:
+                    return '微信账号';
+            }
+        },
+    },
+    components: {
+        myMask
+    },
     methods: {
+        saveCodeImg() {
+            let that = this
+            uni.downloadFile({
+                url: that.orderInfo.qrCode,  //图片地址  
+                success: (res) => {
+                    if (res.statusCode === 200) {
+                        uni.saveImageToPhotosAlbum({
+                            filePath: res.tempFilePath,
+                            success: function () {
+                                uni.showToast({
+                                    title: "保存成功",
+                                    icon: "none"
+                                });
+                                that.$refs.codeMask.hideMask()
+                            },
+                            fail: function () {
+                                uni.showToast({
+                                    title: "保存失败",
+                                    icon: "none"
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        },
+        showCode() {
+            this.$refs.codeMask.showMask()
+        },
+        copyAccount() {
+            uni.setClipboardData({
+                data: this.orderInfo.account,
+                success: function () {
+                    this.$interactive.toast('复制成功')
+                }
+            });
+        },
         getMerchantInfo() {
             this.$api.GetMerchantAccountInfo({ merchantAccountId: this.config.payId }, res => {
                 if (res.code === 0) {
-                    this.account = res.info.account
-                    this.username = res.info.veaMerchant.username
+                    this.orderInfo = res.info
                 }
             })
         },
@@ -177,6 +253,7 @@ export default {
         text-align: center;
         width: 40upx;
         height: 40upx;
+        line-height: 30upx;
         color: #fff;
         padding: 8upx;
         border-radius: 100%;
@@ -198,6 +275,9 @@ export default {
 }
 .business_info {
     font-size: 34upx;
+    .icon-fuzhi {
+        margin-left: 10upx;
+    }
 }
 .primary_btn {
     width: 100%;
@@ -283,6 +363,19 @@ export default {
             // border-color: rgb(133, 133, 133);
             border-color: lighten($primarycolor, 10%);
         }
+    }
+}
+.code_img_box {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    background-color: #fff;
+    padding: 30upx;
+    border-radius: 15upx;
+    box-sizing: border-box;
+    align-items: center;
+    image {
+        width: calc(100% - 60upx);
     }
 }
 </style>

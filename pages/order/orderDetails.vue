@@ -141,12 +141,7 @@ export default {
                     if (res.code == 0) {
                         this.$interactive.toast('确认成功')
                         setTimeout(() => {
-                            if (_this.orderItemData.back) {
-                                return uni.navigateBack({})
-                            }
-                            uni.redirectTo({
-                                url: '/pages/order/order'
-                            })
+                            return uni.navigateBack({})
                         }, 1000);
 
                     }
@@ -156,12 +151,7 @@ export default {
                     if (res.code == 0) {
                         this.$interactive.toast('确认成功')
                         setTimeout(() => {
-                            if (_this.orderItemData.back) {
-                                return uni.navigateBack({})
-                            }
-                            uni.redirectTo({
-                                url: '/pages/order/order'
-                            })
+                            return uni.navigateBack({})
                         }, 1000);
 
                     }
@@ -225,7 +215,7 @@ export default {
         text-align: center;
         width: 40upx;
         height: 40upx;
-        line-height: 40upx;
+        line-height: 30upx;
         color: #fff;
         padding: 8upx;
         border-radius: 100%;

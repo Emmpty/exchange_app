@@ -2,15 +2,15 @@
     否则app上图标不显示
     */
     /* https://at.alicdn.com */
-@font-face {
-    font-family: 'iconfont';  /* project id 2316079 */
-    src: url('https://at.alicdn.com/t/font_2316079_hfteaj30g57.eot');
-    src: url('https://at.alicdn.com/t/font_2316079_hfteaj30g57.eot?#iefix') format('embedded-opentype'),
-    url('https://at.alicdn.com/t/font_2316079_hfteaj30g57.woff2') format('woff2'),
-    url('https://at.alicdn.com/t/font_2316079_hfteaj30g57.woff') format('woff'),
-    url('https://at.alicdn.com/t/font_2316079_hfteaj30g57.ttf') format('truetype'),
-    url('https://at.alicdn.com/t/font_2316079_hfteaj30g57.svg#iconfont') format('svg');
-}
+    @font-face {
+        font-family: 'iconfont';  /* project id 2316079 */
+        src: url('https://at.alicdn.com/t/font_2316079_26m7lftma33.eot');
+        src: url('https://at.alicdn.com/t/font_2316079_26m7lftma33.eot?#iefix') format('embedded-opentype'),
+        url('https://at.alicdn.com/t/font_2316079_26m7lftma33.woff2') format('woff2'),
+        url('https://at.alicdn.com/t/font_2316079_26m7lftma33.woff') format('woff'),
+        url('https://at.alicdn.com/t/font_2316079_26m7lftma33.ttf') format('truetype'),
+        url('https://at.alicdn.com/t/font_2316079_26m7lftma33.svg#iconfont') format('svg');
+      }
 .iconfont {
     font-family: "iconfont" !important;
     font-size: 16px;
@@ -19,6 +19,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
+  .icon-fuzhi:before {
+    content: "\e632";
+  }
   .icon-dengdai1:before {
     content: "\e61e";
   }
