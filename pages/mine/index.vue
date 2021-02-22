@@ -87,6 +87,14 @@ export default {
 
 
     },
+    onNavigationBarButtonTap(e) {
+        const index = e.index;
+        if (index === 0) {
+            uni.navigateTo({
+                url: '/pages/mine/setUp'
+            })
+        }
+    },
     onShow() {
         this.getUser()
     },

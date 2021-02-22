@@ -9,8 +9,18 @@
         {
             "path": "pages/mine/index",
             "style": {
-                "navigationStyle": "custom"
-                // "navigationBarTitleText": "我的"
+                // "navigationStyle": "custom",
+                "navigationBarTitleText": "我的",
+                "titleNView": {
+                    "buttons": [
+                        {
+                            "fontSrc": "/static/iconfont/iconfont.ttf",
+                            "fontSize": "40upx",
+                            "float": "right",
+                            "text": "\ue602"
+                        }
+                    ]
+                }
             }
         },
         {
@@ -76,6 +86,15 @@
                 "navigationBarTitleText": "我的钱包",
                 "enablePullDownRefresh": false
             }
+        }
+        ,{
+            "path" : "pages/mine/setUp",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
     "tabBar": {
