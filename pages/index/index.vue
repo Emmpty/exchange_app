@@ -309,32 +309,32 @@ export default {
             this.$api.GetMerchantAccountList({ ercAmount: this.number }, res => {
                 if (res.code === 0 && res.list.length > 0) {
                     let checkFace = uni.getStorageSync('checkFace')
-                    // if (checkFace != 'true') {
-                    //     this.$interactive.showCancelModal('为确保本人操作，请刷脸认证', () => {
-                    //         uni.navigateTo({
-                    //             url: '/pages/mine/certification?isPay=true'
-                    //         })
-                    //     });
-                    // } else {
-                    this.showModal()
-                    res.list.forEach(ele => {
-                        if (ele.type == 0) {
-                            ele.name = '支付宝'
-                            ele.iconContent = 'icon-zhifubao'
-                            ele.color = '#06B4FD'
-                        } else if (ele.type == 1) {
-                            ele.name = '微信'
-                            ele.iconContent = 'icon-weixin'
-                            ele.color = '#28C445'
-                        } else if (ele.type == 2) {
-                            ele.name = '银联'
-                            ele.iconContent = 'icon-yinlianhuodong'
-                            ele.color = '#EFA341'
-                        }
-                    });
-                    this.payId = res.list[0].id
-                    this.payList = res.list
-                    // }
+                    if (checkFace != 'true') {
+                        this.$interactive.showCancelModal('为确保本人操作，请刷脸认证', () => {
+                            uni.navigateTo({
+                                url: '/pages/mine/certification?isPay=true'
+                            })
+                        });
+                    } else {
+                        this.showModal()
+                        res.list.forEach(ele => {
+                            if (ele.type == 0) {
+                                ele.name = '支付宝'
+                                ele.iconContent = 'icon-zhifubao'
+                                ele.color = '#06B4FD'
+                            } else if (ele.type == 1) {
+                                ele.name = '微信'
+                                ele.iconContent = 'icon-weixin'
+                                ele.color = '#28C445'
+                            } else if (ele.type == 2) {
+                                ele.name = '银联'
+                                ele.iconContent = 'icon-yinlianhuodong'
+                                ele.color = '#EFA341'
+                            }
+                        });
+                        this.payId = res.list[0].id
+                        this.payList = res.list
+                    }
                 } else {
                     this.$interactive.toast('商户钱包异常')
                 }
