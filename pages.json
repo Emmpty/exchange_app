@@ -96,6 +96,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/transaction/internalTransaction",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "互转",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "tabBar": {
         "color": "#515151",

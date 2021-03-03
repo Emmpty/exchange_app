@@ -1,6 +1,6 @@
 <template>
     <view class="page">
-        <div class="container_flex column mine_box wcenter padding_box">
+        <div class="container_flex column mine_box  padding_box">
             <div class="container_flex hcenter"
                  style="margin: 30upx 0">
                 <image class="avatar"
@@ -37,6 +37,11 @@
                          @click="goOderList('')">
                         <p><i class="iconfont icon-dingdanzhongxinicon"></i></p>
                         <p>我的订单</p>
+                    </div>
+                    <div class="item_box click-hover"
+                         @click="goTransaction()">
+                        <p><i class="iconfont icon-zhuanzhang"></i></p>
+                        <p>互转</p>
                     </div>
                 </div>
             </div>
@@ -123,6 +128,11 @@ export default {
                 url: '/pages/order/order?type=' + type
             })
         },
+        goTransaction() {
+            uni.navigateTo({
+                url: '/pages/transaction/internalTransaction'
+            })
+        },
         collection() {
             uni.navigateTo({
                 url: '/pages/mine/wallet'
@@ -148,7 +158,7 @@ export default {
     background-color: #fff;
 }
 .mine_box {
-    height: 450upx;
+    height: 360upx;
     color: #fff;
     background-color: $primarycolor;
     .avatar {
@@ -202,6 +212,9 @@ export default {
             .icon-dingdanzhongxinicon {
                 color: #ffbd27;
                 font-size: 55upx;
+            }
+            .icon-zhuanzhang {
+                color: #cfb263;
             }
             .icon-zichan {
                 color: #b19c4a;

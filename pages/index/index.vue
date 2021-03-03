@@ -154,9 +154,9 @@
                             <span class="sohuxufei_box float_right">手续费：{{ currentIndex==0 ? fee : (number * this.biPrice.buyProportion / 100 + '个USDT') }}</span>
                         </div>
                         <button type="primary"
-                                :disabled='!payId || payPassword.length == 0'
                                 hover-class="primary-hover"
                                 class="login_btn noborder"
+                                :disabled='!payId || payPassword.length == 0'
                                 @click="confirmBuyOrSellClick()">确认{{ currentIndex==0?'购买':'出售' }}</button>
                     </div>
                 </div>
