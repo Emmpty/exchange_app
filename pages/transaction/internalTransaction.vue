@@ -1,16 +1,17 @@
 <template>
     <view>
+        <div class="usdt_box">
+            <p>{{ USDTNum }}</p>
+            <p class="p2">可用USDT数量</p>
+        </div>
         <div class="padding_box">
-            <div class="usdt_box">
-                <p>{{ USDTNum }}</p>
-                <p class="p2">可用USDT数量</p>
-            </div>
             <div class="input_box">
                 <div class="input_item">
                     <p>对方账户：</p>
                     <input class="input"
                            type="number"
                            placeholder="请输入对方手机号"
+                           placeholder-style="color:#c6c6c6;font-weight:normal;"
                            v-model="mobile" />
                 </div>
                 <div class="input_item">
@@ -18,6 +19,7 @@
                     <input class="input"
                            type="number"
                            placeholder="请输入对方id"
+                           placeholder-style="color:#c6c6c6;font-weight:normal;"
                            v-model="recUserId" />
                 </div>
                 <div class="input_item">
@@ -25,6 +27,7 @@
                     <input class="input"
                            type="number"
                            placeholder="请输入转账数量"
+                           placeholder-style="color:#c6c6c6;font-weight:normal;"
                            v-model="num" />
                 </div>
                 <div class="input_item">
@@ -32,6 +35,7 @@
                     <input class="input"
                            type="password"
                            placeholder="请输入交易密码"
+                           placeholder-style="color:#c6c6c6;font-weight:normal;"
                            v-model="payPassword" />
                 </div>
                 <p class="tip_box">温馨提示：请仔细确认对方的手机号，USDT一经转出将无法找回</p>
@@ -100,23 +104,25 @@ export default {
 </script>
 <style >
 page {
-    /* background-image: url("@/static/images/headbgc.png"); */
-    /* background-color: #f3f3f3;
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-size: 100%; */
 }
 </style>
 <style lang="scss" scoped>
 @import "@/common/scss/common.scss";
 .padding_box {
     padding: 40upx 30upx;
+    position: fixed;
+    top: 200upx;
 }
 
 .usdt_box {
     text-align: center;
-    color: #fff;
+    color: #56546c;
     font-size: 68upx;
+    background-color: #157dfb;
+    color: #fff;
+    height: 200px;
+    border-radius: 0 0 120upx 120upx;
+    padding-top: 30upx;
     .p2 {
         font-size: 36upx;
         margin-top: 20upx;
@@ -130,17 +136,15 @@ page {
     font-size: 32upx;
     box-shadow: 2upx 6upx 24upx 0upx rgba(4, 0, 0, 0.1);
     .input_item {
-        // display: flex;
-        // justify-content: space-around;
-        // flex-direction: row;
-        // align-items: center;
         p {
+            color: #56546c;
             font-size: 30upx;
             font-weight: bold;
         }
         .input {
             height: 80upx;
-            color: #000;
+            color: #56546c;
+            font-weight: bold;
             margin: 20upx 0;
             padding: 0 15upx;
             border: 1px solid #ded8d8;

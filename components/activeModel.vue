@@ -101,11 +101,11 @@ export default {
                 success: (res) => {
                     if (res.statusCode === 200) {
                         watiting.setTitle("安装中...");
-                        console.log('>>>>>tempFilePath', res.tempFilePath)
+                        // console.log('>>>>>tempFilePath', res.tempFilePath)
                         plus.runtime.install(res.tempFilePath, {
                             force: true
                         }, function (succ) {
-                            console.log('install success...');
+                            // console.log('install success...');
                             plus.nativeUI.closeWaiting();
                             plus.nativeUI.alert('更新完成！', function () {
                                 // 热更新自动安装
@@ -127,10 +127,6 @@ export default {
                 // console.log('已经下载的数据长度' + res.totalBytesWritten);
                 // console.log('预期需要下载的数据总长度' + res.totalBytesExpectedToWrite);
                 watiting.setTitle("已下载：" + res.progress + "%");
-                // 测试条件，取消下载任务。
-                // if (res.progress > 50) {
-                //     downloadTask.abort();
-                // }
             });
         },
     },
