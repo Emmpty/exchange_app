@@ -209,6 +209,7 @@ export default {
             fee: 0,     // 手续费
             payPassword: '',
             hidePassword: true,
+            nocheckFace: false,
         }
     },
     watch: {
@@ -235,6 +236,7 @@ export default {
         this.priceTotal = 0
         this.currentItemData = this.biData[0]
         this.getPirce()
+        this.getVerifyInfo()
     },
     mounted() {
         //#ifdef APP-PLUS  
@@ -305,11 +307,20 @@ export default {
                 }
             })
         },
+        getVerifyInfo() {
+            this.$api.GetVerifyInfo({}, res => {
+                if (res.code == 0 && res.info) {
+                    if (res.info.status == 5) {
+                        this.nocheckFace = true
+                    }
+                }
+            })
+        },
         buyOrSellClick() {
             this.$api.GetMerchantAccountList({ ercAmount: this.number }, res => {
                 if (res.code === 0 && res.list.length > 0) {
                     let checkFace = uni.getStorageSync('checkFace')
-                    if (checkFace != 'true') {
+                    if (checkFace != 'true' && !this.nocheckFace) {
                         this.$interactive.showCancelModal('为确保本人操作，请刷脸认证', () => {
                             uni.navigateTo({
                                 url: '/pages/mine/certification?isPay=true'

@@ -80,6 +80,7 @@ export default {
             canEditName: true,
             canEditIdCard: true,
             isPay: -1,
+            nocheckFace: false,
         }
     },
     onLoad(option) {
@@ -94,6 +95,9 @@ export default {
                     if (res.info.realName && res.info.idcard) {
                         this.canEditName = false
                         this.canEditIdCard = false
+                    }
+                    if (res.info.status == 5) {
+                        this.nocheckFace = true
                     }
                     this.name = res.info.realName
                     this.idCard = res.info.idcard
@@ -141,32 +145,39 @@ export default {
         },
         startDetect() {
             let _this = this
-            this.isCertification = true
-            // actions: 1摇头2点头7张嘴9眨眼
-            // actionsNum: 随机动作数量
-            console.log("start .....");
-            shumailiveness.detect({
-                actions: "1279",
-                actionsNum: "2"
-            }, result => {
-                // result 为json， 字段如下
-                // code 错误码
-                // msg 错误信息
-                // passFace 剪裁后的头像Base64
-                // passImgPath 通过图片地址,未剪裁完整图像
-                // code == 0 时检测成功，会返回图片地址
-                // console.log('活体验证', result.passFace);
-                // _this.checkFaceFrequencyFun()
-                if (result.code == 0) {
-                    _this.startCheckIdCard(result)
-                } else {
-                    this.isCertification = false
-                    modal.toast({
-                        message: result.msg,
-                        duration: 1.5
-                    });
-                }
-            });
+            if (!this.nocheckFace) {
+                this.isCertification = true
+                // actions: 1摇头2点头7张嘴9眨眼
+                // actionsNum: 随机动作数量
+                console.log("start .....");
+                shumailiveness.detect({
+                    actions: "1279",
+                    actionsNum: "2"
+                }, result => {
+                    // result 为json， 字段如下
+                    // code 错误码
+                    // msg 错误信息
+                    // passFace 剪裁后的头像Base64
+                    // passImgPath 通过图片地址,未剪裁完整图像
+                    // code == 0 时检测成功，会返回图片地址
+                    // console.log('活体验证', result.passFace);
+                    // _this.checkFaceFrequencyFun()
+                    if (result.code == 0) {
+                        _this.startCheckIdCard(result)
+                    } else {
+                        this.isCertification = false
+                        modal.toast({
+                            message: result.msg,
+                            duration: 1.5
+                        });
+                    }
+                });
+            } else {
+                this.$interactive.toast('人工审核')
+                setTimeout(() => {
+                    uni.navigateBack({ delta: 1 })
+                }, 1000);
+            }
         },
         startCheckIdCard(result) {
             let currentTime = new Date().getTime()
@@ -201,10 +212,16 @@ export default {
                         }
                     } else {
                         this.isCertification = false
+                        // 针对用户
+                        if (res.data.msg.indexOf('timestamp') > -1) {
+                            let config = { realName: this.name, idcard: this.idCard, facePhotos: '--' }
+                            this.shimingFun(config)
+                        }
                         modal.toast({
-                            message: res.data.msg,
+                            message: res.data.msg + '\n请联系客服',
                             duration: 1.5
                         })
+
                     }
                 },
                 fail: (err) => {
@@ -245,31 +262,30 @@ export default {
         SubShiMingRenZheng(faceBase64Img) {
             if (!this.canEditName) {
                 if (this.isPay == 'true') uni.setStorageSync('checkFace', 'true')
-                this.$interactive.unShowCancelModal("刷脸成功", () => {
-                    setTimeout(() => {
-                        uni.navigateBack({ delta: 1 })
-                    }, 1000);
-                });
+                this.$interactive.toast('刷脸成功')
+                setTimeout(() => {
+                    uni.navigateBack({ delta: 1 })
+                }, 1000);
             } else {
                 this.compare(faceBase64Img).then(res1 => {
                     let config = { realName: this.name, idcard: this.idCard, facePhotos: res1.serverPath }
-                    this.$api.SubShiMingRenZheng(config, res => {
-                        console.log('>>>>>>>', config, res)
-                        if (res.code == 0) {
-                            if (this.isPay == 'true') uni.setStorageSync('checkFace', 'true')
-                            this.$interactive.unShowCancelModal("实名成功", () => {
-                                setTimeout(() => {
-                                    uni.navigateBack({ delta: 1 })
-                                }, 1000);
-                            });
-                        } else {
-                            this.$interactive.toast(res.msg)
-                        }
-                    });
+                    this.shimingFun(config)
                 })
             }
-
         },
+        shimingFun(config) {
+            this.$api.SubShiMingRenZheng(config, res => {
+                if (res.code == 0) {
+                    if (this.isPay == 'true') uni.setStorageSync('checkFace', 'true')
+                    this.$interactive.toast('实名成功')
+                    setTimeout(() => {
+                        uni.navigateBack({ delta: 1 })
+                    }, 1000);
+                } else {
+                    this.$interactive.toast(res.msg)
+                }
+            });
+        }
     }
 }
 </script>
