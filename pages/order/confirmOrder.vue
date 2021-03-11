@@ -41,7 +41,7 @@
                  @click="showCode">
                 <span>查看收款码</span>
                 <i style="margin-top: 5upx;"
-                   class="iconfont icon-arrow-right float_right"></i>
+                   class="iconfont icon-erweima float_right"></i>
             </div>
             <div class='input_box'>
                 <div style="height:130upx;margin-bottom:20upx">
@@ -277,6 +277,10 @@ export default {
     font-size: 34upx;
     .icon-fuzhi {
         margin-left: 10upx;
+    }
+    .icon-erweima {
+        font-size: 44upx;
+        color: $primarycolor;
     }
 }
 .primary_btn {
