@@ -572,8 +572,6 @@ page {
                 width: 100%;
                 font-size: 24upx;
                 color: #8697a4;
-                .left_text {
-                }
                 .right_text {
                     color: $primarycolor;
                     .icon-zhuanhuan {
