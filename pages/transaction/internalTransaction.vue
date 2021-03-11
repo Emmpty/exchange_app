@@ -103,8 +103,6 @@ export default {
 }
 </script>
 <style >
-page {
-}
 </style>
 <style lang="scss" scoped>
 @import "@/common/scss/common.scss";
