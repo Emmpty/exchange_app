@@ -12,7 +12,7 @@
                               @click="orderStatusClick(item)">
                             <i class="iconfont icon-tubiaozhizuo-"
                                :style="item.orderStatus | orderStatusStyleFilters"></i>
-                            <span>{{ item.orderStatus | orderStatusTextFilters(item.type) }}</span>
+                            <span>{{ item.orderStatus | orderStatusTextFilters(item.type, item.remarks) }}</span>
                             <i class="iconfont icon-arrow-right"></i>
                         </span>
                     </div>
@@ -94,7 +94,7 @@ export default {
         myMask, orderScreen
     },
     filters: {
-        orderStatusTextFilters(refundStatus, type) {
+        orderStatusTextFilters(refundStatus, type, remarks) {
             switch (refundStatus) {
                 case 0:
                     return type == 1 ? '待支付' : '待打款';
@@ -105,7 +105,7 @@ export default {
                 case 3:
                     return '已完成';
                 case 4:
-                    return '已失效';
+                    return remarks ? '已拒绝' : '已失效';
             }
         },
         orderStatusStyleFilters(orderStatus) {
@@ -180,6 +180,7 @@ export default {
                     number: item.ercAmount,
                     orderNo: item.orderNo,
                     type: item.type,
+                    remarks: item.remarks || '',
                     back: true
                 }
                 uni.navigateTo({

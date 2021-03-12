@@ -238,10 +238,13 @@ export default {
         this.getPirce()
         this.getVerifyInfo()
     },
-    mounted() {
+    onShow() {
         //#ifdef APP-PLUS  
         this.$refs.updataModel.updateVersion()
         //#endif
+    },
+    mounted() {
+
     },
     methods: {
         buyTypeClick(index) {
@@ -320,6 +323,7 @@ export default {
             this.$api.GetMerchantAccountList({ ercAmount: this.number }, res => {
                 if (res.code === 0 && res.list.length > 0) {
                     let checkFace = uni.getStorageSync('checkFace')
+                    checkFace = 'true'
                     if (checkFace != 'true' && !this.nocheckFace) {
                         this.$interactive.showCancelModal('为确保本人操作，请刷脸认证', () => {
                             uni.navigateTo({

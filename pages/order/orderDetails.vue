@@ -2,7 +2,7 @@
     <view class="padding_box">
         <div class="container_flex row login_box hcenter">
             <div>
-                <div class='login_title text_left'>{{ orderItemData.orderStatus | orderStatusFilters(orderItemData.type) }}</div>
+                <div class='login_title text_left'>{{ orderItemData.orderStatus | orderStatusFilters(orderItemData.type, orderItemData.remarks) }}</div>
                 <div class="login_title2 text_left">{{ orderItemData.orderStatus | orderStatusTextFilters(orderItemData.ercAmount, orderItemData.type) }}</div>
             </div>
             <div class="bg_border_box container_flex center"
@@ -38,6 +38,10 @@
                 <span>订单时间</span>
                 <span class="float_right">{{ orderItemData.createTime }}</span>
             </div>
+            <div v-if="orderItemData.remarks.length > 0">
+                <span>拒绝原因</span>
+                <span class="float_right">{{ orderItemData.remarks }}</span>
+            </div>
             <div v-if="orderItemData.type ==1 || (orderItemData.type != 2 && orderItemData.orderStatus > 1)"
                  class="business_box">
                 <span>商家昵称</span>
@@ -63,7 +67,7 @@ export default {
         }
     },
     filters: {
-        orderStatusFilters(orderStatus, type) {
+        orderStatusFilters(orderStatus, type, remarks) {
             switch (orderStatus) {
                 case 0:
                     return type == 1 ? '待支付' : '待打款';
@@ -74,7 +78,7 @@ export default {
                 case 3:
                     return '已完成';
                 case 4:
-                    return '已失效';
+                    return remarks ? '已拒绝' : '已失效';
             }
         },
         orderStatusTextFilters(orderStatus, ercAmount, type) {

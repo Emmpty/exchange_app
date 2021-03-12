@@ -38,8 +38,9 @@
                         <p><i class="iconfont icon-dingdanzhongxinicon"></i></p>
                         <p>我的订单</p>
                     </div>
+                    <!-- goTransaction() -->
                     <div class="item_box click-hover"
-                         @click="goTransaction()">
+                         @click="$interactive.toast('开发中')">
                         <p><i class="iconfont icon-zhuanzhang"></i></p>
                         <p>互转</p>
                     </div>

@@ -253,7 +253,7 @@ export default {
         text-align: center;
         width: 40upx;
         height: 40upx;
-        line-height: 30upx;
+        line-height: 34upx;
         color: #fff;
         padding: 8upx;
         border-radius: 100%;
