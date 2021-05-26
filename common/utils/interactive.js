@@ -1,5 +1,6 @@
 const interactive = {
     needLoadingRequestCount: 0,
+    needModalRequestCount: 0,
     showLoading(title) {
         if (this.needLoadingRequestCount === 0) {
             uni.showLoading({
@@ -31,33 +32,41 @@ const interactive = {
         });
     },
     showCancelModal(test, callBack) {
-        uni.showModal({
-            title: '提示',
-            content: test,
-            success: function (res) {
-                if (res.confirm) {
-                    // console.log('用户点击确定');
-                    callBack();
-                } else if (res.cancel) {
-                    console.log('用户点击取消');
+        if (this.needModalRequestCount == 0) {
+            uni.showModal({
+                title: '提示',
+                content: test,
+                success: function (res) {
+                    if (res.confirm) {
+                        this.needModalRequestCount = 0
+                        callBack();
+                    } else if (res.cancel) {
+                        console.log('用户点击取消');
+                        this.needModalRequestCount = 0
+                    }
                 }
-            }
-        });
+            });
+        }
+        this.needModalRequestCount++;
     },
     unShowCancelModal(test, callBack) {
-        uni.showModal({
-            title: '提示',
-            content: test,
-            showCancel: false,
-            success: function (res) {
-                if (res.confirm) {
-                    // console.log('用户点击确定');
-                    callBack();
-                } else if (res.cancel) {
-                    console.log('用户点击取消');
+        if (this.needModalRequestCount == 0) {
+            uni.showModal({
+                title: '提示',
+                content: test,
+                showCancel: false,
+                success: function (res) {
+                    if (res.confirm) {
+                        this.needModalRequestCount = 0
+                        callBack();
+                    } else if (res.cancel) {
+                        console.log('用户点击取消');
+                        this.needModalRequestCount = 0
+                    }
                 }
-            }
-        });
+            });
+        }
+        this.needModalRequestCount++;
     },
     // 預覽單張圖片
     previewImage(tempSrc) {
